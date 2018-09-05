@@ -1,0 +1,26 @@
+.c-scorecolumn {
+    display: table;
+}
+
+.c-scorecolumn__header {
+    display: table-row;
+}
+
+.c-scorecolumn__header > * {
+    display: table-cell;
+    border-bottom: 1px solid;
+    text-align: center;
+}
+
+.c-scorerow {
+    display: table-row;
+}
+
+.c-scorerow > * {
+    display: table-cell;
+    min-width: 2em;
+}
+
+.c-scorerow > :first-child {
+    border-right: 1px solid;
+}
