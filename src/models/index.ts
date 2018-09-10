@@ -6,6 +6,7 @@ export enum Player {
 }
 
 export enum Gin {
+    None = 'none',
     Normal = 'normal',
     Super = 'super',
 }
@@ -16,5 +17,5 @@ export enum Gin {
 export interface Game {
     winner: Player;
     points: number;
-    gin?: Gin;
+    gin: Gin;
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { GameInSet, Gin, GinSet, Player } from 'src/models';
+import * as classNames from 'classnames';
+import { Bonus, GameInSet, Gin, GinSet, Player } from 'src/models';
 import './ScoreColumn.css';
 
 export interface ScoreColumnProps {
@@ -9,21 +10,23 @@ export interface ScoreColumnProps {
     value: GinSet;
 }
 
-export const ScoreColumn: React.SFC<ScoreColumnProps> = props => {
-    const games = props.value.games.map((game, index) => (
-        <ScoreRow {...game} key={`game-${index}`} />
-    ));
-
-    return (
-        <div className="c-scorecolumn">
-            <div className="c-scorecolumn__header">
-                <div className="c-scorecolumn__player">{props.player1Name}</div>
-                <div className="c-scorecolumn__player">{props.player2Name}</div>
-            </div>
-            {games}
+export const ScoreColumn: React.SFC<ScoreColumnProps> = ({
+    value,
+    ...props
+}) => (
+    <div className="c-scorecolumn">
+        <div className="c-scorecolumn__header">
+            <div className="c-scorecolumn__player">{props.player1Name}</div>
+            <div className="c-scorecolumn__player">{props.player2Name}</div>
         </div>
-    );
-};
+        {value.games.map((game, index) => (
+            <ScoreRow {...game} key={`game-${index}`} />
+        ))}
+        {value.bonuses.map((bonus, index) => (
+            <BonusRow key={`bonus-${index}`} {...bonus} isFirst={index === 0} />
+        ))}
+    </div>
+);
 
 const ScoreRow: React.SFC<GameInSet> = ({ winner, gin, runningTotal }) => {
     const winnerCell = (
@@ -40,6 +43,29 @@ const ScoreRow: React.SFC<GameInSet> = ({ winner, gin, runningTotal }) => {
             {winner === Player.One
                 ? [winnerCell, loserCell]
                 : [loserCell, winnerCell]}
+        </div>
+    );
+};
+
+const BonusRow: React.SFC<Bonus & { isFirst?: boolean }> = props => {
+    const bonusCell = (
+        <div className="c-bonusrow__recipient" key="winner">
+            <span className="c-bonusrow__points">{props.points}</span>
+            <span className="c-bonusrow__label">{props.label}</span>
+        </div>
+    );
+
+    const loserCell = <div className="c-bonusrow__loser" key="loser" />;
+
+    return (
+        <div
+            className={classNames('c-bonusrow', {
+                'c-bonusrow--first': props.isFirst,
+            })}
+        >
+            {props.player === Player.One
+                ? [bonusCell, loserCell]
+                : [loserCell, bonusCell]}
         </div>
     );
 };

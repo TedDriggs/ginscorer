@@ -1,0 +1,4 @@
+.c-match-viewer__sets {
+    display: flex;
+    justify-content: space-around;
+}

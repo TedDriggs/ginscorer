@@ -12,15 +12,31 @@
     text-align: center;
 }
 
-.c-scorerow {
+.c-scorerow,
+.c-bonusrow {
     display: table-row;
 }
 
-.c-scorerow > * {
+.c-scorerow > *,
+.c-bonusrow > * {
     display: table-cell;
-    min-width: 2em;
+    width: 7em;
+    padding: .15em;
 }
 
-.c-scorerow > :first-child {
+.c-scorerow > :first-child,
+.c-bonusrow > :first-child {
     border-right: 1px solid;
+}
+
+.c-bonusrow--first > * {
+    border-top: 1px solid lightgray;
+}
+
+.c-bonusrow__label {
+    display: inline-block;
+    text-overflow: clip;
+    white-space: nowrap;
+    font-size: .8em;
+    margin-left: 5px;
 }
