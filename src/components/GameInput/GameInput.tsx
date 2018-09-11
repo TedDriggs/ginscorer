@@ -1,21 +1,27 @@
 import * as React from 'react';
 
-import { makeFieldChangeHandler } from '../../ControlledInput';
+import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
 import { NumberInput } from '../NumberInput';
 import { Radio } from '../Radio';
 import './GameInput.css';
 
-export interface GameInputProps {
+/**
+ * A variant of the `Game` interface optimized for input.
+ */
+export interface PartialGame {
+    winner: Game['winner'] | null;
+    points: number | null;
+    gin: Game['gin'];
+}
+
+export interface GameInputProps extends ControlledInput<PartialGame> {
     player1Name?: string;
     player2Name?: string;
-    value: Game;
-    disabled?: boolean;
-    name?: string;
-    onChange(newValue: Game, name?: string): void;
 }
 
 export class GameInput extends React.Component<GameInputProps> {
+    private readonly focusTarget = React.createRef<Radio<any>>();
     private readonly handleChange = makeFieldChangeHandler(this);
     public render(): React.ReactNode {
         const { value, disabled, ...props } = this.props;
@@ -31,6 +37,7 @@ export class GameInput extends React.Component<GameInputProps> {
                         onChange={this.handleChange}
                         label={props.player1Name || 'Player 1'}
                         hideNative
+                        ref={this.focusTarget}
                     />
                     <Radio<Player>
                         name="winner"

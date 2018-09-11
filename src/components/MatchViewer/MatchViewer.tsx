@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Game, Gin, GinMatch, Player } from '../../models';
-import { GameInput, GameInputProps } from '../GameInput';
+import { Game, Gin, GinMatch, isGame } from '../../models';
+import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
 import './MatchViewer.css';
 
@@ -40,32 +40,35 @@ export const MatchViewer: React.SFC<MatchViewerProps> = ({
 class GameForm extends React.Component<
     Pick<MatchViewerProps, 'onSubmitGame'> &
         Pick<GameInputProps, 'player1Name' | 'player2Name'>,
-    Game
+    PartialGame
 > {
+    private readonly input = React.createRef<GameInput>();
+
     constructor(props: Pick<MatchViewerProps, 'onSubmitGame'>) {
         super(props);
         this.state = {
-            winner: Player.One,
-            points: 0,
+            winner: null,
+            points: null,
             gin: Gin.None,
         };
     }
 
     public render() {
         return (
-            <div className="c-gameform">
+            <form className="c-gameform" onSubmit={this.handleSubmit}>
                 <GameInput
+                    ref={this.input}
                     player1Name={this.props.player1Name}
                     player2Name={this.props.player2Name}
                     value={this.state}
                     onChange={this.handleChange}
                 />
-                <button onClick={this.handleSubmit}>Submit</button>
-            </div>
+                <button type="submit" disabled={!isGame(this.state)}>Submit</button>
+            </form>
         );
     }
 
-    private readonly handleChange = (value: Game) => {
+    private readonly handleChange = (value: PartialGame) => {
         this.setState(value);
     };
 
@@ -73,10 +76,16 @@ class GameForm extends React.Component<
         evt.stopPropagation();
         evt.preventDefault();
 
+        // Don't allow submission of incomplete games
+        // TODO show an error in this case
+        if (!isGame(this.state)) return;
+
         if (this.props.onSubmitGame) this.props.onSubmitGame(this.state);
+
+        // Wipe the state, so we're ready for the next game input.
         this.setState({
-            winner: Player.One,
-            points: 0,
+            winner: null,
+            points: null,
             gin: Gin.None,
         });
     };
