@@ -1,12 +1,17 @@
-.c-game-input__players,
-.c-game-input__gin {
-    display: flex;
-}
+.c-game-input {
+    &__players {
+        display: flex;
 
-.c-game-input__players .c-radio {
-    padding: 10px;
-}
+        .c-radio {
+            padding: 10px;
 
-.c-game-input__players .c-radio--checked {
-    background-color: lightblue;
+            &--checked {
+                background-color: lightblue;
+            }
+        }
+    }
+
+    &__gin {
+        display: flex;
+    }
 }

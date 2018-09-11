@@ -54,7 +54,7 @@ export class GameInput extends React.Component<GameInputProps> {
                     value={value.points}
                     min={1}
                     disabled={disabled}
-                    onChange={this.handleChange as any}
+                    onChange={this.handleChange}
                 />
                 <div className="c-game-input__gin">
                     <Radio<Gin>
