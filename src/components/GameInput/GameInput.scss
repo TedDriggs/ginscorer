@@ -4,11 +4,22 @@
 
         .c-radio {
             padding: 10px;
+            border: 2px solid transparent;
+
+            &--has-focus {
+                border-color: darkblue;
+            }
 
             &--checked {
                 background-color: lightblue;
             }
         }
+    }
+
+    &__points input {
+        font-size: 1.25em;
+        width: 3.25em;
+        padding: .25em;
     }
 
     &__gin {

@@ -1,6 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
+import { focusRef, refChildHasFocus } from '../util/Ref';
 import './Radio.css';
 
 export interface RadioProps<T extends string | number = string> {
@@ -21,15 +22,22 @@ export interface RadioProps<T extends string | number = string> {
 export class Radio<T extends string | number = string> extends React.Component<
     RadioProps<T>
 > {
+    private readonly root = React.createRef<HTMLLabelElement>();
+
+    // tslint:disable-next-line:member-ordering
+    public readonly hasFocus = refChildHasFocus(this.root);
+
     public render(): React.ReactNode {
         const { className, children, value, label, ...props } = this.props;
 
         return (
             <label
+                ref={this.root}
                 className={classNames('c-radio', className, {
                     'c-radio--checked': props.selected,
                     'c-radio--disabled': props.disabled,
                     'c-radio--nonative': props.hideNative,
+                    'c-radio--has-focus': this.hasFocus(),
                 })}
             >
                 <input
@@ -39,11 +47,17 @@ export class Radio<T extends string | number = string> extends React.Component<
                     onChange={this.handleChange}
                     value={value.toString()}
                     type="radio"
+                    onFocus={this.handleFocusChange}
+                    onBlur={this.handleFocusChange}
                 />
                 {label}
             </label>
         );
     }
+
+    public readonly focus = () => focusRef(this.root);
+
+    private readonly handleFocusChange = () => this.forceUpdate();
 
     private readonly handleChange = () => {
         if (this.props.onChange) {
