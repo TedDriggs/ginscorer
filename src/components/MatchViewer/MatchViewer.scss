@@ -1,9 +1,13 @@
-.c-match-viewer__sets {
-    display: flex;
-    justify-content: space-around;
+.c-match-viewer {
+    height: 100%;
+
+    &__sets {
+        display: flex;
+        justify-content: space-around;
+    }
 }
 
-@media(min-width: 1000px) {
+@media (min-width: 1000px) {
     .c-match-viewer {
         display: grid;
         grid-template-columns: [sets-start] 1fr [sets-end input-start] auto [input-end];

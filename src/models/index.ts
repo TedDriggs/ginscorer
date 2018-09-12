@@ -5,6 +5,8 @@ export enum Player {
     Two = 2,
 }
 
+export const PLAYERS = [Player.One, Player.Two];
+
 export enum Gin {
     None = 'none',
     Normal = 'normal',

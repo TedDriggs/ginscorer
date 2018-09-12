@@ -1,4 +1,4 @@
-import { Game, Gin, Player } from '.';
+import { Game, Gin, Player, PLAYERS } from '.';
 
 // Output models for showing the result of a match.
 
@@ -20,19 +20,63 @@ export interface GameInSet extends Game {
 export interface GinSet {
     games: GameInSet[];
     bonuses: Bonus[];
+    finalResult?: GinSetResult;
+}
+
+export interface GinSetResult {
+    winner: Player;
+    /**
+     * The total number of points the player earned for the set.
+     */
+    points: number;
 }
 
 export interface GinMatch {
     player1Name: string;
     player2Name: string;
     sets: GinSet[];
+    finalResult?: GinMatchResult;
 }
+
+export interface GinMatchResult {
+    /**
+     * Whether the winning player won every single match. In this case,
+     * the `points` property will be 2x the sum of the three sets.
+     */
+    isHollywood: boolean;
+    winner: Player;
+    points: number;
+}
+
+export const reduceGamesToMatch = (players: {
+    player1Name: string;
+    player2Name: string;
+}) => (games: Game[]): GinMatch => {
+    const sets = reduceGames(games);
+    const finalResult = sets.every(isSetFinished)
+        ? computeMatchResult(sets, games)
+        : undefined;
+
+    return {
+        ...players,
+        sets,
+        finalResult,
+    };
+};
 
 export const reduceGames = (games: Game[]): GinSet[] => [
     reduceSet(games),
     reduceSet(games, 1),
     reduceSet(games, 2),
 ];
+
+/**
+ * Checks if a set is finished. This function assumes that sets are built by
+ * `reduceSet` and therefore will always have bonuses applied as soon as a
+ * player "goes out".
+ */
+export const isSetFinished = ({ finalResult }: GinSet): boolean =>
+    Boolean(finalResult);
 
 /**
  * Transform a sequence of games into a set.
@@ -58,13 +102,15 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
 
     const setGames: GameInSet[] = [];
     const bonuses: Bonus[] = [];
+    let finalResult: GinSetResult | undefined = undefined;
 
     for (const game of games) {
-        // For frame 2 and frame 3, skip games that don't qualify
+        // Increment win counter to maybe qualify for frame and to
+        // ensure the player gets credit for the win in bonus calculation.
         wins[game.winner] += 1;
-        if (wins[game.winner] < 0) {
-            continue;
-        }
+
+        // For frame 2 and frame 3, skip games that don't qualify
+        if (wins[game.winner] <= 0) continue;
 
         scores[game.winner] += game.points;
         const runningTotal = scores[game.winner];
@@ -81,45 +127,66 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
                 label: 'Going out',
             });
 
-            if (wins[Player.One] > 0) {
+            PLAYERS.forEach(player => {
+                if (wins[player] > 0) {
+                    bonuses.push({
+                        player,
+                        points: 10 * wins[player],
+                        label: 'Wins',
+                    });
+                }
+            });
+
+            PLAYERS.forEach(player => {
+                const points = setGames
+                    .filter(wonBy(player))
+                    .reduce((bonus, g) => bonus + ginBonus(g.gin), 0);
+
+                if (points) {
+                    bonuses.push({
+                        player,
+                        points,
+                        label: 'Gins',
+                    });
+                }
+            });
+
+            if (wins[Player.Two] <= 0) {
                 bonuses.push({
                     player: Player.One,
-                    points: 10 * wins[Player.One],
-                    label: 'Wins',
+                    points:
+                        runningTotal +
+                        bonuses
+                            .filter(g => g.player === Player.One)
+                            .reduce((b, { points }) => b + points, 0),
+                    label: 'Blitz',
                 });
             }
 
-            if (wins[Player.Two] > 0) {
+            if (wins[Player.One] <= 0) {
                 bonuses.push({
                     player: Player.Two,
-                    points: 10 * wins[Player.Two],
-                    label: 'Wins',
+                    points:
+                        runningTotal +
+                        bonuses
+                            .filter(g => g.player === Player.Two)
+                            .reduce((b, { points }) => b + points, 0),
+                    label: 'Blitz',
                 });
             }
 
-            const player1Gins = setGames
-                .filter(g => g.winner === Player.One)
-                .reduce((bonus, g) => bonus + ginBonus(g.gin), 0);
+            scores[Player.One] += bonuses
+                .filter(g => g.player === Player.One)
+                .reduce((b, { points }) => b + points, 0);
 
-            const player2Gins = setGames
-                .filter(g => g.winner === Player.Two)
-                .reduce((bonus, g) => bonus + ginBonus(g.gin), 0);
+            scores[Player.Two] += bonuses
+                .filter(g => g.player === Player.Two)
+                .reduce((b, { points }) => b + points, 0);
 
-            if (player1Gins) {
-                bonuses.push({
-                    player: Player.One,
-                    points: player1Gins,
-                    label: 'Gins',
-                });
-            }
-
-            if (player2Gins) {
-                bonuses.push({
-                    player: Player.Two,
-                    points: player2Gins,
-                    label: 'Gins',
-                });
-            }
+            finalResult = {
+                winner: getWinner(scores),
+                points: Math.abs(scores[Player.One] - scores[Player.Two]),
+            };
 
             break;
         }
@@ -127,9 +194,16 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
 
     return {
         bonuses,
+        finalResult,
         games: setGames,
     };
 };
+
+const getWinner = (scores: {
+    [Player.One]: number;
+    [Player.Two]: number;
+}): Player =>
+    scores[Player.One] > scores[Player.Two] ? Player.One : Player.Two;
 
 const ginBonus = (gin: Gin): number => {
     switch (gin) {
@@ -140,4 +214,24 @@ const ginBonus = (gin: Gin): number => {
         case Gin.Super:
             return 50;
     }
+};
+
+const wonBy = (player: Player) => (game: Game): boolean =>
+    game.winner === player;
+
+const computeMatchResult = (sets: GinSet[], games: Game[]): GinMatchResult => {
+    const scores = {
+        [Player.One]: 0,
+        [Player.Two]: 0,
+    };
+
+    sets.forEach(v => (scores[v.finalResult!.winner] += v.finalResult!.points));
+
+    const winner = getWinner(scores);
+    const isHollywood = games.every(wonBy(winner));
+    return {
+        winner,
+        isHollywood,
+        points: isHollywood ? 2 * scores[winner] : scores[winner],
+    };
 };

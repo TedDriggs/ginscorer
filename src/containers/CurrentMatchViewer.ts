@@ -3,17 +3,14 @@ import { createSelector } from 'reselect';
 
 import { creators } from '../Actions';
 import { MatchViewer, MatchViewerProps } from '../components/MatchViewer';
-import { reduceGames } from '../models';
+import { reduceGamesToMatch } from '../models';
 import { gameSelector, playerNameSelector } from '../Reducer';
 import { State } from '../State';
 
 const matchSelector = createSelector(
     gameSelector,
     playerNameSelector,
-    (games, players) => ({
-        ...players,
-        sets: reduceGames(games),
-    }),
+    (games, players) => reduceGamesToMatch(players)(games),
 );
 
 type StateProps = Pick<MatchViewerProps, 'value'>;

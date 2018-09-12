@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import './App.css';
 
-import { CurrentMatchViewer } from './containers/CurrentMatchViewer';
+import { Playing } from './layouts/playing';
 import { Game, Gin, Player } from './models';
 import { reducer } from './Reducer';
 import { INITIAL_STATE } from './State';
@@ -48,7 +48,7 @@ class App extends React.Component {
     public render() {
         return (
             <Provider store={store}>
-                <CurrentMatchViewer />
+                <Playing />
             </Provider>
         );
     }

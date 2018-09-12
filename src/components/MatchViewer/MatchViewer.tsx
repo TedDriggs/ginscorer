@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Game, Gin, GinMatch, isGame } from '../../models';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
+import { focusRef } from '../util/Ref';
+import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.css';
 
 export interface MatchViewerProps {
@@ -27,6 +29,13 @@ export const MatchViewer: React.SFC<MatchViewerProps> = ({
                 />
             ))}
         </div>
+        {value.finalResult && (
+            <MatchResultViewer
+                player1Name={value.player1Name}
+                player2Name={value.player2Name}
+                {...value.finalResult}
+            />
+        )}
         {!readOnly && (
             <GameForm
                 player1Name={value.player1Name}
@@ -63,7 +72,9 @@ class GameForm extends React.Component<
                     value={this.state}
                     onChange={this.handleChange}
                 />
-                <button type="submit" disabled={!isGame(this.state)}>Submit</button>
+                <button type="submit" disabled={!isGame(this.state)}>
+                    Submit
+                </button>
             </form>
         );
     }
@@ -88,5 +99,7 @@ class GameForm extends React.Component<
             points: null,
             gin: Gin.None,
         });
+
+        focusRef(this.input);
     };
 }
