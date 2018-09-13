@@ -17,6 +17,7 @@
     "reselect": "3.0.1"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-ts": "react-scripts-ts start",
