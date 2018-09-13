@@ -14,6 +14,14 @@ export const playerNameSelector = ({
 
 export const reducer = (state: State, action: Action): State => {
     switch (action.type) {
+        case 'RenamePlayers': {
+            const { player1Name, player2Name } = action;
+            return {
+                ...state,
+                player1Name,
+                player2Name,
+            };
+        }
         case 'FinishGame': {
             return {
                 ...state,

@@ -4,6 +4,10 @@
 
 .c-scorecolumn__header {
     display: table-row;
+
+    > :first-child {
+        border-right: 1px solid;
+    }
 }
 
 .c-scorecolumn__header > * {

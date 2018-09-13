@@ -11,19 +11,21 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "5.0.7",
+    "react-responsive": "5.0.0",
     "react-scripts-ts": "2.17.0",
     "react-transition-group": "2.4.0",
     "redux": "4.0.0",
-    "reselect": "3.0.1"
+    "reselect": "3.0.1",
+    "w3c-keys": "0.3.6"
   },
   "scripts": {
     "postinstall": "npm run build",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "build-css": "./node_modules/node-sass-chokidar/bin/node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && ./node_modules/node-sass-chokidar/bin/node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-ts": "react-scripts-ts start",
     "build-ts": "react-scripts-ts build",
-    "start": "npm-run-all -p watch-css start-ts",
-    "build": "npm-run-all build-css build-ts",
+    "start": "./node_modules/npm-run-all/bin/npm-run-all/index.js -p watch-css start-ts",
+    "build": "./node_modules/npm-run-all/bin/npm-run-all/index.js build-css build-ts",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
@@ -35,6 +37,7 @@
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "6.0.7",
+    "@types/react-responsive": "3.0.2",
     "@types/react-transition-group": "2.0.14",
     "typescript": "^3.0.3"
   }

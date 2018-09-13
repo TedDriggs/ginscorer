@@ -1,25 +1,38 @@
 .c-match-viewer {
     height: 100%;
+    max-width: 100vw;
+
+    display: grid;
+    grid-template-rows: [sets-start] minmax(0, 1fr) [sets-end input-start] auto [input-end];
+    grid-template-columns: [sets-start input-start] 100% [sets-end input-end];
 
     &__sets {
         display: flex;
         justify-content: space-around;
+        grid-area: sets;
+    }
+
+    .c-score-column {
+        flex-shrink: 0;
+    }
+
+    &__add-game {
+        grid-area: input;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    .c-match-viewer {
+        &__sets {
+            min-width: 900px;
+        }
     }
 }
 
 @media (min-width: 1000px) {
     .c-match-viewer {
-        display: grid;
         grid-template-columns: [sets-start] 1fr [sets-end input-start] auto [input-end];
         grid-template-rows: [sets-start input-start] 100% [sets-end input-end];
-    }
-
-    .c-match-viewer__sets {
-        grid-area: sets;
-    }
-
-    .c-gameform {
-        grid-area: input;
-        padding: 20px;
     }
 }

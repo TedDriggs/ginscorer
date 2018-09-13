@@ -5,6 +5,7 @@ export interface InputProps {
     value: string;
     disabled?: boolean;
     name?: string;
+    label?: string;
     onChange(newValue: string, name?: string): void;
 }
 
@@ -15,7 +16,17 @@ export class Input extends React.Component<InputProps> {
     public readonly hasFocus = refChildHasFocus(this.root);
 
     public render(): React.ReactNode {
-        return <input {...this.props} ref={this.root} onChange={this.handleChange} />;
+        const { label, ...props } = this.props;
+        return (
+            <label>
+                {label && <div className="c-input-label">{label}</div>}
+                <input
+                    {...props}
+                    ref={this.root}
+                    onChange={this.handleChange}
+                />
+            </label>
+        );
     }
 
     public readonly focus = () => focusRef(this.root);

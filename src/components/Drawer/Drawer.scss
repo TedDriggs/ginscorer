@@ -1,0 +1,93 @@
+$title-height: 40px;
+
+$transition-duration: .125s;
+
+.c-drawer__backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: lightgray;
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity $transition-duration ease-out;
+
+    &-enter,
+    &-exit,
+    &-enter-done {
+        visibility: visible;
+    }
+
+    &-enter-active,
+    &-enter-done {
+        opacity: 0.8;
+    }
+}
+
+.c-drawer {
+    transition: transform $transition-duration ease-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100vh);
+    height: 90vh;
+    overflow-y: auto;
+    background: white;
+
+    // Show the title bar when one exists
+    &--has-title {
+        transform: translateY(calc(100vh - #{$title-height}));
+    }
+
+    &__title {
+        height: $title-height;
+        background-color: blue;
+        color: white;
+        width: 100vw;
+        white-space: nowrap;
+        text-overflow: clip;
+        border: none;
+        margin-bottom: 10px;
+        text-align: left;
+        padding: 0;
+
+        transition: color $transition-duration ease-out,
+            background-color $transition-duration ease-out;
+
+        &__text {
+            display: inline-block;
+            transform: translateX(calc(50vw - 50%));
+            transition: transform $transition-duration ease-out;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &-enter-active,
+    &-enter-done,
+    &--has-title.c-drawer-enter-done,
+    &--has-title.c-drawer-enter-active {
+        transform: translateY(10vh);
+
+        .c-drawer__title {
+            background-color: white;
+            color: black;
+
+            &__text {
+                transform: translateX(10px);
+            }
+        }
+    }
+
+    // Make sure active drawers supersede inactive drawers which happen to have titles.
+    &-enter-active,
+    &-enter-done,
+    &-exit-active {
+        z-index: 10;
+    }
+}
