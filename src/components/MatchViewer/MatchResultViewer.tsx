@@ -1,11 +1,9 @@
 import * as React from 'react';
 
 import * as classNames from 'classnames';
-import { GinMatchResult, Player } from 'src/models';
+import { GinMatchResult, Player, PlayerNames } from 'src/models';
 
-export interface MatchResultViewerProps extends GinMatchResult {
-    player1Name: string;
-    player2Name: string;
+export interface MatchResultViewerProps extends GinMatchResult, PlayerNames {
     className?: string;
 }
 

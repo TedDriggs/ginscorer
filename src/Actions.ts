@@ -1,4 +1,4 @@
-import { Game } from './models';
+import { Game, PlayerNames } from './models';
 
 /**
  * Action emitted when a game has been finished and a new result is ready.
@@ -16,19 +16,14 @@ export interface StartNewMatch {
     type: 'StartNewMatch';
 }
 
-export interface RenamePlayers {
+export interface RenamePlayers extends PlayerNames {
     type: 'RenamePlayers';
-    player1Name: string;
-    player2Name: string;
 }
 
 export type Action = RenamePlayers | FinishGame | StartNewMatch;
 
 export const creators = {
-    RenamePlayers: (names: {
-        player1Name: string;
-        player2Name: string;
-    }): RenamePlayers => ({
+    RenamePlayers: (names: PlayerNames): RenamePlayers => ({
         ...names,
         type: 'RenamePlayers',
     }),

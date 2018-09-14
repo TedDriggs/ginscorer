@@ -1,11 +1,12 @@
 import * as React from 'react';
 
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
+import { PlayerNames } from '../../models';
 import { Input } from '../Input';
 import { focusRef } from '../util/Ref';
 
 export interface PlayersInputProps
-    extends ControlledInput<{ player1Name: string; player2Name: string }> {}
+    extends ControlledInput<PlayerNames> {}
 
 export class PlayersInput extends React.Component<PlayersInputProps> {
     private readonly handleChange = makeFieldChangeHandler(this);

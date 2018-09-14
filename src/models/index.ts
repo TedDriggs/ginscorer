@@ -7,6 +7,11 @@ export enum Player {
 
 export const PLAYERS = [Player.One, Player.Two];
 
+export interface PlayerNames {
+    player1Name: string;
+    player2Name: string;
+}
+
 export enum Gin {
     None = 'none',
     Normal = 'normal',

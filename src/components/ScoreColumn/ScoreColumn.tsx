@@ -1,12 +1,10 @@
 import * as React from 'react';
 
 import * as classNames from 'classnames';
-import { Bonus, GameInSet, Gin, GinSet, Player } from 'src/models';
+import { Bonus, GameInSet, Gin, GinSet, Player, PlayerNames } from 'src/models';
 import './ScoreColumn.css';
 
-export interface ScoreColumnProps {
-    player1Name: string;
-    player2Name: string;
+export interface ScoreColumnProps extends PlayerNames {
     value: GinSet;
 }
 

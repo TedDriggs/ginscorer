@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { PlayerNames } from '../models';
 import { Button } from './Button';
 import { Drawer } from './Drawer';
 import { PlayersInput } from './PlayersInput';
@@ -7,16 +8,13 @@ import { consumeEvent } from './util/Event';
 import { focusRef } from './util/Ref';
 
 export interface PlayersFormProps {
-    value: { player1Name: string; player2Name: string };
-    onPlayersSubmit(players: {
-        player1Name: string;
-        player2Name: string;
-    }): void;
+    value: PlayerNames;
+    onPlayersSubmit(players: PlayerNames): void;
 }
 
 interface PlayersFormState {
     isRenaming: boolean;
-    value?: { player1Name: string; player2Name: string };
+    value?: PlayerNames;
 }
 
 export class PlayersForm extends React.Component<

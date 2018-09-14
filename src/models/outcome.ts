@@ -1,4 +1,4 @@
-import { Game, Gin, Player, PLAYERS } from '.';
+import { Game, Gin, Player, PlayerNames, PLAYERS } from '.';
 
 // Output models for showing the result of a match.
 
@@ -31,9 +31,7 @@ export interface GinSetResult {
     points: number;
 }
 
-export interface GinMatch {
-    player1Name: string;
-    player2Name: string;
+export interface GinMatch extends PlayerNames {
     sets: GinSet[];
     finalResult?: GinMatchResult;
 }
@@ -48,10 +46,7 @@ export interface GinMatchResult {
     points: number;
 }
 
-export const reduceGamesToMatch = (players: {
-    player1Name: string;
-    player2Name: string;
-}) => (games: Game[]): GinMatch => {
+export const reduceGamesToMatch = (players: PlayerNames) => (games: Game[]): GinMatch => {
     const sets = reduceGames(games);
     const finalResult = sets.every(isSetFinished)
         ? computeMatchResult(sets, games)
