@@ -15,6 +15,7 @@ export interface MatchViewerProps {
     value: GinMatch;
     readOnly?: boolean;
     onSubmitGame?(game: Game): void;
+    onNewMatch?(): void;
 }
 
 const INITIAL_STATE = {
@@ -33,7 +34,7 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
     }
 
     public render(): React.ReactNode {
-        const { value, readOnly } = this.props;
+        const { value, readOnly, ...props } = this.props;
 
         const gameForm = (
             <GameForm
@@ -67,6 +68,7 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                         player1Name={value.player1Name}
                         player2Name={value.player2Name}
                         {...value.finalResult}
+                        onNewMatch={props.onNewMatch}
                     />
                 )}
                 {!readOnly && (

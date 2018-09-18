@@ -14,7 +14,7 @@ const matchSelector = createSelector(
 );
 
 type StateProps = Pick<MatchViewerProps, 'value'>;
-type DispatchProps = Pick<MatchViewerProps, 'onSubmitGame'>;
+type DispatchProps = Pick<MatchViewerProps, 'onSubmitGame' | 'onNewMatch'>;
 
 const mapStateToProps = (state: State): StateProps => ({
     value: matchSelector(state),
@@ -22,6 +22,7 @@ const mapStateToProps = (state: State): StateProps => ({
 
 const mapDispatchToProps: DispatchProps = {
     onSubmitGame: creators.FinishGame,
+    onNewMatch: creators.StartNewMatch,
 };
 
 export const CurrentMatchViewer = connect(

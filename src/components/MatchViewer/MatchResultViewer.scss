@@ -1,0 +1,11 @@
+.c-match-result-viewer {
+    display: grid;
+    padding: 10px;
+
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+
+    &__points-value {
+        font-size: 24px;
+    }
+}
