@@ -1,7 +1,11 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
-import { focusRef, refChildHasFocus } from './util/Ref';
+
+import { focusRef, refChildHasFocus } from '../util/Ref';
+import './Input.css';
 
 export interface InputProps {
+    className?: string;
     value: string;
     disabled?: boolean;
     name?: string;
@@ -16,9 +20,9 @@ export class Input extends React.Component<InputProps> {
     public readonly hasFocus = refChildHasFocus(this.root);
 
     public render(): React.ReactNode {
-        const { label, ...props } = this.props;
+        const { label, className, ...props } = this.props;
         return (
-            <label>
+            <label className={classNames('c-input', className)}>
                 {label && <div className="c-input-label">{label}</div>}
                 <input
                     {...props}
