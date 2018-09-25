@@ -4,6 +4,7 @@ import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { PlayerNames } from '../../models';
 import { Input } from '../Input';
 import { focusRef } from '../util/Ref';
+import './PlayersInput.css';
 
 export interface PlayersInputProps
     extends ControlledInput<PlayerNames> {}

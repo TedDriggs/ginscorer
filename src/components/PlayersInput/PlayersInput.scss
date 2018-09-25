@@ -1,0 +1,13 @@
+.c-players-input {
+    max-width: 20em;
+
+    input {
+        font-size: 17px;
+        width: 100%;
+        display: block;
+    }
+
+    .c-input + .c-input {
+        margin-top: 20px;
+    }
+}
