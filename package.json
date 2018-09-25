@@ -23,7 +23,6 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "postinstall": "npm run build",
     "build-css": "./node_modules/node-sass-chokidar/bin/node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && ./node_modules/node-sass-chokidar/bin/node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-ts": "react-scripts-ts start",
