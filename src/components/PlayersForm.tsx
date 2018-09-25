@@ -40,6 +40,7 @@ export class PlayersForm extends React.Component<
                 <Drawer
                     open={this.state.isRenaming}
                     onDismiss={this.stopRenaming}
+                    onEntered={this.handleDrawerEntered}
                 >
                     <form onSubmit={this.handleSubmit}>
                         <PlayersInput
@@ -58,6 +59,8 @@ export class PlayersForm extends React.Component<
         this.setState({ isRenaming: true });
         focusRef(this.input);
     };
+
+    private readonly handleDrawerEntered = () => focusRef(this.input);
 
     private readonly handleChange = (value: PlayersFormProps['value']) => {
         this.setState({ value });

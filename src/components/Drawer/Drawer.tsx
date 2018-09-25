@@ -16,6 +16,7 @@ export interface DrawerProps {
     hideTitle?: boolean;
     title?: string;
     onTitleClick?(): void;
+    onEntered?(): void;
     /**
      * Event handler called when the user attempts to dismiss the
      * drawer. If no handler is provided, the user cannot dismiss
@@ -49,6 +50,7 @@ export class Drawer extends React.Component<DrawerProps> {
                     classNames="c-drawer"
                     timeout={TRANSITION_TIMEOUT_MS}
                     onExit={this.handleExit}
+                    onEntered={props.onEntered}
                 >
                     <div
                         className={classNames('c-drawer', {
