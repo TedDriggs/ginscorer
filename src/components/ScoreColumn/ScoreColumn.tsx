@@ -5,6 +5,7 @@ import { Bonus, GameInSet, Gin, GinSet, Player, PlayerNames } from 'src/models';
 import './ScoreColumn.css';
 
 export interface ScoreColumnProps extends PlayerNames {
+    className?: string;
     value: GinSet;
 }
 
@@ -12,7 +13,7 @@ export const ScoreColumn: React.SFC<ScoreColumnProps> = ({
     value,
     ...props
 }) => (
-    <div className="c-scorecolumn">
+    <div className={classNames('c-scorecolumn', props.className)}>
         <div className="c-scorecolumn__header">
             <div className="c-scorecolumn__player">{props.player1Name}</div>
             <div className="c-scorecolumn__player">{props.player2Name}</div>

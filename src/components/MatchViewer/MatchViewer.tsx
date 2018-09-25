@@ -7,6 +7,7 @@ import { Drawer } from '../Drawer/Drawer';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
 import { ScrollViewer } from '../ScrollViewer';
+import { SetView } from '../SetView';
 import { focusRef } from '../util/Ref';
 import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.css';
@@ -51,18 +52,32 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                     'c-match-viewer--finished': Boolean(value.finalResult),
                 })}
             >
-                <ScrollViewer>
-                    <div className="c-match-viewer__sets">
-                        {value.sets.map((s, i) => (
-                            <ScoreColumn
+                <MediaQuery minWidth={600}>
+                    <ScrollViewer>
+                        <div className="c-match-viewer__sets">
+                            {value.sets.map((s, i) => (
+                                <ScoreColumn
+                                    key={i}
+                                    player1Name={value.player1Name}
+                                    player2Name={value.player2Name}
+                                    value={s}
+                                />
+                            ))}
+                        </div>
+                    </ScrollViewer>
+                </MediaQuery>
+                <MediaQuery maxWidth={600}>
+                    <ScrollViewer overflowX="hidden">
+                        {value.sets.map((v, i) => (
+                            <SetView
                                 key={i}
+                                value={v}
                                 player1Name={value.player1Name}
                                 player2Name={value.player2Name}
-                                value={s}
                             />
                         ))}
-                    </div>
-                </ScrollViewer>
+                    </ScrollViewer>
+                </MediaQuery>
                 {value.finalResult && (
                     <MatchResultViewer
                         player1Name={value.player1Name}

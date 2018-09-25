@@ -12,6 +12,12 @@ export interface PlayerNames {
     player2Name: string;
 }
 
+/**
+ * Get the name of a player from a pair of names.
+ */
+export const nameOfPlayer = (players: PlayerNames, player: Player): string =>
+    player === Player.One ? players.player1Name : players.player2Name;
+
 export enum Gin {
     None = 'none',
     Normal = 'normal',

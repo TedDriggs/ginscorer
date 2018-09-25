@@ -17,10 +17,23 @@ export interface GameInSet extends Game {
     runningTotal: number;
 }
 
-export interface GinSet {
+export type GinSet = GinSetInProgress | GinSetFinal;
+
+export interface GinSetInProgress {
     games: GameInSet[];
+    currentScores: {
+        [Player.One]: number;
+        [Player.Two]: number;
+    };
     bonuses: Bonus[];
-    finalResult?: GinSetResult;
+    finalResult?: never;
+}
+
+export interface GinSetFinal {
+    games: GameInSet[];
+    currentScores?: never;
+    bonuses: Bonus[];
+    finalResult: GinSetResult;
 }
 
 export interface GinSetResult {
@@ -46,7 +59,9 @@ export interface GinMatchResult {
     points: number;
 }
 
-export const reduceGamesToMatch = (players: PlayerNames) => (games: Game[]): GinMatch => {
+export const reduceGamesToMatch = (players: PlayerNames) => (
+    games: Game[],
+): GinMatch => {
     const sets = reduceGames(games);
     const finalResult = sets.every(isSetFinished)
         ? computeMatchResult(sets, games)
@@ -70,8 +85,11 @@ export const reduceGames = (games: Game[]): GinSet[] => [
  * `reduceSet` and therefore will always have bonuses applied as soon as a
  * player "goes out".
  */
-export const isSetFinished = ({ finalResult }: GinSet): boolean =>
-    Boolean(finalResult);
+export const isSetFinished = (ginSet: GinSet): ginSet is GinSetFinal =>
+    Boolean(ginSet.finalResult);
+
+export const isSetInProgress = (ginSet: GinSet): ginSet is GinSetInProgress =>
+    Boolean(ginSet.currentScores);
 
 /**
  * Transform a sequence of games into a set.
@@ -187,9 +205,18 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
         }
     }
 
+    // We don't include running totals if the game has ended
+    if (finalResult) {
+        return {
+            bonuses,
+            finalResult,
+            games: setGames,
+        };
+    }
+
     return {
         bonuses,
-        finalResult,
+        currentScores: scores,
         games: setGames,
     };
 };
