@@ -57,7 +57,6 @@ export class PlayersForm extends React.Component<
 
     private readonly handleEditButtonClick = () => {
         this.setState({ isRenaming: true });
-        focusRef(this.input);
     };
 
     private readonly handleDrawerEntered = () => focusRef(this.input);
