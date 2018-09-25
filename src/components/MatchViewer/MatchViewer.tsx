@@ -126,14 +126,13 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
     };
 }
 
-class GameForm extends React.Component<
-    Pick<MatchViewerProps, 'onSubmitGame'> &
-        Pick<GameInputProps, 'player1Name' | 'player2Name' | 'disabled'>,
-    PartialGame
-> {
+type GameFormProps = Pick<MatchViewerProps, 'onSubmitGame'> &
+    Pick<GameInputProps, 'player1Name' | 'player2Name' | 'disabled'>;
+
+class GameForm extends React.Component<GameFormProps, PartialGame> {
     private readonly input = React.createRef<GameInput>();
 
-    constructor(props: Pick<MatchViewerProps, 'onSubmitGame'>) {
+    constructor(props: GameFormProps) {
         super(props);
         this.state = {
             winner: null,
