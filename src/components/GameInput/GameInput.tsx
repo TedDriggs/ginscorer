@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
 import { NumberInput } from '../NumberInput';
-import { Radio } from '../Radio';
+import { RadioGroup } from '../RadioGroup';
 import { focusRef } from '../util/Ref';
 import './GameInput.css';
 
@@ -11,18 +11,28 @@ import './GameInput.css';
  * A variant of the `Game` interface optimized for input.
  */
 export interface PartialGame {
-    winner: Game['winner'] | null;
+    winner: Game['winner'];
     points: number | null;
     gin: Game['gin'];
 }
 
+const DEFAULT_PARTIAL_GAME: PartialGame = {
+    winner: Player.One,
+    points: null,
+    gin: Gin.None,
+};
+
+export const PartialGame = {
+    DEFAULT: DEFAULT_PARTIAL_GAME,
+};
+
 export interface GameInputProps extends ControlledInput<PartialGame> {
-    player1Name?: string;
-    player2Name?: string;
+    player1Name: string;
+    player2Name: string;
 }
 
 export class GameInput extends React.Component<GameInputProps> {
-    private readonly focusTarget = React.createRef<Radio<any>>();
+    private readonly focusTarget = React.createRef<RadioGroup<any>>();
     private readonly handleChange = makeFieldChangeHandler(this);
 
     public render(): React.ReactNode {
@@ -30,27 +40,21 @@ export class GameInput extends React.Component<GameInputProps> {
 
         return (
             <div className="c-game-input">
-                <div className="c-game-input__players">
-                    <Radio<Player>
-                        name="winner"
-                        selected={value.winner === Player.One}
-                        value={Player.One}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                        label={props.player1Name || 'Player 1'}
-                        hideNative
-                        ref={this.focusTarget}
-                    />
-                    <Radio<Player>
-                        name="winner"
-                        selected={value.winner === Player.Two}
-                        value={Player.Two}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                        label={props.player2Name || 'Player 2'}
-                        hideNative
-                    />
-                </div>
+                <RadioGroup<Player>
+                    name="winner"
+                    className="c-game-input__players"
+                    choices={[
+                        { value: Player.One, label: props.player1Name },
+                        { value: Player.Two, label: props.player2Name },
+                    ]}
+                    value={value.winner}
+                    disabled={disabled}
+                    label="Winner"
+                    onChange={this.handleChange}
+                    hideNative
+                    horizontal
+                    ref={this.focusTarget}
+                />
                 <div className="c-game-input__points">
                     <NumberInput
                         name="points"
@@ -59,35 +63,22 @@ export class GameInput extends React.Component<GameInputProps> {
                         disabled={disabled}
                         onChange={this.handleChange}
                     />
-                    &nbsp;
-                    points
+                    &nbsp; points
                 </div>
-                <div className="c-game-input__gin">
-                    <Radio<Gin>
-                        name="gin"
-                        selected={value.gin === Gin.None}
-                        value={Gin.None}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                        label="No Gin"
-                    />
-                    <Radio<Gin>
-                        name="gin"
-                        selected={value.gin === Gin.Normal}
-                        value={Gin.Normal}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                        label="Gin"
-                    />
-                    <Radio<Gin>
-                        name="gin"
-                        selected={value.gin === Gin.Super}
-                        value={Gin.Super}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                        label="Super Gin"
-                    />
-                </div>
+                <RadioGroup<Gin>
+                    name="gin"
+                    value={value.gin}
+                    className="c-game-input__gin"
+                    choices={[
+                        { value: Gin.None, label: 'No Gin' },
+                        { value: Gin.Normal, label: 'Gin' },
+                        { value: Gin.Super, label: 'Super Gin' },
+                    ]}
+                    disabled={disabled}
+                    onChange={this.handleChange}
+                    horizontal
+                    hideNative
+                />
             </div>
         );
     }

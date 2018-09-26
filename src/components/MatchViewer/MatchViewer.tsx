@@ -2,7 +2,7 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
 import * as classNames from 'classnames';
-import { Game, Gin, GinMatch, isGame } from '../../models';
+import { Game, GinMatch, isGame } from '../../models';
 import { Drawer } from '../Drawer/Drawer';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
@@ -134,11 +134,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
 
     constructor(props: GameFormProps) {
         super(props);
-        this.state = {
-            winner: null,
-            points: null,
-            gin: Gin.None,
-        };
+        this.state = PartialGame.DEFAULT;
     }
 
     public render() {
@@ -179,11 +175,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
         if (this.props.onSubmitGame) this.props.onSubmitGame(this.state);
 
         // Wipe the state, so we're ready for the next game input.
-        this.setState({
-            winner: null,
-            points: null,
-            gin: Gin.None,
-        });
+        this.setState(PartialGame.DEFAULT);
 
         this.focus();
     };

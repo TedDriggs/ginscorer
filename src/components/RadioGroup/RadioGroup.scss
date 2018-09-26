@@ -1,0 +1,22 @@
+.c-radio-group {
+    &--horizontal {
+        display: flex;
+        width: 100%;
+        align-content: center;
+    }
+
+    &--hide-native {
+        .c-radio {
+            padding: 10px;
+            border: 2px solid transparent;
+
+            &--has-focus {
+                border-color: darkblue;
+            }
+
+            &--checked {
+                background-color: lightblue;
+            }
+        }
+    }
+}
