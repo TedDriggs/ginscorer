@@ -74,11 +74,18 @@ export const reduceGamesToMatch = (players: PlayerNames) => (
     };
 };
 
-export const reduceGames = (games: Game[]): GinSet[] => [
-    reduceSet(games),
-    reduceSet(games, 1),
-    reduceSet(games, 2),
-];
+/**
+ * Reduce a sequence of games into three sets.
+ *
+ * @param games A sequence of games in order played
+ */
+export const reduceGames = (games: Game[]): [GinSet, GinSet, GinSet] => {
+    const [frame1, frame1End] = reduceSet(games);
+    const [frame2, frame2End] = reduceSet(games, 1, frame1End);
+    const [frame3] = reduceSet(games, 2, frame2End);
+
+    return [frame1, frame2, frame3];
+};
 
 /**
  * Checks if a set is finished. This function assumes that sets are built by
@@ -96,8 +103,16 @@ export const isSetInProgress = (ginSet: GinSet): ginSet is GinSetInProgress =>
  * @param games A raw sequence of games
  * @param offset The 0-indexed frame number. In gin, a player's first win
  * is not propagated to frames 2 or 3.
+ * @param prevEndIndex The index of the last game from the previous set.
+ *
+ * @return An array containing a gin set, and - if the set is finished - the
+ * index of the last game processed.
  */
-export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
+const reduceSet = (
+    games: Game[],
+    offset: number = 0,
+    prevEndIndex?: number,
+): [GinSet, number?] => {
     /**
      * Map of player ID to win count, adjusted for the frame entry requirement.
      * This is used for applying bonuses for win count at the end of the frame,
@@ -115,9 +130,16 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
 
     const setGames: GameInSet[] = [];
     const bonuses: Bonus[] = [];
-    let finalResult: GinSetResult | undefined = undefined;
 
-    for (const game of games) {
+    for (const [index, game] of games.entries()) {
+        // If we've passed the end of the previous set, then all wins
+        // going forward are eligible for this set. We represent this
+        // by zeroing out the win counters.
+        if (typeof prevEndIndex === 'number' && index === prevEndIndex + 1) {
+            wins[Player.One] = Math.max(wins[Player.One], 0);
+            wins[Player.Two] = Math.max(wins[Player.Two], 0);
+        }
+
         // Increment win counter to maybe qualify for frame and to
         // ensure the player gets credit for the win in bonus calculation.
         wins[game.winner] += 1;
@@ -196,29 +218,25 @@ export const reduceSet = (games: Game[], offset: number = 0): GinSet => {
                 .filter(g => g.player === Player.Two)
                 .reduce((b, { points }) => b + points, 0);
 
-            finalResult = {
+            const finalResult = {
                 winner: getWinner(scores),
                 points: Math.abs(scores[Player.One] - scores[Player.Two]),
             };
 
-            break;
+            // We don't include running totals if the game has ended
+            return [{ bonuses, finalResult, games: setGames }, index];
         }
     }
 
-    // We don't include running totals if the game has ended
-    if (finalResult) {
-        return {
+    return [
+        {
             bonuses,
-            finalResult,
+            currentScores: scores,
             games: setGames,
-        };
-    }
-
-    return {
-        bonuses,
-        currentScores: scores,
-        games: setGames,
-    };
+        },
+        // The game didn't end, so no end marker is returned.
+        undefined,
+    ];
 };
 
 const getWinner = (scores: {
