@@ -12,6 +12,9 @@ export const playerNameSelector = ({
     player2Name,
 });
 
+export const canUndoSelector = ({ games }: State): boolean =>
+    Boolean(games.length);
+
 export const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'RenamePlayers': {
@@ -26,6 +29,12 @@ export const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 games: [...state.games, action.result],
+            };
+        }
+        case 'UndoGame': {
+            return {
+                ...state,
+                games: state.games.slice(0, state.games.length - 1),
             };
         }
         case 'StartNewMatch': {

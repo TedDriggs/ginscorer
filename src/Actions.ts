@@ -10,6 +10,14 @@ export interface FinishGame {
 }
 
 /**
+ * Remove the most recent game from the history; useful for correcting
+ * mistakes in submission.
+ */
+export interface UndoGame {
+    type: 'UndoGame';
+}
+
+/**
  * Start a new match, clearing all game history.
  */
 export interface StartNewMatch {
@@ -20,9 +28,12 @@ export interface RenamePlayers extends PlayerNames {
     type: 'RenamePlayers';
 }
 
-export type Action = RenamePlayers | FinishGame | StartNewMatch;
+export type Action = RenamePlayers | FinishGame | StartNewMatch | UndoGame;
 
 export const creators = {
+    UndoGame: (): UndoGame => ({
+        type: 'UndoGame',
+    }),
     RenamePlayers: (names: PlayerNames): RenamePlayers => ({
         ...names,
         type: 'RenamePlayers',
