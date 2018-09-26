@@ -1,16 +1,13 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
+import { ControlledInput } from '../../ControlledInput';
 import { focusRef, refChildHasFocus } from '../util/Ref';
 import './Input.css';
 
-export interface InputProps {
+export interface InputProps extends ControlledInput<string> {
     className?: string;
-    value: string;
-    disabled?: boolean;
-    name?: string;
     label?: string;
-    onChange(newValue: string, name?: string): void;
 }
 
 export class Input extends React.Component<InputProps> {
