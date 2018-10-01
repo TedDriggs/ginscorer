@@ -18,6 +18,12 @@ export interface PlayerNames {
 export const nameOfPlayer = (players: PlayerNames, player: Player): string =>
     player === Player.One ? players.player1Name : players.player2Name;
 
+/**
+ * Get the opponent of the passed-in player.
+ */
+export const otherPlayer = (player: Player): Player =>
+    player === Player.One ? Player.Two : Player.One;
+
 export enum Gin {
     None = 'none',
     Normal = 'normal',

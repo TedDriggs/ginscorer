@@ -1,4 +1,6 @@
+import { Cmd, Loop, loop, LoopReducer } from 'redux-loop';
 import { Action } from './Actions';
+import { persistState } from './Effects';
 import { Game } from './models';
 import { State } from './State';
 
@@ -15,36 +17,47 @@ export const playerNameSelector = ({
 export const canUndoSelector = ({ games }: State): boolean =>
     Boolean(games.length);
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer: LoopReducer<State, Action> = (
+    state: State,
+    action: Action,
+) => {
     switch (action.type) {
         case 'RenamePlayers': {
             const { player1Name, player2Name } = action;
-            return {
+            return persisted({
                 ...state,
                 player1Name,
                 player2Name,
-            };
+            });
         }
         case 'FinishGame': {
-            return {
+            return persisted({
                 ...state,
                 games: [...state.games, action.result],
-            };
+            });
         }
         case 'UndoGame': {
-            return {
+            return persisted({
                 ...state,
                 games: state.games.slice(0, state.games.length - 1),
-            };
+            });
         }
         case 'StartNewMatch': {
-            return {
+            return persisted({
                 ...state,
                 games: [],
-            };
+            });
         }
         default: {
             return state;
         }
     }
 };
+
+const persisted = (state: State): Loop<State, Action> =>
+    loop(
+        state,
+        Cmd.run(persistState, {
+            args: [state],
+        }),
+    );

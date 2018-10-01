@@ -17,6 +17,7 @@
     "react-scripts-ts": "2.17.0",
     "react-transition-group": "2.4.0",
     "redux": "4.0.0",
+    "redux-loop": "4.4.1",
     "reselect": "3.0.1",
     "w3c-keys": "0.3.6"
   },
