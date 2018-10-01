@@ -1,6 +1,7 @@
 $title-height: 40px;
 
-$transition-duration: .125s;
+$transition-duration: 0.125s;
+$min-drawer-top: 55px;
 
 .c-drawer__backdrop {
     position: fixed;
@@ -42,6 +43,10 @@ $transition-duration: .125s;
         transform: translateY(calc(100vh - #{$title-height}));
     }
 
+    @media (max-height: #{$min-drawer-top * 10}) {
+        height: calc(100vh - #{$min-drawer-top});
+    }
+
     &__title {
         height: $title-height;
         background-color: var(--primary-interaction-color);
@@ -75,6 +80,10 @@ $transition-duration: .125s;
     &--has-title.c-drawer-enter-done,
     &--has-title.c-drawer-enter-active {
         transform: translateY(10vh);
+
+        @media (max-height: #{10 * $min-drawer-top}) {
+            transform: translateY($min-drawer-top);
+        }
 
         .c-drawer__title {
             background-color: white;
