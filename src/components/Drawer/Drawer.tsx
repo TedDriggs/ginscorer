@@ -37,6 +37,7 @@ export class Drawer extends React.Component<DrawerProps> {
                     in={props.open}
                     timeout={TRANSITION_TIMEOUT_MS}
                     classNames="c-drawer__backdrop"
+                    appear
                     mountOnEnter
                     unmountOnExit
                 >
@@ -51,6 +52,7 @@ export class Drawer extends React.Component<DrawerProps> {
                     timeout={TRANSITION_TIMEOUT_MS}
                     onExit={this.handleExit}
                     onEntered={props.onEntered}
+                    appear
                 >
                     <div
                         className={classNames('c-drawer', {
@@ -74,6 +76,7 @@ export class Drawer extends React.Component<DrawerProps> {
                         <Transition
                             in={props.open}
                             timeout={TRANSITION_TIMEOUT_MS}
+                            appear
                             mountOnEnter
                             unmountOnExit
                         >
