@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
 
 import { Button } from '../Button';
@@ -51,12 +51,11 @@ export class Drawer extends React.Component<DrawerProps> {
                     timeout={TRANSITION_TIMEOUT_MS}
                     onExit={this.handleExit}
                     onEntered={props.onEntered}
-                    mountOnEnter={!props.title}
-                    unmountOnExit={!props.title}
                 >
                     <div
                         className={classNames('c-drawer', {
-                            'c-drawer--has-title': Boolean(props.title) && !props.hideTitle,
+                            'c-drawer--has-title':
+                                Boolean(props.title) && !props.hideTitle,
                         })}
                         onKeyDown={this.handleKeyDown}
                         role="dialog"
@@ -72,7 +71,14 @@ export class Drawer extends React.Component<DrawerProps> {
                                 </span>
                             </Button>
                         )}
-                        {props.children}
+                        <Transition
+                            in={props.open}
+                            timeout={TRANSITION_TIMEOUT_MS}
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            {props.children}
+                        </Transition>
                     </div>
                 </CSSTransition>
             </>,
