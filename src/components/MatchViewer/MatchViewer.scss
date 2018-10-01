@@ -33,7 +33,7 @@
 @media (min-width: 1000px) {
     .c-match-viewer {
         grid-template-columns: [sets-start] 1fr [sets-end input-start] auto [input-end];
-        grid-template-rows: [sets-start input-start] 100% [sets-end input-end];
+        grid-template-rows: [sets-start input-start] auto [sets-end input-end];
     }
 }
 
