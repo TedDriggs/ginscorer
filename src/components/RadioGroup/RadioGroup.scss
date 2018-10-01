@@ -2,13 +2,19 @@
     &--horizontal {
         display: flex;
         width: 100%;
-        align-content: center;
+        align-items: center;
+
+        .c-radio-group__label {
+            display: block;
+            padding-right: 1em;
+        }
     }
 
     &--hide-native {
         .c-radio {
-            padding: 10px;
-            border: 2px solid transparent;
+            padding: 8px;
+            border: 1px solid transparent;
+            border-radius: 3px;
 
             &--has-focus {
                 border-color: darkblue;
