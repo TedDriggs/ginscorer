@@ -44,7 +44,7 @@ $transition-duration: .125s;
 
     &__title {
         height: $title-height;
-        background-color: blue;
+        background-color: var(--primary-interaction-color);
         color: white;
         width: 100vw;
         white-space: nowrap;

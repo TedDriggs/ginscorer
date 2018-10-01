@@ -20,11 +20,11 @@
             -webkit-tap-highlight-color: transparent;
 
             &--has-focus {
-                border-color: darkblue;
+                border-color: var(--focus-border-color, darkblue);
             }
 
             &--checked {
-                background-color: lightblue;
+                background-color: var(--selection-color, lightblue);
             }
         }
     }
