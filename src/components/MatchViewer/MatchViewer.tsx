@@ -88,7 +88,7 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                 )}
                 {!readOnly && (
                     <>
-                        <MediaQuery maxWidth={600}>
+                        <MediaQuery maxWidth={1000}>
                             <Drawer
                                 open={this.state.drawerOpen}
                                 title="Add game"
@@ -99,7 +99,7 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                                 {gameForm}
                             </Drawer>
                         </MediaQuery>
-                        <MediaQuery minWidth={600}>
+                        <MediaQuery minWidth={1000}>
                             <div className="c-match-viewer__add-game">
                                 <h1>Add game</h1>
                                 {gameForm}
