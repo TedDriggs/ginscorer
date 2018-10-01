@@ -16,6 +16,9 @@
             border: 1px solid transparent;
             border-radius: 3px;
 
+            // Don't show native tap highlight
+            -webkit-tap-highlight-color: transparent;
+
             &--has-focus {
                 border-color: darkblue;
             }
