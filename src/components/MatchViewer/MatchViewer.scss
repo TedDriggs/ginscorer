@@ -36,3 +36,8 @@
         grid-template-rows: [sets-start input-start] 100% [sets-end input-end];
     }
 }
+
+.c-drawer .c-gameform {
+    // XXX should match title offset for drawer
+    margin-left: 10px;
+}
