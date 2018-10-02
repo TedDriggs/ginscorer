@@ -17,43 +17,23 @@ export interface SetSummaryProps extends PlayerNames {
 }
 
 export const SetSummary: React.SFC<SetSummaryProps> = props => {
-    const { className, value, onClick } = props;
+    const { value, ...outerProps } = props;
     // If a player has won the set, don't show loser's points
     if (isSetFinished(value)) {
         return (
-            <div
-                className={classNames(
-                    'c-set-summary',
-                    'c-set-summary--final',
-                    className,
-                    {
-                        'c-set-summary--clickable': Boolean(onClick),
-                    },
-                )}
-                onClick={onClick}
-            >
+            <SetSummaryContainer {...outerProps} finished>
                 <span className="c-set-summary--final__winner">
                     {nameOfPlayer(props, value.finalResult.winner)} won
                 </span>
                 <span className="c-set-summary--final__points">
                     {value.finalResult.points}
                 </span>
-            </div>
+            </SetSummaryContainer>
         );
     }
 
     return (
-        <div
-            className={classNames(
-                'c-set-summary',
-                'c-set-summary--in-progress',
-                className,
-                {
-                    'c-set-summary--clickable': Boolean(onClick),
-                },
-            )}
-            onClick={onClick}
-        >
+        <SetSummaryContainer {...outerProps}>
             <div className="c-set-summary__player">
                 <span className="c-set-summary__player-name">
                     {props.player1Name}
@@ -70,6 +50,27 @@ export const SetSummary: React.SFC<SetSummaryProps> = props => {
                     {value.currentScores[Player.Two]}
                 </span>
             </div>
-        </div>
+        </SetSummaryContainer>
     );
 };
+
+/**
+ * Outer container element for the set summary.
+ */
+const SetSummaryContainer: React.SFC<
+    Pick<SetSummaryProps, 'className' | 'onClick'> & { finished?: boolean }
+> = ({ className, onClick, finished, children }) => (
+    <div
+        className={classNames(
+            'c-set-summary',
+            finished ? 'c-set-summary--final' : 'c-set-summary--in-progress',
+            className,
+            {
+                'c-set-summary--clickable': Boolean(onClick),
+            },
+        )}
+        onClick={onClick}
+    >
+        {children}
+    </div>
+);
