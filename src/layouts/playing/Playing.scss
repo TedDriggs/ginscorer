@@ -5,4 +5,16 @@
     grid-template-rows: auto 1fr;
     overflow: hidden;
     position: fixed;
+
+    // XXX These two media queries are an attempt at getting the iPhone to properly
+    // hide the title bar after rotate.
+    // https://stackoverflow.com/questions/8254774/strange-offset-in-the-css-element-position-after-changing-orientation-on-ipad
+
+    @media (orientation: portrait) {
+        position: fixed;
+    }
+
+    @media (orientation: landscape) {
+        position: fixed;
+    }
 }
