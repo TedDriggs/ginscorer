@@ -1,0 +1,14 @@
+.c-app-header {
+    background-color: var(--accent1-color);
+    color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+
+    h1 {
+        margin: 0;
+        font-weight: 400;
+        font-family: Futura, -apple-system;
+    }
+}
