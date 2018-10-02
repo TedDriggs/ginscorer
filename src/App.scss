@@ -5,13 +5,18 @@
     --focus-border-color: var(--primary-interaction-color);
 }
 
-html, body, #root {
+html,
+body,
+#root {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
 }
 
+// Set the background color for the iOS title bar, and prevent the background
+// from scrolling unintentionally.
 body {
+    position: fixed;
     background-color: var(--accent1-color);
 }
 
@@ -20,5 +25,5 @@ body {
 }
 
 * {
-    font-family: 'Segoe UI', --apple-system, sans-serif;
+    font-family: Futura, 'Segoe UI', --apple-system, sans-serif;
 }
