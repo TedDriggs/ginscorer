@@ -11,19 +11,25 @@ import {
 import './Summary.css';
 
 export interface SetSummaryProps extends PlayerNames {
+    className?: string;
     value: GinSet;
     onClick?(): void;
 }
 
 export const SetSummary: React.SFC<SetSummaryProps> = props => {
-    const { value, onClick } = props;
+    const { className, value, onClick } = props;
     // If a player has won the set, don't show loser's points
     if (isSetFinished(value)) {
         return (
             <div
-                className={classNames('c-set-summary', 'c-set-summary--final', {
-                    'c-set-summary--clickable': Boolean(onClick),
-                })}
+                className={classNames(
+                    'c-set-summary',
+                    'c-set-summary--final',
+                    className,
+                    {
+                        'c-set-summary--clickable': Boolean(onClick),
+                    },
+                )}
                 onClick={onClick}
             >
                 <span className="c-set-summary--final__winner">
@@ -41,6 +47,7 @@ export const SetSummary: React.SFC<SetSummaryProps> = props => {
             className={classNames(
                 'c-set-summary',
                 'c-set-summary--in-progress',
+                className,
                 {
                     'c-set-summary--clickable': Boolean(onClick),
                 },

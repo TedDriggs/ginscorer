@@ -15,10 +15,17 @@ export class SetView extends React.PureComponent<SetViewProps> {
         return (
             <ToggleDrawer
                 activator={({ openDrawer }) => (
-                    <SetSummary onClick={openDrawer} {...this.props} />
+                    <SetSummary
+                        {...this.props}
+                        onClick={openDrawer}
+                        className="c-set-view"
+                    />
                 )}
             >
-                <ScoreColumn {...this.props} className="c-set-view__score-column" />
+                <ScoreColumn
+                    {...this.props}
+                    className="c-set-view__score-column"
+                />
             </ToggleDrawer>
         );
     }
