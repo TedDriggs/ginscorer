@@ -2,6 +2,17 @@ $title-height: 40px;
 
 $transition-duration: 0.125s;
 $min-drawer-top: 55px;
+$backdrop-color: lightgray;
+$backdrop-opacity: 0.8;
+
+body {
+    transition: background-color $transition-duration ease-out;
+
+    &.has-open-drawer {
+        // TODO find a way to compute this
+        background-color: rgb(170, 185, 181);
+    }
+}
 
 .c-drawer__backdrop {
     position: fixed;
@@ -9,7 +20,7 @@ $min-drawer-top: 55px;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: lightgray;
+    background-color: $backdrop-color;
     opacity: 0;
     visibility: hidden;
 
@@ -23,7 +34,7 @@ $min-drawer-top: 55px;
 
     &-enter-active,
     &-enter-done {
-        opacity: 0.8;
+        opacity: $backdrop-opacity;
     }
 }
 

@@ -31,6 +31,9 @@ export class Drawer extends React.Component<DrawerProps> {
     public render(): React.ReactNode {
         const { props } = this;
 
+        // For iOS, update body background color when open the drawer
+        document.body.classList.toggle('has-open-drawer', props.open);
+
         return createPortal(
             <>
                 <CSSTransition
