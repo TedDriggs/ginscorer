@@ -1,4 +1,4 @@
-import { Game, Gin, Player, PlayerNames, PLAYERS } from '.';
+import { Game, Gin, otherPlayer, Player, PlayerNames, PLAYERS } from '.';
 
 // Output models for showing the result of a match.
 
@@ -272,6 +272,8 @@ const computeMatchResult = (sets: GinSet[], games: Game[]): GinMatchResult => {
     return {
         winner,
         isHollywood,
-        points: isHollywood ? 2 * scores[winner] : scores[winner],
+        points: isHollywood
+            ? 2 * scores[winner]
+            : scores[winner] - scores[otherPlayer(winner)],
     };
 };
