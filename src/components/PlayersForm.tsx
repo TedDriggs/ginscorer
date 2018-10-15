@@ -3,8 +3,8 @@ import * as React from 'react';
 import { PlayerNames } from '../models';
 import { Button } from './Button';
 import { Drawer } from './Drawer';
+import { Form } from './Form';
 import { PlayersInput } from './PlayersInput';
-import { consumeEvent } from './util/Event';
 import { focusRef } from './util/Ref';
 
 export interface PlayersFormProps {
@@ -42,14 +42,13 @@ export class PlayersForm extends React.Component<
                     onDismiss={this.stopRenaming}
                     onEntered={this.handleDrawerEntered}
                 >
-                    <form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} submitLabel="Update">
                         <PlayersInput
                             ref={this.input}
                             value={this.state.value || this.props.value}
                             onChange={this.handleChange}
                         />
-                        <button type="submit">Update</button>
-                    </form>
+                    </Form>
                 </Drawer>
             </>
         );
@@ -65,8 +64,7 @@ export class PlayersForm extends React.Component<
         this.setState({ value });
     };
 
-    private readonly handleSubmit = (e: React.FormEvent<any>) => {
-        consumeEvent(e);
+    private readonly handleSubmit = () => {
         if (!this.state.value) return;
         this.props.onPlayersSubmit(this.state.value);
         this.stopRenaming();

@@ -4,6 +4,7 @@ import MediaQuery from 'react-responsive';
 import * as classNames from 'classnames';
 import { Game, GinMatch, isGame } from '../../models';
 import { Drawer } from '../Drawer/Drawer';
+import { Form } from '../Form';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
 import { ScrollViewer } from '../ScrollViewer';
@@ -139,7 +140,12 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
 
     public render() {
         return (
-            <form className="c-gameform" onSubmit={this.handleSubmit}>
+            <Form
+                className="c-gameform"
+                onSubmit={this.handleSubmit}
+                disableSubmit={this.props.disabled || !isGame(this.state)}
+                submitLabel="Submit"
+            >
                 <GameInput
                     ref={this.input}
                     player1Name={this.props.player1Name}
@@ -148,13 +154,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
                     value={this.state}
                     onChange={this.handleChange}
                 />
-                <button
-                    type="submit"
-                    disabled={this.props.disabled || !isGame(this.state)}
-                >
-                    Submit
-                </button>
-            </form>
+            </Form>
         );
     }
 
@@ -164,10 +164,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
         this.setState(value);
     };
 
-    private readonly handleSubmit = (evt: React.MouseEvent<any>) => {
-        evt.stopPropagation();
-        evt.preventDefault();
-
+    private readonly handleSubmit = () => {
         // Don't allow submission of incomplete games
         // TODO show an error in this case
         if (!isGame(this.state)) return;

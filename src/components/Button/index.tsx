@@ -7,6 +7,7 @@ import { focusRef } from '../util/Ref';
 export interface ButtonProps {
     className?: string;
     disabled?: boolean;
+    type?: string;
     onClick?(): void;
 }
 
