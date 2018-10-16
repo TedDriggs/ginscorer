@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 
 import * as classNames from 'classnames';
 import { Game, GinMatch, isGame } from '../../models';
-import { Drawer } from '../Drawer/Drawer';
+import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
 import { Form } from '../Form';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
@@ -90,6 +90,7 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                 {!readOnly && (
                     <>
                         <MediaQuery maxWidth={1000}>
+                            <DrawerTitleSpacer />
                             <Drawer
                                 open={this.state.drawerOpen}
                                 title="Add game"

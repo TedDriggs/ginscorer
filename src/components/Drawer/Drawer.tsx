@@ -110,3 +110,11 @@ export class Drawer extends React.Component<DrawerProps> {
         focusRef(this.titleButton);
     };
 }
+
+/**
+ * Placeholder element which can be used to make sure scrolling content isn't
+ * hidden by the drawer title.
+ */
+export const DrawerTitleSpacer: React.SFC = () => (
+    <div className="c-drawer-title-placeholder" />
+);

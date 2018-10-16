@@ -28,6 +28,10 @@ $backdrop-opacity: 1;
     }
 }
 
+.c-drawer-title-placeholder {
+    height: $title-height;
+}
+
 .c-drawer {
     transition: transform $transition-duration ease-out;
     position: fixed;
