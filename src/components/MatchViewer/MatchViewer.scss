@@ -6,8 +6,13 @@
     grid-template-rows: [sets-start] minmax(0, 1fr) [sets-end input-start] auto [input-end];
     grid-template-columns: [sets-start input-start] 100% [sets-end input-end];
 
+    &__main {
+        display: flex;
+    }
+
     &__sets {
         display: flex;
+        flex-grow: 1;
         justify-content: space-around;
         grid-area: sets;
     }

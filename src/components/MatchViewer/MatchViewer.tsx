@@ -2,6 +2,8 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
 import * as classNames from 'classnames';
+import memoizeOne from 'memoize-one';
+import { reduceGamesToStats } from 'src/models/stats';
 import { Game, GinMatch, isGame } from '../../models';
 import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
 import { Form } from '../Form';
@@ -9,6 +11,7 @@ import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
 import { ScrollViewer } from '../ScrollViewer';
 import { SetView } from '../SetView';
+import { StatsViewer } from '../StatsViewer';
 import { focusRef } from '../util/Ref';
 import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.css';
@@ -29,6 +32,14 @@ type State = typeof INITIAL_STATE;
 export class MatchViewer extends React.Component<MatchViewerProps, State> {
     private readonly gameForm = React.createRef<GameForm>();
 
+    /**
+     * A memoized stats calculator. This keeps the component interface correct -
+     * the component takes a GinMatch - while avoiding unnecessary recalculation
+     * when the match hasn't changed. The memoization is done per-instance so
+     * that multiple MatchViewers will never cause thrashing on every render.
+     */
+    private readonly computeStats = memoizeOne(reduceGamesToStats);
+
     constructor(props: MatchViewerProps) {
         super(props);
 
@@ -36,13 +47,17 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
     }
 
     public render(): React.ReactNode {
-        const { value, readOnly, ...props } = this.props;
+        const {
+            value: { player1Name, player2Name, ...value },
+            readOnly,
+            ...props
+        } = this.props;
+        const players = { player1Name, player2Name };
 
         const gameForm = (
             <GameForm
                 ref={this.gameForm}
-                player1Name={value.player1Name}
-                player2Name={value.player2Name}
+                {...players}
                 onSubmitGame={this.handleGameSubmit}
             />
         );
@@ -54,35 +69,32 @@ export class MatchViewer extends React.Component<MatchViewerProps, State> {
                 })}
             >
                 <MediaQuery minWidth={600}>
-                    <ScrollViewer>
+                    <ScrollViewer className="c-match-viewer__main">
                         <div className="c-match-viewer__sets">
                             {value.sets.map((s, i) => (
-                                <ScoreColumn
-                                    key={i}
-                                    player1Name={value.player1Name}
-                                    player2Name={value.player2Name}
-                                    value={s}
-                                />
+                                <ScoreColumn key={i} {...players} value={s} />
                             ))}
                         </div>
+                        <StatsViewer
+                            value={this.computeStats(value.games)}
+                            {...players}
+                        />
                     </ScrollViewer>
                 </MediaQuery>
                 <MediaQuery maxWidth={600}>
                     <ScrollViewer overflowX="hidden">
                         {value.sets.map((v, i) => (
-                            <SetView
-                                key={i}
-                                value={v}
-                                player1Name={value.player1Name}
-                                player2Name={value.player2Name}
-                            />
+                            <SetView key={i} value={v} {...players} />
                         ))}
+                        <StatsViewer
+                            value={this.computeStats(value.games)}
+                            {...players}
+                        />
                     </ScrollViewer>
                 </MediaQuery>
                 {value.finalResult && (
                     <MatchResultViewer
-                        player1Name={value.player1Name}
-                        player2Name={value.player2Name}
+                        {...players}
                         {...value.finalResult}
                         onNewMatch={props.onNewMatch}
                     />
