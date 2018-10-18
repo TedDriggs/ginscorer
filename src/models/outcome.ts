@@ -45,6 +45,7 @@ export interface GinSetResult {
 }
 
 export interface GinMatch extends PlayerNames {
+    games: Game[];
     sets: GinSet[];
     finalResult?: GinMatchResult;
 }
@@ -69,6 +70,7 @@ export const reduceGamesToMatch = (players: PlayerNames) => (
 
     return {
         ...players,
+        games,
         sets,
         finalResult,
     };
