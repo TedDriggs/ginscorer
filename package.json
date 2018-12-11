@@ -46,5 +46,11 @@
     "@types/react-responsive": "3.0.2",
     "@types/react-transition-group": "2.0.14",
     "typescript": "^3.0.3"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
