@@ -83,8 +83,8 @@ export const reduceGamesToMatch = (players: PlayerNames) => (
  */
 export const reduceGames = (games: Game[]): [GinSet, GinSet, GinSet] => {
     const [frame1, frame1End] = reduceSet(games);
-    const [frame2, frame2End] = reduceSet(games, 1, frame1End);
-    const [frame3] = reduceSet(games, 2, frame2End);
+    const [frame2, frame2End] = reduceSet(games, 1, [frame1End]);
+    const [frame3] = reduceSet(games, 2, [frame1End, frame2End]);
 
     return [frame1, frame2, frame3];
 };
@@ -105,7 +105,7 @@ export const isSetInProgress = (ginSet: GinSet): ginSet is GinSetInProgress =>
  * @param games A raw sequence of games
  * @param offset The 0-indexed frame number. In gin, a player's first win
  * is not propagated to frames 2 or 3.
- * @param prevEndIndex The index of the last game from the previous set.
+ * @param endIndices The index of the last game from the previous set.
  *
  * @return An array containing a gin set, and - if the set is finished - the
  * index of the last game processed.
@@ -113,7 +113,7 @@ export const isSetInProgress = (ginSet: GinSet): ginSet is GinSetInProgress =>
 const reduceSet = (
     games: Game[],
     offset: number = 0,
-    prevEndIndex?: number,
+    endIndices: (number | undefined)[] = [],
 ): [GinSet, number?] => {
     /**
      * Map of player ID to win count, adjusted for the frame entry requirement.
@@ -133,13 +133,17 @@ const reduceSet = (
     const setGames: GameInSet[] = [];
     const bonuses: Bonus[] = [];
 
+    endIndices.reverse();
+    let nextEnd = endIndices.pop();
+
     for (const [index, game] of games.entries()) {
-        // If we've passed the end of the previous set, then all wins
-        // going forward are eligible for this set. We represent this
-        // by zeroing out the win counters.
-        if (typeof prevEndIndex === 'number' && index === prevEndIndex + 1) {
-            wins[Player.One] = Math.max(wins[Player.One], 0);
-            wins[Player.Two] = Math.max(wins[Player.Two], 0);
+        console.info('set', offset, 'game', index, nextEnd, wins);
+        // If we've passed the end of a previous set, then we reduce the barrier
+        // to entry for the current set by 1 if the player is winless.
+        if (typeof nextEnd === 'number' && index >= nextEnd + 1) {
+            wins[Player.One] = Math.max(-1 * (endIndices.length), wins[Player.One]);
+            wins[Player.Two] = Math.max(-1 * (endIndices.length), wins[Player.Two]);
+            nextEnd = endIndices.pop();
         }
 
         // Increment win counter to maybe qualify for frame and to
