@@ -63,6 +63,7 @@ $backdrop-opacity: 1;
         margin-bottom: 10px;
         text-align: left;
         padding: 0;
+        padding-bottom: env(safe-area-inset-bottom);
         font-size: 18px;
         user-select: none;
 
