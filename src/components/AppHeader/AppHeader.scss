@@ -4,6 +4,7 @@
     height: 60px;
     display: flex;
     align-items: center;
+    padding-top: env(safe-area-inset-top);
     padding: 0 10px;
 
     h1 {
