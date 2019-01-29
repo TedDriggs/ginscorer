@@ -55,7 +55,7 @@ $backdrop-opacity: 1;
     }
 
     &__title {
-        height: $title-height;
+        height: calc(#{$title-height} + env(safe-area-inset-bottom));
         background-color: var(--primary-interaction-color);
         color: white;
         width: 100vw;
@@ -94,6 +94,7 @@ $backdrop-opacity: 1;
         }
 
         .c-drawer__title {
+            height: $title-height;
             background-color: white;
             color: black;
 
