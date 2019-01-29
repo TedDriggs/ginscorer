@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/ginscorer/static/js/runtime~main.4dbe57ff.js"
   },
   {
-    "revision": "240a62aa75530ef2d9e9",
-    "url": "/ginscorer/static/js/main.240a62aa.chunk.js"
+    "revision": "752a141b584f0bcb761e",
+    "url": "/ginscorer/static/js/main.752a141b.chunk.js"
   },
   {
     "revision": "5506a1c09c0f71386e29",
     "url": "/ginscorer/static/js/1.5506a1c0.chunk.js"
   },
   {
-    "revision": "240a62aa75530ef2d9e9",
-    "url": "/ginscorer/static/css/main.1c4dff0e.chunk.css"
+    "revision": "752a141b584f0bcb761e",
+    "url": "/ginscorer/static/css/main.540d3459.chunk.css"
   },
   {
-    "revision": "eea4b66b9c1a3eb95225fc900de342ba",
+    "revision": "15f5e51f82f1f21f3af35f2efa661cad",
     "url": "/ginscorer/index.html"
   }
 ];
