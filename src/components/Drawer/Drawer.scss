@@ -45,7 +45,9 @@ $backdrop-opacity: 1;
 
     // Show the title bar when one exists
     &--has-title {
-        transform: translateY(calc(100vh - #{$title-height}));
+        transform: translateY(
+            calc(100vh - #{$title-height} - env(safe-area-inset-bottom))
+        );
     }
 
     @media (max-height: #{$min-drawer-top * 10}) {

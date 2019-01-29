@@ -1,11 +1,13 @@
 .c-app-header {
     background-color: var(--accent1-color);
     color: white;
-    height: 60px;
+    height: calc(60px + env(safe-area-inset-top));
     display: flex;
     align-items: center;
     padding-top: env(safe-area-inset-top);
-    padding: 0 10px;
+    padding-left: calc(10px + env(safe-area-inset-left));
+    padding-right: calc(10px + env(safe-area-inset-right));
+    padding-bottom: 0;
 
     h1 {
         margin: 0;
