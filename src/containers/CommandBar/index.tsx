@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import { connect } from 'react-redux';
 import { Button } from 'src/components/Button';
+import { PlayerNames } from 'src/models';
 import { creators } from '../../Actions';
-import { PlayersForm, PlayersFormProps } from '../../components/PlayersForm';
+import { PlayersForm } from '../../components/PlayersForm';
 import { canUndoSelector, playerNameSelector } from '../../Reducer';
 import { State } from '../../State';
 
 interface StateProps {
-    playerNames: PlayersFormProps['value'];
+    playerNames: PlayerNames;
     canUndo: boolean;
 }
 
@@ -29,15 +30,15 @@ const mapDispatchToProps: DispatchProps = {
     onUndoGame: creators.UndoGame,
 };
 
-const DisconnectedCommandBar: React.SFC<StateProps & DispatchProps> = props => (
+const DisconnectedCommandBar: FC<StateProps & DispatchProps> = props => (
     <div className="c-command-bar">
         <Button onClick={props.onUndoGame} disabled={!props.canUndo}>
             Undo Last Game
         </Button>
         <Button onClick={props.onStartNewMatch}>New Match</Button>
         <PlayersForm
-            value={props.playerNames}
-            onPlayersSubmit={props.onRenamePlayers}
+            defaultValue={props.playerNames}
+            onSubmit={props.onRenamePlayers}
         />
     </div>
 );

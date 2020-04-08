@@ -1,10 +1,9 @@
-import * as React from 'react';
+import classNames from 'classnames';
+import React, { FC, useMemo, useRef, useState } from 'react';
 import MediaQuery from 'react-responsive';
 
-import * as classNames from 'classnames';
-import memoizeOne from 'memoize-one';
 import { reduceGamesToStats } from 'src/models/stats';
-import { Game, GinMatch, isGame } from '../../models';
+import { Game, GinMatch } from '../../models';
 import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
 import { Form } from '../Form';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
@@ -23,122 +22,91 @@ export interface MatchViewerProps {
     onNewMatch?(): void;
 }
 
-const INITIAL_STATE = {
-    drawerOpen: false,
-};
+export const MatchViewer: FC<MatchViewerProps> = ({
+    value: { player1Name, player2Name, ...value },
+    readOnly,
+    ...props
+}) => {
+    const gameFormRef = useRef<GameForm>(null);
+    const stats = useMemo(() => reduceGamesToStats(value.games), [value.games]);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-type State = typeof INITIAL_STATE;
+    const players = { player1Name, player2Name };
 
-export class MatchViewer extends React.Component<MatchViewerProps, State> {
-    private readonly gameForm = React.createRef<GameForm>();
+    const closeGameForm = (): void => {
+        setDrawerOpen(false);
+    };
 
-    /**
-     * A memoized stats calculator. This keeps the component interface correct -
-     * the component takes a GinMatch - while avoiding unnecessary recalculation
-     * when the match hasn't changed. The memoization is done per-instance so
-     * that multiple MatchViewers will never cause thrashing on every render.
-     */
-    private readonly computeStats = memoizeOne(reduceGamesToStats);
+    const gameForm = (
+        <GameForm
+            ref={gameFormRef}
+            {...players}
+            onSubmitGame={game => {
+                props.onSubmitGame?.(game);
+                closeGameForm();
+            }}
+        />
+    );
 
-    constructor(props: MatchViewerProps) {
-        super(props);
-
-        this.state = INITIAL_STATE;
-    }
-
-    public render(): React.ReactNode {
-        const {
-            value: { player1Name, player2Name, ...value },
-            readOnly,
-            ...props
-        } = this.props;
-        const players = { player1Name, player2Name };
-
-        const gameForm = (
-            <GameForm
-                ref={this.gameForm}
-                {...players}
-                onSubmitGame={this.handleGameSubmit}
-            />
-        );
-
-        return (
-            <div
-                className={classNames('c-match-viewer', {
-                    'c-match-viewer--finished': Boolean(value.finalResult),
-                })}
-            >
-                <MediaQuery minWidth={600}>
-                    <ScrollViewer className="c-match-viewer__main">
-                        <div className="c-match-viewer__sets">
-                            {value.sets.map((s, i) => (
-                                <ScoreColumn key={i} {...players} value={s} />
-                            ))}
-                        </div>
-                        <StatsViewer
-                            value={this.computeStats(value.games)}
-                            {...players}
-                        />
-                    </ScrollViewer>
-                </MediaQuery>
-                <MediaQuery maxWidth={600}>
-                    <ScrollViewer overflowX="hidden">
-                        {value.sets.map((v, i) => (
-                            <SetView key={i} value={v} {...players} />
+    return (
+        <div
+            className={classNames('c-match-viewer', {
+                'c-match-viewer--finished': Boolean(value.finalResult),
+            })}
+        >
+            <MediaQuery minWidth={600}>
+                <ScrollViewer className="c-match-viewer__main">
+                    <div className="c-match-viewer__sets">
+                        {value.sets.map((s, i) => (
+                            <ScoreColumn key={i} {...players} value={s} />
                         ))}
-                        <StatsViewer
-                            value={this.computeStats(value.games)}
-                            {...players}
-                        />
-                    </ScrollViewer>
-                </MediaQuery>
-                {value.finalResult && (
-                    <MatchResultViewer
-                        {...players}
-                        {...value.finalResult}
-                        onNewMatch={props.onNewMatch}
-                    />
-                )}
-                {!readOnly && (
-                    <>
-                        <MediaQuery maxWidth={1000}>
-                            <DrawerTitleSpacer />
-                            <Drawer
-                                open={this.state.drawerOpen}
-                                title="Add game"
-                                onTitleClick={this.handleGameFormOpen}
-                                onDismiss={this.closeGameForm}
-                                hideTitle={!!value.finalResult}
-                            >
-                                {gameForm}
-                            </Drawer>
-                        </MediaQuery>
-                        <MediaQuery minWidth={1000}>
-                            <div className="c-match-viewer__add-game">
-                                <h1>Add game</h1>
-                                {gameForm}
-                            </div>
-                        </MediaQuery>
-                    </>
-                )}
-            </div>
-        );
-    }
-
-    private readonly handleGameSubmit: MatchViewerProps['onSubmitGame'] = game => {
-        if (this.props.onSubmitGame) this.props.onSubmitGame(game);
-        this.closeGameForm();
-    };
-
-    private readonly closeGameForm = () => {
-        this.setState({ drawerOpen: false });
-    };
-
-    private readonly handleGameFormOpen = () => {
-        this.setState({ drawerOpen: true });
-        focusRef(this.gameForm);
-    };
-}
+                    </div>
+                    <StatsViewer value={stats} {...players} />
+                </ScrollViewer>
+            </MediaQuery>
+            <MediaQuery maxWidth={600}>
+                <ScrollViewer overflowX="hidden">
+                    {value.sets.map((v, i) => (
+                        <SetView key={i} value={v} {...players} />
+                    ))}
+                    <StatsViewer value={stats} {...players} />
+                </ScrollViewer>
+            </MediaQuery>
+            {value.finalResult && (
+                <MatchResultViewer
+                    {...players}
+                    {...value.finalResult}
+                    onNewMatch={props.onNewMatch}
+                />
+            )}
+            {!readOnly && (
+                <>
+                    <MediaQuery maxWidth={1000}>
+                        <DrawerTitleSpacer />
+                        <Drawer
+                            open={drawerOpen}
+                            title="Add game"
+                            onTitleClick={() => {
+                                setDrawerOpen(true);
+                                gameFormRef.current?.focus();
+                            }}
+                            onDismiss={closeGameForm}
+                            hideTitle={!!value.finalResult}
+                        >
+                            {gameForm}
+                        </Drawer>
+                    </MediaQuery>
+                    <MediaQuery minWidth={1000}>
+                        <div className="c-match-viewer__add-game">
+                            <h1>Add game</h1>
+                            {gameForm}
+                        </div>
+                    </MediaQuery>
+                </>
+            )}
+        </div>
+    );
+};
 
 type GameFormProps = Pick<MatchViewerProps, 'onSubmitGame'> &
     Pick<GameInputProps, 'player1Name' | 'player2Name' | 'disabled'>;
@@ -156,7 +124,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
             <Form
                 className="c-gameform"
                 onSubmit={this.handleSubmit}
-                disableSubmit={this.props.disabled || !isGame(this.state)}
+                disableSubmit={this.props.disabled || !Game.guard(this.state)}
                 submitLabel="Submit"
             >
                 <GameInput
@@ -180,7 +148,7 @@ class GameForm extends React.Component<GameFormProps, PartialGame> {
     private readonly handleSubmit = () => {
         // Don't allow submission of incomplete games
         // TODO show an error in this case
-        if (!isGame(this.state)) return;
+        if (!Game.guard(this.state)) return;
 
         if (this.props.onSubmitGame) this.props.onSubmitGame(this.state);
 

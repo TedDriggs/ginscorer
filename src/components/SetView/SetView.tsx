@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { GinSet, PlayerNames } from '../../models';
 import { ToggleDrawer } from '../Drawer';

@@ -39,12 +39,11 @@ export interface Game {
     gin: Gin;
 }
 
-/**
- * Checks if the value is a complete `Game` object.
- */
-export const isGame = (x: any): x is Game =>
-    typeof x === 'object' &&
-    typeof x.points === 'number' &&
-    typeof x.gin === 'string' &&
-    x.winner !== null &&
-    x.winner !== undefined;
+export const Game = {
+    guard: (x: any): x is Game =>
+        x.winner !== null &&
+        typeof x === 'object' &&
+        typeof x.points === 'number' &&
+        typeof x.gin === 'string' &&
+        x.winner !== undefined,
+};

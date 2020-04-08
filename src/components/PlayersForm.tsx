@@ -1,77 +1,54 @@
-import * as React from 'react';
+import React, { FC, useRef, useState } from 'react';
 
 import { PlayerNames } from '../models';
 import { Button } from './Button';
 import { Drawer } from './Drawer';
 import { Form } from './Form';
 import { PlayersInput } from './PlayersInput';
-import { focusRef } from './util/Ref';
+import { Focus } from './util/Focus';
 
 export interface PlayersFormProps {
     value: PlayerNames;
     onPlayersSubmit(players: PlayerNames): void;
 }
 
-interface PlayersFormState {
-    isRenaming: boolean;
-    value?: PlayerNames;
-}
+export const PlayersForm: FC<{
+    defaultValue: PlayerNames;
+    onSubmit(names: PlayerNames): void;
+}> = props => {
+    const [isRenaming, setRenaming] = useState(false);
+    const [value, setValue] = useState<PlayerNames | undefined>(undefined);
+    const button = useRef<Focus>(null);
+    const input = useRef<PlayersInput>(null);
 
-export class PlayersForm extends React.Component<
-    PlayersFormProps,
-    PlayersFormState
-> {
-    private readonly input = React.createRef<PlayersInput>();
-    private readonly button = React.createRef<Button>();
-
-    constructor(props: PlayersFormProps) {
-        super(props);
-        this.state = {
-            isRenaming: false,
-        };
-    }
-
-    public render(): React.ReactNode {
-        return (
-            <>
-                <Button ref={this.button} onClick={this.handleEditButtonClick}>
-                    Rename Players
-                </Button>
-                <Drawer
-                    open={this.state.isRenaming}
-                    onDismiss={this.stopRenaming}
-                    onEntered={this.handleDrawerEntered}
-                >
-                    <Form onSubmit={this.handleSubmit} submitLabel="Update">
-                        <PlayersInput
-                            ref={this.input}
-                            value={this.state.value || this.props.value}
-                            onChange={this.handleChange}
-                        />
-                    </Form>
-                </Drawer>
-            </>
-        );
-    }
-
-    private readonly handleEditButtonClick = () => {
-        this.setState({ isRenaming: true });
+    const stopRenaming = () => {
+        setRenaming(false);
+        setValue(undefined);
+        button.current?.focus();
     };
 
-    private readonly handleDrawerEntered = () => focusRef(this.input);
-
-    private readonly handleChange = (value: PlayersFormProps['value']) => {
-        this.setState({ value });
-    };
-
-    private readonly handleSubmit = () => {
-        if (!this.state.value) return;
-        this.props.onPlayersSubmit(this.state.value);
-        this.stopRenaming();
-    };
-
-    private readonly stopRenaming = () => {
-        this.setState({ isRenaming: false, value: undefined });
-        focusRef(this.button);
-    };
+    return (
+        <>
+            <Button ref={button} onClick={() => setRenaming(true)}>
+                Rename Players
+            </Button>
+            <Drawer
+                open={isRenaming}
+                onDismiss={stopRenaming}
+                onEntered={() => input.current?.focus()}
+            >
+                <Form onSubmit={() => {
+                    if (!value) return;
+                    props.onSubmit(value);
+                    stopRenaming();
+                }} submitLabel="Update">
+                    <PlayersInput
+                        ref={input}
+                        value={value ?? props.defaultValue}
+                        onChange={v => setValue(v)}
+                    />
+                </Form>
+            </Drawer>
+        </>
+    );
 }

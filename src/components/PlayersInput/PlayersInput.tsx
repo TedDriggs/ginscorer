@@ -1,17 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { PlayerNames } from '../../models';
 import { Input } from '../Input';
+import { Focus } from '../util/Focus';
 import { focusRef } from '../util/Ref';
 import './PlayersInput.css';
 
-export interface PlayersInputProps
-    extends ControlledInput<PlayerNames> {}
-
-export class PlayersInput extends React.Component<PlayersInputProps> {
+export class PlayersInput extends React.Component<
+    ControlledInput<PlayerNames>
+> {
     private readonly handleChange = makeFieldChangeHandler(this);
-    private readonly focusTarget = React.createRef<Input>();
+    private readonly focusTarget = React.createRef<Focus>();
 
     public render(): React.ReactNode {
         const { value, disabled } = this.props;

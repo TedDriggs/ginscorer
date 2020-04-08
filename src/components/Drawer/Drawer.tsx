@@ -1,11 +1,12 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
 
 import { Button } from '../Button';
 import { consumeEvent } from '../util/Event';
+import { Focus } from '../util/Focus';
 import { focusRef } from '../util/Ref';
 import './Drawer.css';
 
@@ -26,7 +27,7 @@ export interface DrawerProps {
 }
 
 export class Drawer extends React.Component<DrawerProps> {
-    private readonly titleButton = React.createRef<Button>();
+    private readonly titleButton = React.createRef<Focus>();
 
     public render(): React.ReactNode {
         const { props } = this;

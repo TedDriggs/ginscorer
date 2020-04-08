@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import {
     GinSet,
     isSetFinished,
@@ -16,7 +16,7 @@ export interface SetSummaryProps extends PlayerNames {
     onClick?(): void;
 }
 
-export const SetSummary: React.SFC<SetSummaryProps> = props => {
+export const SetSummary: FC<SetSummaryProps> = props => {
     const { value, ...outerProps } = props;
     // If a player has won the set, don't show loser's points
     if (isSetFinished(value)) {
@@ -57,7 +57,7 @@ export const SetSummary: React.SFC<SetSummaryProps> = props => {
 /**
  * Outer container element for the set summary.
  */
-const SetSummaryContainer: React.SFC<
+const SetSummaryContainer: FC<
     Pick<SetSummaryProps, 'className' | 'onClick'> & { finished?: boolean }
 > = ({ className, onClick, finished, children }) => (
     <div

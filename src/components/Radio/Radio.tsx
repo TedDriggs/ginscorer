@@ -1,5 +1,5 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
 import { focusRef, refChildHasFocus } from '../util/Ref';
 import './Radio.css';
@@ -60,8 +60,6 @@ export class Radio<T extends string | number = string> extends React.Component<
     private readonly handleFocusChange = () => this.forceUpdate();
 
     private readonly handleChange = () => {
-        if (this.props.onChange) {
-            this.props.onChange(this.props.value, this.props.name);
-        }
+        this.props.onChange?.(this.props.value, this.props.name);
     };
 }

@@ -1,39 +1,16 @@
-import * as React from 'react';
+import React, { FC, useState } from 'react';
 import { Drawer } from '.';
 
-export interface ToggleDrawerProps {
+export const ToggleDrawer: FC<{
     activator(props: { openDrawer(): void }): React.ReactNode;
-}
-
-const INITIAL_STATE = {
-    open: false,
+}> = ({ activator, children }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            {activator({ openDrawer: () => setOpen(true) })}
+            <Drawer open={open} onDismiss={() => setOpen(false)}>
+                {children}
+            </Drawer>
+        </>
+    );
 };
-
-type State = typeof INITIAL_STATE;
-
-export class ToggleDrawer extends React.Component<ToggleDrawerProps, State> {
-    constructor(props: ToggleDrawerProps) {
-        super(props);
-        this.state = INITIAL_STATE;
-    }
-
-    public render(): React.ReactNode {
-        const { activator, children } = this.props;
-        return (
-            <>
-                {activator({ openDrawer: this.openDrawer })}
-                <Drawer open={this.state.open} onDismiss={this.closeDrawer}>
-                    {children}
-                </Drawer>
-            </>
-        );
-    }
-
-    private readonly openDrawer = () => {
-        this.setState({ open: true });
-    };
-
-    private readonly closeDrawer = () => {
-        this.setState({ open: false });
-    };
-}
