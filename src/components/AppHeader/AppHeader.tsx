@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import './AppHeader.css';
 
-export interface AppHeaderProps {}
-
-export const AppHeader: React.SFC<AppHeaderProps> = props => (
+export const AppHeader: FC = () => (
     <header className="c-app-header">
         <h1>Gin Scorer</h1>
     </header>
