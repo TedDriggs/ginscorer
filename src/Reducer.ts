@@ -54,7 +54,7 @@ export const reducer: LoopReducer<State, Action> = (
     }
 };
 
-const persisted = (state: State): Loop<State, Action> =>
+const persisted = (state: State): Loop<State> =>
     loop(
         state,
         Cmd.run(persistState, {
