@@ -1,6 +1,22 @@
 .c-stats-viewer {
     padding: 0 10px;
     min-width: 200px;
+
+    &--grid {
+        table-layout: fixed;
+        width: 100%;
+        text-align: center;
+
+        thead {
+            font-size: 1.3rem;
+            font-weight: 700;
+
+            td {
+                white-space: nowrap;
+                text-overflow: clip;
+            }
+        }
+    }
 }
 
 .c-share-chart {

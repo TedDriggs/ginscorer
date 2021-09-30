@@ -7,49 +7,49 @@ import { PerPlayer, Stats } from 'src/models/stats';
 import { playerNameSelector } from 'src/Reducer';
 import './StatsViewer.css';
 
+type StatRowRenderer = <T extends unknown>(
+    title: ReactNode,
+    value: PerPlayer<T>,
+    formatter: (value: T) => ReactChild,
+) => ReactNode;
+
 export const StatsViewer: FC<{
     value: Stats;
-}> = ({ value, ...props }) => (
+    layout: 'grid' | 'stack';
+}> = ({ value, layout }) => {
+    switch (layout) {
+        case 'stack':
+            return <StatsStack value={value} />;
+        case 'grid':
+            return <StatsGrid value={value} />;
+    }
+};
+
+const StatsStack: FC<{ value: Stats }> = ({ value }) => (
     <div className="c-stats-viewer">
-        <ShareChart title="Wins" {...value.wins} formatter={identity} />
-        <ShareChart
-            title="Max Streak"
-            {...value.maxStreak}
-            formatter={identity}
-        />
-        <ShareChart
-            title="Mean PPG"
-            {...value.meanWinSize}
-            formatter={formatNumber}
-        />
-        <ShareChart
-            title="Biggest Win"
-            {...value.biggestWin}
-            formatter={identity}
-        />
-        <ShareChart
-            title="Gins"
-            {...value.ginGames}
-            formatter={formatGinCount}
-        />
+        {renderStats(
+            (title, v, formatter) => (
+                <StackRow title={title} value={v} formatter={formatter} />
+            ),
+            value,
+        )}
     </div>
 );
 
-const ShareChart = <T extends unknown>(
-    props: PerPlayer<T> & {
-        title: ReactNode;
-        formatter(value: T): ReactChild;
-    },
-): ReactElement => {
+const StackRow = <T extends unknown>(props: {
+    value: PerPlayer<T>;
+    title: ReactNode;
+    formatter(value: T): ReactChild;
+}): ReactElement => {
     const players = useSelector(playerNameSelector);
     return (
         <div className="c-share-chart">
             <h3>{props.title}</h3>
             {nameOfPlayer(players, Player.One)}:{' '}
-            {props.formatter(props[Player.One])}
+            {props.formatter(props.value[Player.One])}
             <br />
             {nameOfPlayer(players, Player.Two)}:{' '}
-            {props.formatter(props[Player.Two])}
+            {props.formatter(props.value[Player.Two])}
             <br />
         </div>
     );
@@ -78,3 +78,53 @@ const formatGinCount = (value: {
     else if (supers) return superSpan;
     else return 0;
 };
+
+const StatsGrid: FC<{ value: Stats }> = ({ value }) => {
+    const players = useSelector(playerNameSelector);
+
+    return (
+        <table className="c-stats-viewer c-stats-viewer--grid">
+            <thead>
+                <tr>
+                    <td>{nameOfPlayer(players, Player.One)}</td>
+                    <td></td>
+                    <td>{nameOfPlayer(players, Player.Two)}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {renderStats(
+                    (title, v, formatter) => (
+                        <StatsGridRow
+                            title={title}
+                            value={v}
+                            formatter={formatter}
+                        />
+                    ),
+                    value,
+                )}
+            </tbody>
+        </table>
+    );
+};
+
+const StatsGridRow = <T extends unknown>(props: {
+    value: PerPlayer<T>;
+    title: ReactNode;
+    formatter(value: T): ReactChild;
+}): ReactElement => (
+    <tr>
+        <td>{props.formatter(props.value[Player.One])}</td>
+        <td>{props.title}</td>
+        <td>{props.formatter(props.value[Player.Two])}</td>
+    </tr>
+);
+
+const renderStats = (row: StatRowRenderer, value: Stats): ReactNode => (
+    <>
+        {row('Wins', value.wins, identity)}
+        {row('Max Streak', value.maxStreak, identity)}
+        {row('Mean PPG', value.meanWinSize, formatNumber)}
+        {row('Biggest Win', value.biggestWin, identity)}
+        {row('Gins', value.ginGames, formatGinCount)}
+    </>
+);
