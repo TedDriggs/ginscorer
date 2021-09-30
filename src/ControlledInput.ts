@@ -9,20 +9,20 @@ export interface ControlledInput<T> {
     onChange: ChangeHandler<T>;
 }
 
-export const makeFieldChangeHandler = <T extends {}>(
-    c: Component<ControlledInput<T>>,
-) => (newVal: T[keyof T], fieldName: keyof T): void => {
-    const { value, onChange, disabled, name } = c.props;
+export const makeFieldChangeHandler =
+    <T extends {}>(c: Component<ControlledInput<T>>) =>
+    (newVal: T[keyof T], fieldName: keyof T): void => {
+        const { value, onChange, disabled, name } = c.props;
 
-    if (disabled) return;
+        if (disabled) return;
 
-    if (onChange) {
-        onChange(
-            {
-                ...(value as any),
-                [fieldName]: newVal,
-            },
-            name,
-        );
-    }
-};
+        if (onChange) {
+            onChange(
+                {
+                    ...(value as any),
+                    [fieldName]: newVal,
+                },
+                name,
+            );
+        }
+    };

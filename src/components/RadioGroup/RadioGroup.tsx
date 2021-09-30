@@ -23,7 +23,7 @@ export interface RadioGroupProps<T extends string | number = string>
 
 /** A set of radio buttons */
 export class RadioGroup<
-    T extends string | number = string
+    T extends string | number = string,
 > extends React.Component<RadioGroupProps<T>> {
     private readonly first = React.createRef<Radio<T>>();
 

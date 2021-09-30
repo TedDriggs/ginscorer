@@ -6,4 +6,4 @@ export interface ConsumableEvent {
 export const consumeEvent = (e: ConsumableEvent) => {
     e.stopPropagation();
     e.preventDefault();
-}
+};

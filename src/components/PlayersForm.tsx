@@ -37,11 +37,14 @@ export const PlayersForm: FC<{
                 onDismiss={stopRenaming}
                 onEntered={() => input.current?.focus()}
             >
-                <Form onSubmit={() => {
-                    if (!value) return;
-                    props.onSubmit(value);
-                    stopRenaming();
-                }} submitLabel="Update">
+                <Form
+                    onSubmit={() => {
+                        if (!value) return;
+                        props.onSubmit(value);
+                        stopRenaming();
+                    }}
+                    submitLabel="Update"
+                >
                     <PlayersInput
                         ref={input}
                         value={value ?? props.defaultValue}
@@ -51,4 +54,4 @@ export const PlayersForm: FC<{
             </Drawer>
         </>
     );
-}
+};

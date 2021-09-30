@@ -26,7 +26,7 @@
 .c-bonusrow > * {
     display: table-cell;
     width: 7em;
-    padding: .15em;
+    padding: 0.15em;
 }
 
 .c-scorerow > :first-child,
@@ -42,6 +42,6 @@
     display: inline-block;
     text-overflow: clip;
     white-space: nowrap;
-    font-size: .8em;
+    font-size: 0.8em;
     margin-left: 5px;
 }

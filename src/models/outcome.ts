@@ -60,21 +60,21 @@ export interface GinMatchResult {
     points: number;
 }
 
-export const reduceGamesToMatch = (players: PlayerNames) => (
-    games: Game[],
-): GinMatch => {
-    const sets = reduceGames(games);
-    const finalResult = sets.every(isSetFinished)
-        ? computeMatchResult(sets, games)
-        : undefined;
+export const reduceGamesToMatch =
+    (players: PlayerNames) =>
+    (games: Game[]): GinMatch => {
+        const sets = reduceGames(games);
+        const finalResult = sets.every(isSetFinished)
+            ? computeMatchResult(sets, games)
+            : undefined;
 
-    return {
-        ...players,
-        games,
-        sets,
-        finalResult,
+        return {
+            ...players,
+            games,
+            sets,
+            finalResult,
+        };
     };
-};
 
 /**
  * Reduce a sequence of games into three sets.
@@ -141,8 +141,14 @@ const reduceSet = (
         // If we've passed the end of a previous set, then we reduce the barrier
         // to entry for the current set by 1 if the player is winless.
         if (typeof nextEnd === 'number' && index >= nextEnd + 1) {
-            wins[Player.One] = Math.max(-1 * (endIndices.length), wins[Player.One]);
-            wins[Player.Two] = Math.max(-1 * (endIndices.length), wins[Player.Two]);
+            wins[Player.One] = Math.max(
+                -1 * endIndices.length,
+                wins[Player.One],
+            );
+            wins[Player.Two] = Math.max(
+                -1 * endIndices.length,
+                wins[Player.Two],
+            );
             nextEnd = endIndices.pop();
         }
 
@@ -262,8 +268,10 @@ const ginBonus = (gin: Gin): number => {
     }
 };
 
-const wonBy = (player: Player) => (game: Game): boolean =>
-    game.winner === player;
+const wonBy =
+    (player: Player) =>
+    (game: Game): boolean =>
+        game.winner === player;
 
 const computeMatchResult = (sets: GinSet[], games: Game[]): GinMatchResult => {
     const scores = {
