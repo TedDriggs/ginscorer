@@ -32,7 +32,7 @@ export interface GameInputProps extends ControlledInput<PartialGame> {
 }
 
 export class GameInput extends React.Component<GameInputProps> {
-    private readonly focusTarget = React.createRef<RadioGroup<any>>();
+    private readonly focusTarget = React.createRef<RadioGroup<Player>>();
     private readonly handleChange = makeFieldChangeHandler(this);
 
     public render(): React.ReactNode {
