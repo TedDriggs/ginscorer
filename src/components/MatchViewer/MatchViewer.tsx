@@ -61,7 +61,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                             <ScoreColumn key={i} {...players} value={s} />
                         ))}
                     </div>
-                    <StatsViewer value={stats} {...players} />
+                    <StatsViewer value={stats} />
                 </ScrollViewer>
             </MediaQuery>
             <MediaQuery maxWidth={600}>
@@ -69,7 +69,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                     {value.sets.map((v, i) => (
                         <SetView key={i} value={v} {...players} />
                     ))}
-                    <StatsViewer value={stats} {...players} />
+                    <StatsViewer value={stats} />
                 </ScrollViewer>
             </MediaQuery>
             {value.finalResult && (
