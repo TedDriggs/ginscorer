@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
@@ -12,7 +12,7 @@ import './Drawer.css';
 
 const TRANSITION_TIMEOUT_MS = 125;
 
-export interface DrawerProps {
+export const Drawer: FC<{
     open?: boolean;
     hideTitle?: boolean;
     title?: string;
@@ -24,90 +24,76 @@ export interface DrawerProps {
      * the drawer.
      */
     onDismiss?(): void;
-}
-
-export class Drawer extends React.Component<DrawerProps> {
-    private readonly titleButton = React.createRef<Focus>();
-
-    public render(): React.ReactNode {
-        const { props } = this;
-
-        return createPortal(
-            <>
-                <CSSTransition
-                    in={props.open}
-                    timeout={TRANSITION_TIMEOUT_MS}
-                    classNames="c-drawer__backdrop"
-                    appear
-                    mountOnEnter
-                    unmountOnExit
-                >
-                    <div
-                        onClick={this.handleBackdropClick}
-                        className="c-drawer__backdrop"
-                    />
-                </CSSTransition>
-                <CSSTransition
-                    in={props.open}
-                    classNames="c-drawer"
-                    timeout={TRANSITION_TIMEOUT_MS}
-                    onExit={this.handleExit}
-                    onEntered={props.onEntered}
-                    appear
-                >
-                    <div
-                        className={classNames('c-drawer', {
-                            'c-drawer--has-title':
-                                Boolean(props.title) && !props.hideTitle,
-                        })}
-                        onKeyDown={this.handleKeyDown}
-                        role="dialog"
-                    >
-                        {props.title && (
-                            <Button
-                                ref={this.titleButton}
-                                className="c-drawer__title"
-                                onClick={props.onTitleClick}
-                            >
-                                <span className="c-drawer__title__text">
-                                    {props.title}
-                                </span>
-                            </Button>
-                        )}
-                        <Transition
-                            in={props.open}
-                            timeout={TRANSITION_TIMEOUT_MS}
-                            appear
-                            mountOnEnter
-                            unmountOnExit
-                        >
-                            {props.children}
-                        </Transition>
-                    </div>
-                </CSSTransition>
-            </>,
-            document.body,
-        );
-    }
-
-    private readonly handleBackdropClick = (e: React.MouseEvent<any>) => {
-        if (e.button || !this.props.onDismiss) return;
-        this.props.onDismiss();
-    };
-
-    private readonly handleKeyDown = (e: React.KeyboardEvent<any>) => {
-        const { onDismiss } = this.props;
-
-        if (onDismiss && e.key === Key.Escape) {
+}> = props => {
+    const titleButton = useRef<Focus>(null);
+    const handleKeyDown = (e: React.KeyboardEvent<unknown>): void => {
+        if (e.key === Key.Escape && props.onDismiss) {
             consumeEvent(e);
-            onDismiss();
+            props.onDismiss();
         }
     };
 
-    private readonly handleExit = () => {
-        focusRef(this.titleButton);
-    };
-}
+    return createPortal(
+        <>
+            <CSSTransition
+                in={props.open}
+                timeout={TRANSITION_TIMEOUT_MS}
+                classNames="c-drawer__backdrop"
+                appear
+                mountOnEnter
+                unmountOnExit
+            >
+                <div
+                    onClick={e => {
+                        // only consider primary clicks
+                        if (e.button !== 0) return;
+                        props.onDismiss?.();
+                    }}
+                    className="c-drawer__backdrop"
+                />
+            </CSSTransition>
+            <CSSTransition
+                in={props.open}
+                classNames="c-drawer"
+                timeout={TRANSITION_TIMEOUT_MS}
+                onExit={() => focusRef(titleButton)}
+                onEntered={props.onEntered}
+                appear
+            >
+                <div
+                    className={classNames('c-drawer', {
+                        'c-drawer--has-title':
+                            Boolean(props.title) && !props.hideTitle,
+                    })}
+                    onKeyDown={handleKeyDown}
+                    role="dialog"
+                >
+                    {props.title && (
+                        <Button
+                            ref={titleButton}
+                            className="c-drawer__title"
+                            onClick={props.onTitleClick}
+                        >
+                            <span className="c-drawer__title__text">
+                                {props.title}
+                            </span>
+                        </Button>
+                    )}
+                    <Transition
+                        in={props.open}
+                        timeout={TRANSITION_TIMEOUT_MS}
+                        appear
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        {props.children}
+                    </Transition>
+                </div>
+            </CSSTransition>
+        </>,
+        document.body,
+    );
+};
 
 /**
  * Placeholder element which can be used to make sure scrolling content isn't
