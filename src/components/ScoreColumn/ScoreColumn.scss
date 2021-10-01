@@ -29,6 +29,11 @@
     padding: 0.15em;
 }
 
+.c-scorerow__winner__gin__star {
+    display: inline-block;
+    transform: scale(0.75);
+}
+
 .c-scorerow > :first-child,
 .c-bonusrow > :first-child {
     border-right: 1px solid;

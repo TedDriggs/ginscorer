@@ -33,8 +33,13 @@ const ScoreRow: React.SFC<GameInSet> = ({ winner, gin, runningTotal }) => {
     const winnerCell = (
         <div className="c-scorerow__winner" data-gin={gin} key="winner">
             {runningTotal}
-            {gin === Gin.Normal && '*'}
-            {gin === Gin.Super && '**'}
+            {gin !== Gin.None && (
+                <span className="c-scorerow__winner__gin__star">
+                    {' '}
+                    {gin === Gin.Normal && '★'}
+                    {gin === Gin.Super && '★★'}
+                </span>
+            )}
         </div>
     );
     const loserCell = <div className="c-scorerow__loser" key="loser" />;
