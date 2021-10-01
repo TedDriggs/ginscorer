@@ -24,7 +24,7 @@ export const ScoreColumn: FC<
     </div>
 );
 
-const ScoreRow: React.SFC<GameInSet> = ({ winner, gin, runningTotal }) => {
+const ScoreRow: FC<GameInSet> = ({ winner, gin, runningTotal }) => {
     const winnerCell = (
         <div className="c-scorerow__winner" data-gin={gin} key="winner">
             {runningTotal}
@@ -48,7 +48,7 @@ const ScoreRow: React.SFC<GameInSet> = ({ winner, gin, runningTotal }) => {
     );
 };
 
-const BonusRow: React.SFC<Bonus & { isFirst?: boolean }> = props => {
+const BonusRow: FC<Bonus & { isFirst?: boolean }> = props => {
     const bonusCell = (
         <div className="c-bonusrow__recipient" key="winner">
             <span className="c-bonusrow__points">{props.points}</span>

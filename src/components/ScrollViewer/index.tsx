@@ -1,15 +1,13 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { FC } from 'react';
 
 import './ScrollViewer.css';
 
-export interface ScrollViewerProps {
+export const ScrollViewer: FC<{
     className?: string;
     overflowX?: 'hidden' | 'auto';
     overflowY?: 'hidden' | 'auto';
-}
-
-export const ScrollViewer: React.SFC<ScrollViewerProps> = ({
+}> = ({
     className,
     children,
     overflowX = 'auto' as 'auto',

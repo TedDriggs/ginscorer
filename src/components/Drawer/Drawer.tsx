@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { FC } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
@@ -113,6 +113,6 @@ export class Drawer extends React.Component<DrawerProps> {
  * Placeholder element which can be used to make sure scrolling content isn't
  * hidden by the drawer title.
  */
-export const DrawerTitleSpacer: React.SFC = () => (
+export const DrawerTitleSpacer: FC = () => (
     <div className="c-drawer-title-placeholder" />
 );
