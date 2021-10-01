@@ -4,11 +4,6 @@ import classNames from 'classnames';
 import { Bonus, GameInSet, Gin, GinSet, Player, PlayerNames } from 'src/models';
 import './ScoreColumn.css';
 
-export interface ScoreColumnProps extends PlayerNames {
-    className?: string;
-    value: GinSet;
-}
-
 export const ScoreColumn: FC<
     PlayerNames & {
         className?: string;
