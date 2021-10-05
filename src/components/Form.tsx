@@ -23,7 +23,7 @@ export const Form: FC<{
     >
         {props.children}
         {props.submitLabel && (
-            <Button disabled={props.disableSubmit} type="submit">
+            <Button primary disabled={props.disableSubmit} type="submit">
                 {props.submitLabel}
             </Button>
         )}
