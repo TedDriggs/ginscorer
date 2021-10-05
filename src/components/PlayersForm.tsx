@@ -33,11 +33,13 @@ export const PlayersForm: FC<{
                 Rename Players
             </Button>
             <Drawer
+                title={isRenaming ? 'Rename Players' : undefined}
                 open={isRenaming}
                 onDismiss={stopRenaming}
                 onEntered={() => input.current?.focus()}
             >
                 <Form
+                    style={{ marginLeft: 10 }}
                     onSubmit={() => {
                         if (!value) return;
                         props.onSubmit(value);

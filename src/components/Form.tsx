@@ -9,11 +9,13 @@ import { consumeEvent } from './util/Event';
  */
 export const Form: FC<{
     className?: string;
+    style?: React.CSSProperties;
     disableSubmit?: boolean;
     submitLabel?: React.ReactNode;
     onSubmit(): void;
 }> = props => (
     <form
+        style={props.style}
         className={props.className}
         onSubmit={e => {
             consumeEvent(e);
