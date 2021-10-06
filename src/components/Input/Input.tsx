@@ -10,7 +10,10 @@ export const Input = React.forwardRef<
     ControlledInput<string> & {
         className?: string;
         label?: string;
-    }
+    } & Pick<
+            React.InputHTMLAttributes<HTMLInputElement>,
+            'required' | 'maxLength'
+        >
 >(({ onChange, label, className, ...props }, ref) => (
     <label className={classNames('c-input', className)}>
         {label && <div className="c-input-label">{label}</div>}

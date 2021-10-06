@@ -25,6 +25,7 @@ export class PlayersInput extends React.Component<
                     disabled={disabled}
                     onChange={this.handleChange}
                     required
+                    maxLength={15}
                 />
                 <Input
                     label="Player 2"
@@ -33,6 +34,7 @@ export class PlayersInput extends React.Component<
                     disabled={disabled}
                     onChange={this.handleChange}
                     required
+                    maxLength={15}
                 />
             </div>
         );
