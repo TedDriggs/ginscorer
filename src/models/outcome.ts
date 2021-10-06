@@ -137,7 +137,6 @@ const reduceSet = (
     let nextEnd = endIndices.pop();
 
     for (const [index, game] of games.entries()) {
-        console.info('set', offset, 'game', index, nextEnd, wins);
         // If we've passed the end of a previous set, then we reduce the barrier
         // to entry for the current set by 1 if the player is winless.
         if (typeof nextEnd === 'number' && index >= nextEnd + 1) {
