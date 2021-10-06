@@ -11,13 +11,13 @@ export const Button = React.forwardRef<
         primary?: boolean;
         onClick?(): void;
     }
->((props, ref) => (
+>(({ primary, ...props }, ref) => (
     <button
         {...props}
         ref={ref as any}
         className={classNames(
             'c-button',
-            props.primary && 'c-button--primary',
+            primary && 'c-button--primary',
             props.className,
         )}
         onClick={e => {
