@@ -61,7 +61,11 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                             <ScoreColumn key={i} {...players} value={s} />
                         ))}
                     </div>
-                    <StatsViewer value={stats} layout="stack" />
+                    <StatsViewer
+                        layout="stack"
+                        value={stats}
+                        showDealer={!value.finalResult}
+                    />
                 </ScrollViewer>
             </MediaQuery>
             <MediaQuery maxWidth={600}>
@@ -69,7 +73,11 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                     {value.sets.map((v, i) => (
                         <SetView key={i} value={v} {...players} />
                     ))}
-                    <StatsViewer value={stats} layout="grid" />
+                    <StatsViewer
+                        layout="grid"
+                        value={stats}
+                        showDealer={!value.finalResult}
+                    />
                 </ScrollViewer>
             </MediaQuery>
             {value.finalResult && (

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { Gin, nameOfPlayer, Player } from 'src/models';
 import { PerPlayer, Stats } from 'src/models/stats';
-import { playerNameSelector } from 'src/Reducer';
+import { dealerSelector, playerNameSelector } from 'src/Reducer';
 import './StatsViewer.css';
 
 type StatRowRenderer = <T extends unknown>(
@@ -15,23 +15,39 @@ type StatRowRenderer = <T extends unknown>(
 
 export const StatsViewer: FC<{
     value: Stats;
+    showDealer: boolean;
     layout: 'grid' | 'stack';
-}> = ({ value, layout }) => {
+}> = ({ layout, value, showDealer }) => {
+    const dealer = useSelector(dealerSelector);
     switch (layout) {
         case 'stack':
-            return <StatsStack value={value} />;
+            return (
+                <StatsStack
+                    value={value}
+                    dealer={showDealer ? dealer : undefined}
+                />
+            );
         case 'grid':
-            return <StatsGrid value={value} />;
+            return (
+                <StatsGrid
+                    value={value}
+                    dealer={showDealer ? dealer : undefined}
+                />
+            );
     }
 };
 
-const StatsStack: FC<{ value: Stats }> = ({ value }) => (
+const StatsStack: FC<{ value: Stats; dealer: Player | undefined }> = ({
+    value,
+    dealer,
+}) => (
     <div className="c-stats-viewer">
         {renderStats(
             (title, v, formatter) => (
                 <StackRow title={title} value={v} formatter={formatter} />
             ),
             value,
+            dealer,
         )}
     </div>
 );
@@ -79,7 +95,10 @@ const formatGinCount = (value: {
     else return 0;
 };
 
-const StatsGrid: FC<{ value: Stats }> = ({ value }) => {
+const StatsGrid: FC<{ value: Stats; dealer: Player | undefined }> = ({
+    value,
+    dealer,
+}) => {
     const players = useSelector(playerNameSelector);
 
     return (
@@ -101,6 +120,7 @@ const StatsGrid: FC<{ value: Stats }> = ({ value }) => {
                         />
                     ),
                     value,
+                    dealer,
                 )}
             </tbody>
         </table>
@@ -119,8 +139,14 @@ const StatsGridRow = <T extends unknown>(props: {
     </tr>
 );
 
-const renderStats = (row: StatRowRenderer, value: Stats): ReactNode => (
+const renderStats = (
+    row: StatRowRenderer,
+    value: Stats,
+    dealer: Player | undefined,
+): ReactNode => (
     <>
+        {dealer !== undefined &&
+            row('Dealer', dealerAsStat(dealer), dealerToken)}
         {row('Wins', value.wins, identity)}
         {row('Max Streak', value.maxStreak, identity)}
         {row('Mean PPG', value.meanWinSize, formatNumber)}
@@ -128,3 +154,10 @@ const renderStats = (row: StatRowRenderer, value: Stats): ReactNode => (
         {row('Gins', value.ginGames, formatGinCount)}
     </>
 );
+
+const dealerAsStat = (dealer: Player): PerPlayer<boolean> => ({
+    [Player.One]: dealer === Player.One,
+    [Player.Two]: dealer === Player.Two,
+});
+
+const dealerToken = (isDealer: boolean): ReactChild => (isDealer ? '⚫️' : '');
