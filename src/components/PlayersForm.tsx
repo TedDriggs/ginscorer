@@ -39,19 +39,28 @@ export const PlayersForm: FC<{
                 onEntered={() => input.current?.focus()}
             >
                 <Form
-                    style={{ marginLeft: 10 }}
+                    style={{
+                        marginLeft: 10,
+                        marginRight: 10,
+                        maxWidth: '30em',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
                     onSubmit={() => {
                         if (!value) return;
                         props.onSubmit(value);
                         stopRenaming();
                     }}
-                    submitLabel="Update"
                 >
                     <PlayersInput
                         ref={input}
                         value={value ?? props.defaultValue}
                         onChange={v => setValue(v)}
                     />
+                    <div style={{ height: 20 }} />
+                    <Button primary type="submit">
+                        Update
+                    </Button>
                 </Form>
             </Drawer>
         </>
