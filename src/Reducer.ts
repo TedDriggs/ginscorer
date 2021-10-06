@@ -1,7 +1,7 @@
 import { Cmd, Loop, loop, LoopReducer } from 'redux-loop';
 import { Action } from './Actions';
 import { persistState } from './Effects';
-import { Game } from './models';
+import { Game, nameOfPlayer, otherPlayer, Player } from './models';
 import { State } from './State';
 
 export const gameSelector = (state: State): Game[] => state.games;
@@ -16,6 +16,12 @@ export const playerNameSelector = ({
 
 export const canUndoSelector = ({ games }: State): boolean =>
     Boolean(games.length);
+
+export const dealerSelector = ({ games, initialDealer }: State): Player =>
+    games.length % 2 === 0 ? initialDealer : otherPlayer(initialDealer);
+
+export const dealerNameSelector = (state: State): string =>
+    nameOfPlayer(state, dealerSelector(state));
 
 export const reducer: LoopReducer<State, Action> = (
     state: State,

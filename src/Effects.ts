@@ -1,4 +1,4 @@
-import { isState, State, STATE_VERSION } from './State';
+import { isState, State } from './State';
 
 const LOCAL_STORAGE_KEY = 'reduxState';
 
@@ -20,9 +20,12 @@ export const retrieveState = (): State | undefined => {
     try {
         const parsed = JSON.parse(raw);
         if (!isState(parsed)) return;
-        if (parsed.version !== STATE_VERSION) return;
-
-        return parsed;
+        try {
+            return State.modernize(parsed);
+        } catch (e) {
+            console.error(e);
+            return;
+        }
     } catch (e) {
         console.error('Could not read state as JSON', e);
         return;
