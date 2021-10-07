@@ -10,11 +10,12 @@
         thead {
             font-size: 1.3rem;
             font-weight: 700;
+        }
 
-            td {
-                white-space: nowrap;
-                text-overflow: clip;
-            }
+        &__player {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
         }
     }
 }
@@ -22,5 +23,37 @@
 .c-share-chart {
     h3 {
         margin-bottom: 0.3em;
+    }
+}
+
+.c-dealer-token {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 10px;
+    padding: 0 5px;
+    white-space: nowrap;
+
+    background-color: lightgray;
+    border-radius: 10px;
+
+    transition: transform ease-in-out 0.25s;
+
+    &__arrow {
+        transition: opacity ease-in-out 0.25s;
+    }
+
+    &--p1 {
+        transform: translate(-20px, 0);
+        .c-dealer-token__arrow--p2 {
+            opacity: 0;
+        }
+    }
+
+    &--p2 {
+        transform: translate(20px, 0);
+        .c-dealer-token__arrow--p1 {
+            opacity: 0;
+        }
     }
 }

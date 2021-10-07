@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { identity } from 'lodash';
 import React, { FC, ReactChild, ReactElement, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
@@ -40,17 +41,22 @@ export const StatsViewer: FC<{
 const StatsStack: FC<{ value: Stats; dealer: Player | undefined }> = ({
     value,
     dealer,
-}) => (
-    <div className="c-stats-viewer">
-        {renderStats(
-            (title, v, formatter) => (
-                <StackRow title={title} value={v} formatter={formatter} />
-            ),
-            value,
-            dealer,
-        )}
-    </div>
-);
+}) => {
+    const players = useSelector(playerNameSelector);
+    return (
+        <div className="c-stats-viewer">
+            {dealer !== undefined && (
+                <div>Dealer: {nameOfPlayer(players, dealer)}</div>
+            )}
+            {renderStats(
+                (title, v, formatter) => (
+                    <StackRow title={title} value={v} formatter={formatter} />
+                ),
+                value,
+            )}
+        </div>
+    );
+};
 
 const StackRow = <T extends unknown>(props: {
     value: PerPlayer<T>;
@@ -105,9 +111,17 @@ const StatsGrid: FC<{ value: Stats; dealer: Player | undefined }> = ({
         <table className="c-stats-viewer c-stats-viewer--grid">
             <thead>
                 <tr>
-                    <td>{nameOfPlayer(players, Player.One)}</td>
-                    <td></td>
-                    <td>{nameOfPlayer(players, Player.Two)}</td>
+                    <td className="c-stats-viewer--grid__player">
+                        {nameOfPlayer(players, Player.One)}
+                    </td>
+                    <td>
+                        {dealer !== undefined && (
+                            <DealerToken dealer={dealer} />
+                        )}
+                    </td>
+                    <td className="c-stats-viewer--grid__player">
+                        {nameOfPlayer(players, Player.Two)}
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -120,7 +134,6 @@ const StatsGrid: FC<{ value: Stats; dealer: Player | undefined }> = ({
                         />
                     ),
                     value,
-                    dealer,
                 )}
             </tbody>
         </table>
@@ -139,14 +152,8 @@ const StatsGridRow = <T extends unknown>(props: {
     </tr>
 );
 
-const renderStats = (
-    row: StatRowRenderer,
-    value: Stats,
-    dealer: Player | undefined,
-): ReactNode => (
+const renderStats = (row: StatRowRenderer, value: Stats): ReactNode => (
     <>
-        {dealer !== undefined &&
-            row('Dealer', dealerAsStat(dealer), dealerToken)}
         {row('Wins', value.wins, identity)}
         {row('Max Streak', value.maxStreak, identity)}
         {row('Mean PPG', value.meanWinSize, formatNumber)}
@@ -155,9 +162,22 @@ const renderStats = (
     </>
 );
 
-const dealerAsStat = (dealer: Player): PerPlayer<boolean> => ({
-    [Player.One]: dealer === Player.One,
-    [Player.Two]: dealer === Player.Two,
-});
-
-const dealerToken = (isDealer: boolean): ReactChild => (isDealer ? '⚫️' : '');
+/**
+ * Badge for the player who is currently the dealer in the stats grid.
+ */
+const DealerToken: FC<{ dealer: Player }> = ({ dealer }) => (
+    <div
+        className={classNames(
+            'c-dealer-token',
+            dealer === Player.One ? 'c-dealer-token--p1' : 'c-dealer-token--p2',
+        )}
+    >
+        <span className="c-dealer-token__arrow c-dealer-token__arrow--p1">
+            &#9664;
+        </span>{' '}
+        Dealer{' '}
+        <span className="c-dealer-token__arrow c-dealer-token__arrow--p2">
+            &#9654;
+        </span>
+    </div>
+);
