@@ -23,6 +23,9 @@ export const dealerSelector = ({ games, initialDealer }: State): Player =>
 export const dealerNameSelector = (state: State): string =>
     nameOfPlayer(state, dealerSelector(state));
 
+export const matchHasStartedSelector = (state: State): boolean =>
+    Boolean(state.games.length);
+
 export const reducer: LoopReducer<State, Action> = (
     state: State,
     action: Action,
@@ -52,6 +55,16 @@ export const reducer: LoopReducer<State, Action> = (
             return persisted({
                 ...state,
                 games: [],
+            });
+        }
+        case 'SetInitialDealer': {
+            // If the match is in progress, don't allow the initial dealer to
+            // change.
+            if (state.games.length) return state;
+
+            return persisted({
+                ...state,
+                initialDealer: action.dealer,
             });
         }
         default: {

@@ -1,11 +1,17 @@
 import classNames from 'classnames';
 import { identity } from 'lodash';
 import React, { FC, ReactChild, ReactElement, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Action, creators } from 'src/Actions';
 
-import { Gin, nameOfPlayer, Player } from 'src/models';
+import { Gin, nameOfPlayer, otherPlayer, Player } from 'src/models';
 import { PerPlayer, Stats } from 'src/models/stats';
-import { dealerSelector, playerNameSelector } from 'src/Reducer';
+import {
+    dealerSelector,
+    matchHasStartedSelector,
+    playerNameSelector,
+} from 'src/Reducer';
 import './StatsViewer.css';
 
 type StatRowRenderer = <T extends unknown>(
@@ -165,19 +171,33 @@ const renderStats = (row: StatRowRenderer, value: Stats): ReactNode => (
 /**
  * Badge for the player who is currently the dealer in the stats grid.
  */
-const DealerToken: FC<{ dealer: Player }> = ({ dealer }) => (
-    <div
-        className={classNames(
-            'c-dealer-token',
-            dealer === Player.One ? 'c-dealer-token--p1' : 'c-dealer-token--p2',
-        )}
-    >
-        <span className="c-dealer-token__arrow c-dealer-token__arrow--p1">
-            &#9664;
-        </span>{' '}
-        Dealer{' '}
-        <span className="c-dealer-token__arrow c-dealer-token__arrow--p2">
-            &#9654;
-        </span>
-    </div>
-);
+const DealerToken: FC<{ dealer: Player }> = ({ dealer }) => {
+    const hasMatchStarted = useSelector(matchHasStartedSelector);
+    const dispatch = useDispatch<Dispatch<Action>>();
+    return (
+        <div
+            className={classNames(
+                'c-dealer-token',
+                dealer === Player.One
+                    ? 'c-dealer-token--p1'
+                    : 'c-dealer-token--p2',
+            )}
+            onClick={
+                hasMatchStarted
+                    ? undefined
+                    : () =>
+                          dispatch(
+                              creators.SetInitialDealer(otherPlayer(dealer)),
+                          )
+            }
+        >
+            <span className="c-dealer-token__arrow c-dealer-token__arrow--p1">
+                &#9664;
+            </span>{' '}
+            Dealer{' '}
+            <span className="c-dealer-token__arrow c-dealer-token__arrow--p2">
+                &#9654;
+            </span>
+        </div>
+    );
+};
