@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "7b807e768eaec1ad7e5e",
+    "revision": "3c6d6c68b42ccf516b13",
     "url": "/ginscorer/static/css/main.8dec8ed3.chunk.css"
   },
   {
-    "revision": "7b807e768eaec1ad7e5e",
-    "url": "/ginscorer/static/js/main.7b807e76.chunk.js"
+    "revision": "3c6d6c68b42ccf516b13",
+    "url": "/ginscorer/static/js/main.3c6d6c68.chunk.js"
   },
   {
     "revision": "19e9fcdb2cf6fe84a14f",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/ginscorer/static/js/runtime~main.4dbe57ff.js"
   },
   {
-    "revision": "cb94a9d253e7737e5e745b5470958dca",
+    "revision": "ce734c9303f794f336fc8720ec86dfbb",
     "url": "/ginscorer/index.html"
   }
 ];
