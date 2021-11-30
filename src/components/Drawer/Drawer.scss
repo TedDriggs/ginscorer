@@ -39,14 +39,19 @@ $backdrop-opacity: 1;
     left: 0;
     right: 0;
     transform: translateY(100vh);
-    height: 90vh;
+    height: calc(90vh);
     overflow-y: auto;
     background: white;
 
     // Show the title bar when one exists
     &--has-title {
+        // See Drawer.tsx for more information
+        --safari-correction: 0px;
+
         transform: translateY(
-            calc(100vh - #{$title-height} - env(safe-area-inset-bottom))
+            calc(
+                100vh - #{$title-height} - env(safe-area-inset-bottom) - var(--safari-correction)
+            )
         );
     }
 

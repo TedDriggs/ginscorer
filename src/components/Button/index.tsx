@@ -5,8 +5,13 @@ import { consumeEvent } from '../util/Event';
 
 import './Button.scss';
 
+export type ButtonRef = Pick<
+    HTMLButtonElement,
+    'getBoundingClientRect' | 'focus'
+>;
+
 export const Button = React.forwardRef<
-    { focus(): void },
+    ButtonRef,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
         primary?: boolean;
         /**

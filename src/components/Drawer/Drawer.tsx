@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import React, { FC, useRef } from 'react';
+import React, { FC, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
 
-import { Button } from '../Button';
+import { Button, ButtonRef } from '../Button';
 import { consumeEvent } from '../util/Event';
-import { Focus } from '../util/Focus';
 import { focusRef } from '../util/Ref';
 import './Drawer.css';
 
@@ -25,13 +24,28 @@ export const Drawer: FC<{
      */
     onDismiss?(): void;
 }> = props => {
-    const titleButton = useRef<Focus>(null);
+    const drawerElement = useRef<HTMLDivElement>(null);
+    const titleButton = useRef<ButtonRef>(null);
     const handleKeyDown = (e: React.KeyboardEvent<unknown>): void => {
         if (e.key === Key.Escape && props.onDismiss) {
             consumeEvent(e);
             props.onDismiss();
         }
     };
+
+    // Safari's address bar interacts frustratingly with the 100vh measurement
+    // used to anchor the drawer to the bottom of the screen. To avoid drawer
+    // buttons being drawn inaccessibly out of view, push the button in the
+    // closed state up by the amount it's out of frame.
+    useLayoutEffect(() => {
+        if (!titleButton.current) return;
+        const { bottom } = titleButton.current.getBoundingClientRect();
+        const bottomFix = Math.max(0, bottom - window.innerHeight);
+        drawerElement.current?.style.setProperty(
+            '--safari-correction',
+            `${bottomFix}px`,
+        );
+    }, [window.innerHeight]);
 
     return createPortal(
         <>
@@ -61,6 +75,7 @@ export const Drawer: FC<{
                 appear
             >
                 <div
+                    ref={drawerElement}
                     className={classNames('c-drawer', {
                         'c-drawer--has-title':
                             Boolean(props.title) && !props.hideTitle,
