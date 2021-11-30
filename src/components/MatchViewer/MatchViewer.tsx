@@ -1,5 +1,12 @@
 import classNames from 'classnames';
-import React, { FC, useMemo, useRef, useState } from 'react';
+import React, {
+    FC,
+    forwardRef,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import MediaQuery from 'react-responsive';
 
 import { reduceGamesToStats } from 'src/models/stats';
@@ -11,7 +18,7 @@ import { ScoreColumn } from '../ScoreColumn';
 import { ScrollViewer } from '../ScrollViewer';
 import { SetView } from '../SetView';
 import { StatsViewer } from '../StatsViewer';
-import { focusRef } from '../util/Ref';
+import { Focus } from '../util/Focus';
 import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.css';
 
@@ -27,7 +34,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
     readOnly,
     ...props
 }) => {
-    const gameFormRef = useRef<GameForm>(null);
+    const gameFormRef = useRef<Focus>(null);
     const stats = useMemo(() => reduceGamesToStats(value.games), [value.games]);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -119,50 +126,47 @@ export const MatchViewer: FC<MatchViewerProps> = ({
 type GameFormProps = Pick<MatchViewerProps, 'onSubmitGame'> &
     Pick<GameInputProps, 'player1Name' | 'player2Name' | 'disabled'>;
 
-class GameForm extends React.Component<GameFormProps, PartialGame> {
-    private readonly input = React.createRef<GameInput>();
+const GameForm = forwardRef<Focus, GameFormProps>((props, ref) => {
+    const input = useRef<GameInput>(null);
+    const [draft, setDraft] = useState(PartialGame.DEFAULT);
 
-    constructor(props: GameFormProps) {
-        super(props);
-        this.state = PartialGame.DEFAULT;
-    }
+    useImperativeHandle(
+        ref,
+        () => ({
+            focus: () => input.current?.focus(),
+        }),
+        [],
+    );
 
-    public render() {
-        return (
-            <Form
-                className="c-gameform"
-                onSubmit={this.handleSubmit}
-                disableSubmit={this.props.disabled || !Game.guard(this.state)}
-                submitLabel="Submit"
-            >
-                <GameInput
-                    ref={this.input}
-                    player1Name={this.props.player1Name}
-                    player2Name={this.props.player2Name}
-                    disabled={this.props.disabled}
-                    value={this.state}
-                    onChange={this.handleChange}
-                />
-            </Form>
-        );
-    }
+    return (
+        <Form
+            className="c-gameform"
+            onSubmit={(): void => {
+                // Don't allow submission of incomplete games
+                // TODO show an error in this case
+                if (!Game.guard(draft)) return;
 
-    public readonly focus = () => focusRef(this.input);
+                props.onSubmitGame?.(draft);
 
-    private readonly handleChange = (value: PartialGame) => {
-        this.setState(value);
-    };
+                // Wipe the state, so we're ready for the next game input.
+                setDraft(PartialGame.DEFAULT);
 
-    private readonly handleSubmit = () => {
-        // Don't allow submission of incomplete games
-        // TODO show an error in this case
-        if (!Game.guard(this.state)) return;
-
-        if (this.props.onSubmitGame) this.props.onSubmitGame(this.state);
-
-        // Wipe the state, so we're ready for the next game input.
-        this.setState(PartialGame.DEFAULT);
-
-        this.focus();
-    };
-}
+                // Move focus back to the top of the form after game entry so that,
+                // if the input form is persistently visible, we're prepared for the
+                // next game.
+                input.current?.focus();
+            }}
+            disableSubmit={props.disabled || !Game.guard(draft)}
+            submitLabel="Submit"
+        >
+            <GameInput
+                ref={input}
+                player1Name={props.player1Name}
+                player2Name={props.player2Name}
+                disabled={props.disabled}
+                value={draft}
+                onChange={v => setDraft(v)}
+            />
+        </Form>
+    );
+});
