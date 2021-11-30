@@ -192,12 +192,27 @@ const DealerToken: FC<{ dealer: Player }> = ({ dealer }) => {
             }
         >
             <span className="c-dealer-token__arrow c-dealer-token__arrow--p1">
-                &#9664;
+                <Arrow direction="left" />
             </span>{' '}
             Dealer{' '}
             <span className="c-dealer-token__arrow c-dealer-token__arrow--p2">
-                &#9654;
+                <Arrow direction="right" />
             </span>
         </div>
     );
 };
+
+/**
+ * Platform-agnostic sideways-pointing arrow. ▶️, the right-pointing triangle
+ * emoji, renders as a stylized play button on mobile operating systems which
+ * is undesirable.
+ */
+const Arrow: FC<{ direction: 'left' | 'right' }> = ({ direction }) => (
+    <svg viewBox="0 0 5 6" width={10} height={12}>
+        <path
+            d="M 0 0 L 5 3 L 0 6 Z"
+            fill="black"
+            transform={direction === 'left' ? 'rotate(180 2.5 3)' : undefined}
+        ></path>
+    </svg>
+);
