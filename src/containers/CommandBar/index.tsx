@@ -5,12 +5,17 @@ import { Button } from 'src/components/Button';
 import { PlayerNames } from 'src/models';
 import { creators } from '../../Actions';
 import { PlayersForm } from '../../components/PlayersForm';
-import { canUndoSelector, playerNameSelector } from '../../Reducer';
+import {
+    canUndoSelector,
+    matchHasStartedSelector,
+    playerNameSelector,
+} from '../../Reducer';
 import { State } from '../../State';
 
 interface StateProps {
     playerNames: PlayerNames;
     canUndo: boolean;
+    hasMatchStarted: boolean;
 }
 
 interface DispatchProps {
@@ -22,6 +27,7 @@ interface DispatchProps {
 const mapStateToProps = (state: State): StateProps => ({
     playerNames: playerNameSelector(state),
     canUndo: canUndoSelector(state),
+    hasMatchStarted: matchHasStartedSelector(state),
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -35,7 +41,13 @@ const DisconnectedCommandBar: FC<StateProps & DispatchProps> = props => (
         <Button onClick={props.onUndoGame} disabled={!props.canUndo}>
             Undo Last Game
         </Button>
-        <Button onClick={props.onStartNewMatch}>New Match</Button>
+        <Button
+            onClick={props.onStartNewMatch}
+            disabled={!props.hasMatchStarted}
+            confirmation="Are you sure you want to start a new match?"
+        >
+            New Match
+        </Button>
         <PlayersForm
             defaultValue={props.playerNames}
             onSubmit={props.onRenamePlayers}
