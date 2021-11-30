@@ -1,13 +1,13 @@
 {
   "main.css": "/ginscorer/static/css/main.c5adb90d.chunk.css",
-  "main.js": "/ginscorer/static/js/main.396c339d.chunk.js",
-  "main.js.map": "/ginscorer/static/js/main.396c339d.chunk.js.map",
+  "main.js": "/ginscorer/static/js/main.5468e2cc.chunk.js",
+  "main.js.map": "/ginscorer/static/js/main.5468e2cc.chunk.js.map",
   "static/js/1.19e9fcdb.chunk.js": "/ginscorer/static/js/1.19e9fcdb.chunk.js",
   "static/js/1.19e9fcdb.chunk.js.map": "/ginscorer/static/js/1.19e9fcdb.chunk.js.map",
   "runtime~main.js": "/ginscorer/static/js/runtime~main.4dbe57ff.js",
   "runtime~main.js.map": "/ginscorer/static/js/runtime~main.4dbe57ff.js.map",
   "static/css/main.c5adb90d.chunk.css.map": "/ginscorer/static/css/main.c5adb90d.chunk.css.map",
   "index.html": "/ginscorer/index.html",
-  "precache-manifest.9ca0e336dd0c326dcaf0d355100f971f.js": "/ginscorer/precache-manifest.9ca0e336dd0c326dcaf0d355100f971f.js",
+  "precache-manifest.b11763fa77bef7cd5b6f1238174e453e.js": "/ginscorer/precache-manifest.b11763fa77bef7cd5b6f1238174e453e.js",
   "service-worker.js": "/ginscorer/service-worker.js"
 }
