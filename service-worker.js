@@ -15,7 +15,7 @@ importScripts("/ginscorer/workbox-v3.6.3/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/ginscorer/workbox-v3.6.3"});
 
 importScripts(
-  "/ginscorer/precache-manifest.c645b0290805dfbba13f6cd45ea8d630.js"
+  "/ginscorer/precache-manifest.9ca0e336dd0c326dcaf0d355100f971f.js"
 );
 
 workbox.clientsClaim();
