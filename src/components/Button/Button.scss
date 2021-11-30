@@ -4,6 +4,8 @@
     border-style: solid;
     border-radius: 2px;
     border-color: rgb(118, 118, 118);
+    // min-height from Apple HIG
+    min-height: 30px;
 
     &--primary {
         background-color: var(--primary-interaction-color);
