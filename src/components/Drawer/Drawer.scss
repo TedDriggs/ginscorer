@@ -73,6 +73,7 @@ $backdrop-opacity: 1;
         padding-bottom: env(safe-area-inset-bottom);
         font-size: 18px;
         user-select: none;
+        border-radius: 0;
 
         transition: color $transition-duration ease-out,
             background-color $transition-duration ease-out;
