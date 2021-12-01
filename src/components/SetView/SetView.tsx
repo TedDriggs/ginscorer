@@ -1,4 +1,4 @@
-import React from 'react';
+import { PureComponent, ReactNode } from 'react';
 
 import { GinSet, PlayerNames } from '../../models';
 import { ToggleDrawer } from '../Drawer';
@@ -10,8 +10,8 @@ export interface SetViewProps extends PlayerNames {
     value: GinSet;
 }
 
-export class SetView extends React.PureComponent<SetViewProps> {
-    public render(): React.ReactNode {
+export class SetView extends PureComponent<SetViewProps> {
+    public render(): ReactNode {
         return (
             <ToggleDrawer
                 activator={({ openDrawer }) => (

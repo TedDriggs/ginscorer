@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component, createRef, ReactNode } from 'react';
 
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
@@ -31,11 +31,11 @@ export interface GameInputProps extends ControlledInput<PartialGame> {
     player2Name: string;
 }
 
-export class GameInput extends React.Component<GameInputProps> {
-    private readonly focusTarget = React.createRef<RadioGroup<Player>>();
+export class GameInput extends Component<GameInputProps> {
+    private readonly focusTarget = createRef<RadioGroup<Player>>();
     private readonly handleChange = makeFieldChangeHandler(this);
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { value, disabled, ...props } = this.props;
 
         return (

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AppHeader } from '../../components/AppHeader';
 import { CommandBar } from '../../containers/CommandBar';

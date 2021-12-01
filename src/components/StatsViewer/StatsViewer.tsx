@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { identity } from 'lodash';
-import React, { FC, ReactChild, ReactElement, ReactNode } from 'react';
+import { FC, ReactChild, ReactElement, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action, creators } from 'src/Actions';
