@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import { consumeEvent } from '../util/Event';
 
@@ -10,9 +10,9 @@ export type ButtonRef = Pick<
     'getBoundingClientRect' | 'focus'
 >;
 
-export const Button = React.forwardRef<
+export const Button = forwardRef<
     ButtonRef,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
         primary?: boolean;
         /**
          * When set to a non-empty string, a confirmation message to show to

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import { Component, createRef, ReactNode } from 'react';
 
 import { focusRef, refChildHasFocus } from '../util/Ref';
 import './Radio.css';
@@ -19,15 +19,15 @@ export interface RadioProps<T extends string | number = string> {
     onChange(newValue: T, name?: string): void;
 }
 
-export class Radio<T extends string | number = string> extends React.Component<
+export class Radio<T extends string | number = string> extends Component<
     RadioProps<T>
 > {
-    private readonly root = React.createRef<HTMLLabelElement>();
+    private readonly root = createRef<HTMLLabelElement>();
 
     // tslint:disable-next-line:member-ordering
     public readonly hasFocus = refChildHasFocus(this.root);
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { className, children, value, label, ...props } = this.props;
 
         return (

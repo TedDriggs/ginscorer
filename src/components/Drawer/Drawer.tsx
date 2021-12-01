@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC, useLayoutEffect, useRef } from 'react';
+import { FC, KeyboardEvent, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
@@ -26,7 +26,7 @@ export const Drawer: FC<{
 }> = props => {
     const drawerElement = useRef<HTMLDivElement>(null);
     const titleButton = useRef<ButtonRef>(null);
-    const handleKeyDown = (e: React.KeyboardEvent<unknown>): void => {
+    const handleKeyDown = (e: KeyboardEvent<unknown>): void => {
         if (e.key === Key.Escape && props.onDismiss) {
             consumeEvent(e);
             props.onDismiss();

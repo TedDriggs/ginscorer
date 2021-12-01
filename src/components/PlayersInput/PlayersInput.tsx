@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component, createRef, ReactNode } from 'react';
 
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { PlayerNames } from '../../models';
@@ -7,13 +7,11 @@ import { Focus } from '../util/Focus';
 import { focusRef } from '../util/Ref';
 import './PlayersInput.css';
 
-export class PlayersInput extends React.Component<
-    ControlledInput<PlayerNames>
-> {
+export class PlayersInput extends Component<ControlledInput<PlayerNames>> {
     private readonly handleChange = makeFieldChangeHandler(this);
-    private readonly focusTarget = React.createRef<Focus>();
+    private readonly focusTarget = createRef<Focus>();
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { value, disabled } = this.props;
         return (
             <div className="c-players-input">

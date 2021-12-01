@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { connect } from 'react-redux';
 import { Button } from 'src/components/Button';

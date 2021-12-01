@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
 import { PlayerNames } from '../models';
 import { Button, ButtonRef } from './Button';

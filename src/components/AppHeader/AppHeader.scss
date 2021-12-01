@@ -1,6 +1,6 @@
 .c-app-header {
     background-color: var(--accent1-color);
-    color: white;
+    color: var(--app-title-color);
     height: calc(60px + env(safe-area-inset-top));
     display: flex;
     align-items: center;
@@ -11,7 +11,6 @@
 
     h1 {
         margin: 0;
-        font-weight: 400;
-        font-family: Futura, -apple-system;
+        font-weight: 500;
     }
 }

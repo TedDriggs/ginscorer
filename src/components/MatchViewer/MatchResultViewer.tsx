@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { GinMatchResult, Player, PlayerNames } from 'src/models';
 import { Button } from '../Button';

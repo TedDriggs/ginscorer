@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-import { ControlledInput } from '../ControlledInput';
+import { ControlledInput } from '../../ControlledInput';
+import { BaseInput } from './Base';
 
 export interface NumberInputProps extends ControlledInput<number | null> {
     min?: number;
@@ -13,7 +14,7 @@ export interface NumberInputProps extends ControlledInput<number | null> {
 export const NumberInput: FC<NumberInputProps> = props => {
     const { value, className, ...rest } = props;
     return (
-        <input
+        <BaseInput
             {...rest}
             className={classNames('c-number-input', className)}
             type="number"
