@@ -10,7 +10,7 @@ import React, {
 import MediaQuery from 'react-responsive';
 
 import { reduceGamesToStats } from 'src/models/stats';
-import { Game, GinMatch } from '../../models';
+import { Game, GinMatch, PlayerNames } from '../../models';
 import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
 import { Form } from '../Form';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
@@ -23,6 +23,7 @@ import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.css';
 
 export interface MatchViewerProps {
+    players: PlayerNames;
     value: GinMatch;
     readOnly?: boolean;
     onSubmitGame?(game: Game): void;
@@ -30,15 +31,14 @@ export interface MatchViewerProps {
 }
 
 export const MatchViewer: FC<MatchViewerProps> = ({
-    value: { player1Name, player2Name, ...value },
+    players,
+    value,
     readOnly,
     ...props
 }) => {
     const gameFormRef = useRef<Focus>(null);
     const stats = useMemo(() => reduceGamesToStats(value.games), [value.games]);
     const [drawerOpen, setDrawerOpen] = useState(false);
-
-    const players = { player1Name, player2Name };
 
     const closeGameForm = (): void => {
         setDrawerOpen(false);

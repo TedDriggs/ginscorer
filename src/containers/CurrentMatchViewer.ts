@@ -7,17 +7,14 @@ import { reduceGamesToMatch } from '../models';
 import { gameSelector, playerNameSelector } from '../Reducer';
 import { State } from '../State';
 
-const matchSelector = createSelector(
-    gameSelector,
-    playerNameSelector,
-    (games, players) => reduceGamesToMatch(players)(games),
-);
+const matchSelector = createSelector(gameSelector, reduceGamesToMatch);
 
-type StateProps = Pick<MatchViewerProps, 'value'>;
+type StateProps = Pick<MatchViewerProps, 'value' | 'players'>;
 type DispatchProps = Pick<MatchViewerProps, 'onSubmitGame' | 'onNewMatch'>;
 
 const mapStateToProps = (state: State): StateProps => ({
     value: matchSelector(state),
+    players: playerNameSelector(state),
 });
 
 const mapDispatchToProps: DispatchProps = {

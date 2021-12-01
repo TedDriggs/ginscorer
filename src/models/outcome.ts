@@ -1,4 +1,4 @@
-import { Game, Gin, otherPlayer, Player, PlayerNames, PLAYERS } from '.';
+import { Game, Gin, otherPlayer, Player, PLAYERS } from '.';
 
 // Output models for showing the result of a match.
 
@@ -44,7 +44,7 @@ export interface GinSetResult {
     points: number;
 }
 
-export interface GinMatch extends PlayerNames {
+export interface GinMatch {
     games: Game[];
     sets: GinSet[];
     finalResult?: GinMatchResult;
@@ -60,21 +60,18 @@ export interface GinMatchResult {
     points: number;
 }
 
-export const reduceGamesToMatch =
-    (players: PlayerNames) =>
-    (games: Game[]): GinMatch => {
-        const sets = reduceGames(games);
-        const finalResult = sets.every(isSetFinished)
-            ? computeMatchResult(sets, games)
-            : undefined;
+export const reduceGamesToMatch = (games: Game[]): GinMatch => {
+    const sets = reduceGames(games);
+    const finalResult = sets.every(isSetFinished)
+        ? computeMatchResult(sets, games)
+        : undefined;
 
-        return {
-            ...players,
-            games,
-            sets,
-            finalResult,
-        };
+    return {
+        games,
+        sets,
+        finalResult,
     };
+};
 
 /**
  * Reduce a sequence of games into three sets.
