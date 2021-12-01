@@ -1,0 +1,15 @@
+import classNames from 'classnames';
+import React, { forwardRef, InputHTMLAttributes } from 'react';
+
+import './Input.css';
+
+export const BaseInput = forwardRef<
+    HTMLInputElement,
+    InputHTMLAttributes<HTMLInputElement>
+>((props, ref) => (
+    <input
+        ref={ref}
+        {...props}
+        className={classNames('c-base-input', props.className)}
+    />
+));

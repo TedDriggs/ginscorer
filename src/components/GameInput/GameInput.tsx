@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
-import { NumberInput } from '../NumberInput';
+import { NumberInput } from '../Input';
 import { RadioGroup } from '../RadioGroup';
 import { focusRef } from '../util/Ref';
 import './GameInput.css';

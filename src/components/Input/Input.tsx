@@ -3,6 +3,7 @@ import React from 'react';
 
 import { ControlledInput } from '../../ControlledInput';
 import { Focus } from '../util/Focus';
+import { BaseInput } from './Base';
 import './Input.css';
 
 export const Input = React.forwardRef<
@@ -17,7 +18,7 @@ export const Input = React.forwardRef<
 >(({ onChange, label, className, ...props }, ref) => (
     <label className={classNames('c-input', className)}>
         {label && <div className="c-input-label">{label}</div>}
-        <input
+        <BaseInput
             {...props}
             ref={ref as any}
             onChange={e => onChange(e.target.value, props.name)}

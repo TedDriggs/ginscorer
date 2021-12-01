@@ -1,13 +1,23 @@
 .c-input {
     display: block;
+}
 
-    input {
-        border: 1px solid lightgray;
-        outline: 1px solid transparent;
-        transition: outline-color 0.1s ease-out;
+.c-base-input {
+    --focus-shadow-color: transparent;
 
-        &:focus {
-            outline-color: navy;
-        }
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    box-shadow: 0 0 2px 3px var(--focus-shadow-color);
+
+    &:focus {
+        --focus-shadow-color: var(--focus-border-color);
+        outline: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        border-color: var(--dealer-token-background);
     }
 }

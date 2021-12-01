@@ -41,7 +41,7 @@ $backdrop-opacity: 1;
     transform: translateY(100vh);
     height: calc(90vh);
     overflow-y: auto;
-    background: white;
+    background: var(--background-color);
 
     // Show the title bar when one exists
     &--has-title {
@@ -87,6 +87,11 @@ $backdrop-opacity: 1;
         &:focus {
             outline: none;
         }
+
+        @media (prefers-color-scheme: dark) {
+            background-color: var(--input-background-color);
+            color: var(--primary-interaction-color);
+        }
     }
 
     &-enter-active,
@@ -102,8 +107,8 @@ $backdrop-opacity: 1;
         .c-drawer__title {
             height: $title-height;
             padding-bottom: 0;
-            background-color: white;
-            color: black;
+            background-color: var(--background-color);
+            color: var(--text-color);
 
             &__text {
                 transform: translateX(10px);

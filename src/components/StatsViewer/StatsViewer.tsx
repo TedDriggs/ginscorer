@@ -211,7 +211,9 @@ const Arrow: FC<{ direction: 'left' | 'right' }> = ({ direction }) => (
     <svg viewBox="0 0 5 6" width={10} height={12}>
         <path
             d="M 0 0 L 5 3 L 0 6 Z"
-            fill="black"
+            style={{
+                fill: 'var(--text-color)',
+            }}
             transform={direction === 'left' ? 'rotate(180 2.5 3)' : undefined}
         ></path>
     </svg>
