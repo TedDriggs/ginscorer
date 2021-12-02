@@ -24,7 +24,6 @@ export class Radio<T extends string | number = string> extends Component<
 > {
     private readonly root = createRef<HTMLLabelElement>();
 
-    // tslint:disable-next-line:member-ordering
     public readonly hasFocus = refChildHasFocus(this.root);
 
     public render(): ReactNode {
