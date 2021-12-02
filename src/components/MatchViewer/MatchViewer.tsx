@@ -127,7 +127,7 @@ type GameFormProps = Pick<MatchViewerProps, 'onSubmitGame'> &
     Pick<GameInputProps, 'player1Name' | 'player2Name' | 'disabled'>;
 
 const GameForm = forwardRef<Focus, GameFormProps>((props, ref) => {
-    const input = useRef<GameInput>(null);
+    const input = useRef<Focus>(null);
     const [draft, setDraft] = useState(PartialGame.DEFAULT);
 
     useImperativeHandle(

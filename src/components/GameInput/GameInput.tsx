@@ -1,10 +1,10 @@
-import { Component, createRef, ReactNode } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-import { ControlledInput, makeFieldChangeHandler } from '../../ControlledInput';
+import { ControlledInput, useFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
 import { NumberInput } from '../Input';
 import { RadioGroup } from '../RadioGroup';
-import { focusRef } from '../util/Ref';
+import { Focus } from '../util/Focus';
 import './GameInput.scss';
 
 /**
@@ -31,57 +31,56 @@ export interface GameInputProps extends ControlledInput<PartialGame> {
     player2Name: string;
 }
 
-export class GameInput extends Component<GameInputProps> {
-    private readonly focusTarget = createRef<RadioGroup<Player>>();
-    private readonly handleChange = makeFieldChangeHandler(this);
+export const GameInput = forwardRef<Focus, GameInputProps>((props, ref) => {
+    const focusTarget = useRef<RadioGroup<Player>>(null);
+    const handleChange = useFieldChangeHandler(props);
+    const { value, disabled } = props;
 
-    public render(): ReactNode {
-        const { value, disabled, ...props } = this.props;
+    useImperativeHandle(ref, () => ({
+        focus: () => focusTarget.current?.focus(),
+    }));
 
-        return (
-            <div className="c-game-input">
-                <RadioGroup<Player>
-                    name="winner"
-                    className="c-game-input__players"
-                    choices={[
-                        { value: Player.One, label: props.player1Name },
-                        { value: Player.Two, label: props.player2Name },
-                    ]}
-                    value={value.winner}
+    return (
+        <div className="c-game-input">
+            <RadioGroup<Player>
+                name="winner"
+                className="c-game-input__players"
+                choices={[
+                    { value: Player.One, label: props.player1Name },
+                    { value: Player.Two, label: props.player2Name },
+                ]}
+                value={value.winner}
+                disabled={disabled}
+                label="Winner"
+                onChange={handleChange}
+                hideNative
+                horizontal
+                ref={focusTarget}
+            />
+            <div className="c-game-input__points">
+                <NumberInput
+                    name="points"
+                    value={value.points}
+                    min={1}
                     disabled={disabled}
-                    label="Winner"
-                    onChange={this.handleChange}
-                    hideNative
-                    horizontal
-                    ref={this.focusTarget}
+                    onChange={handleChange}
                 />
-                <div className="c-game-input__points">
-                    <NumberInput
-                        name="points"
-                        value={value.points}
-                        min={1}
-                        disabled={disabled}
-                        onChange={this.handleChange}
-                    />
-                    &nbsp; points
-                </div>
-                <RadioGroup<Gin>
-                    name="gin"
-                    value={value.gin}
-                    className="c-game-input__gin"
-                    choices={[
-                        { value: Gin.None, label: 'No Gin' },
-                        { value: Gin.Normal, label: 'Gin' },
-                        { value: Gin.Super, label: 'Super Gin' },
-                    ]}
-                    disabled={disabled}
-                    onChange={this.handleChange}
-                    horizontal
-                    hideNative
-                />
+                &nbsp; points
             </div>
-        );
-    }
-
-    public readonly focus = () => focusRef(this.focusTarget);
-}
+            <RadioGroup<Gin>
+                name="gin"
+                value={value.gin}
+                className="c-game-input__gin"
+                choices={[
+                    { value: Gin.None, label: 'No Gin' },
+                    { value: Gin.Normal, label: 'Gin' },
+                    { value: Gin.Super, label: 'Super Gin' },
+                ]}
+                disabled={disabled}
+                onChange={handleChange}
+                horizontal
+                hideNative
+            />
+        </div>
+    );
+});

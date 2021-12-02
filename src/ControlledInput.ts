@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 export type ChangeHandler<T> = (newVal: T, name?: string) => void;
 
 export interface ControlledInput<T> {
@@ -9,12 +7,10 @@ export interface ControlledInput<T> {
     onChange: ChangeHandler<T>;
 }
 
-export const makeFieldChangeHandler =
-    <T extends {}>(
-        c: Component<ControlledInput<T>>,
-    ): ChangeHandler<T[keyof T]> =>
+export const useFieldChangeHandler =
+    <T extends {}>(props: ControlledInput<T>): ChangeHandler<T[keyof T]> =>
     (newVal, fieldName) => {
-        const { value, onChange, disabled, name } = c.props;
+        const { value, onChange, disabled, name } = props;
 
         if (disabled) return;
 

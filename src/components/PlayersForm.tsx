@@ -5,6 +5,7 @@ import { Button, ButtonRef } from './Button';
 import { Drawer } from './Drawer';
 import { Form } from './Form';
 import { PlayersInput } from './PlayersInput';
+import { Focus } from './util/Focus';
 
 export interface PlayersFormProps {
     value: PlayerNames;
@@ -18,7 +19,7 @@ export const PlayersForm: FC<{
     const [isRenaming, setRenaming] = useState(false);
     const [value, setValue] = useState<PlayerNames | undefined>(undefined);
     const button = useRef<ButtonRef>(null);
-    const input = useRef<PlayersInput>(null);
+    const input = useRef<Focus>(null);
 
     const stopRenaming = () => {
         setRenaming(false);
