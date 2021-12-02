@@ -1,5 +1,12 @@
 import classNames from 'classnames';
-import { FC, KeyboardEvent, useLayoutEffect, useRef } from 'react';
+import {
+    FC,
+    KeyboardEvent,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
@@ -32,6 +39,13 @@ export const Drawer: FC<{
             props.onDismiss();
         }
     };
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    useEffect(() => {
+        if (props.hideTitle || !props.title) return;
+        const handler = () => setWindowHeight(window.innerHeight);
+        window.addEventListener('resize', handler);
+        return () => window.removeEventListener('resize', handler);
+    }, [props.title, props.hideTitle]);
 
     // Safari's address bar interacts frustratingly with the 100vh measurement
     // used to anchor the drawer to the bottom of the screen. To avoid drawer
@@ -42,12 +56,12 @@ export const Drawer: FC<{
         // There's no address bar in standalone mode
         if ('standalone' in navigator && (navigator as any).standalone) return;
         const { bottom } = titleButton.current.getBoundingClientRect();
-        const bottomFix = Math.max(0, bottom - window.innerHeight);
+        const bottomFix = Math.max(0, bottom - windowHeight);
         drawerElement.current?.style.setProperty(
             '--safari-correction',
             `${bottomFix}px`,
         );
-    }, [window.innerHeight]);
+    }, [windowHeight]);
 
     return createPortal(
         <>
