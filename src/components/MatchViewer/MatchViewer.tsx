@@ -101,10 +101,8 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                         <Drawer
                             open={drawerOpen}
                             title="Add game"
-                            onTitleClick={() => {
-                                setDrawerOpen(true);
-                                gameFormRef.current?.focus();
-                            }}
+                            onTitleClick={() => setDrawerOpen(true)}
+                            onEntered={() => gameFormRef.current?.focus()}
                             onDismiss={closeGameForm}
                             hideTitle={!!value.finalResult}
                         >
