@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import classNames from 'classnames';
 import { Bonus, GameInSet, Gin, GinSet, Player, PlayerNames } from 'src/models';
-import './ScoreColumn.css';
+import './ScoreColumn.scss';
 
 export const ScoreColumn: FC<
     PlayerNames & {

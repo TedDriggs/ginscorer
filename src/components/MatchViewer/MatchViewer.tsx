@@ -20,7 +20,7 @@ import { SetView } from '../SetView';
 import { StatsViewer } from '../StatsViewer';
 import { Focus } from '../util/Focus';
 import { MatchResultViewer } from './MatchResultViewer';
-import './MatchViewer.css';
+import './MatchViewer.scss';
 
 export interface MatchViewerProps {
     players: PlayerNames;

@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { GinMatchResult, Player, PlayerNames } from 'src/models';
 import { Button } from '../Button';
-import './MatchResultViewer.css';
+import './MatchResultViewer.scss';
 
 export const MatchResultViewer: FC<
     GinMatchResult &

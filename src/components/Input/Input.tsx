@@ -4,7 +4,7 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import { ControlledInput } from '../../ControlledInput';
 import { Focus } from '../util/Focus';
 import { BaseInput } from './Base';
-import './Input.css';
+import './Input.scss';
 
 export const Input = forwardRef<
     Focus,

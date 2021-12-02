@@ -5,7 +5,7 @@ import { Game, Gin, Player } from '../../models';
 import { NumberInput } from '../Input';
 import { RadioGroup } from '../RadioGroup';
 import { focusRef } from '../util/Ref';
-import './GameInput.css';
+import './GameInput.scss';
 
 /**
  * A variant of the `Game` interface optimized for input.

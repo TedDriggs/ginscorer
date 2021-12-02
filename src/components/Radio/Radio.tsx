@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Component, createRef, ReactNode } from 'react';
 
 import { focusRef, refChildHasFocus } from '../util/Ref';
-import './Radio.css';
+import './Radio.scss';
 
 export interface RadioProps<T extends string | number = string> {
     className?: string;

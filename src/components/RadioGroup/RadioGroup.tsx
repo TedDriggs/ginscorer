@@ -4,7 +4,7 @@ import React from 'react';
 import { ControlledInput } from '../../ControlledInput';
 import { Radio } from '../Radio';
 import { focusRef } from '../util/Ref';
-import './RadioGroup.css';
+import './RadioGroup.scss';
 
 export interface Choice<T extends string | number = string> {
     label: string;

@@ -5,7 +5,7 @@ import { PlayerNames } from '../../models';
 import { Input } from '../Input';
 import { Focus } from '../util/Focus';
 import { focusRef } from '../util/Ref';
-import './PlayersInput.css';
+import './PlayersInput.scss';
 
 export class PlayersInput extends Component<ControlledInput<PlayerNames>> {
     private readonly handleChange = makeFieldChangeHandler(this);

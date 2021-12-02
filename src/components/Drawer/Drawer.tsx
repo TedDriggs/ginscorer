@@ -7,7 +7,7 @@ import { Key } from 'w3c-keys';
 import { Button, ButtonRef } from '../Button';
 import { consumeEvent } from '../util/Event';
 import { focusRef } from '../util/Ref';
-import './Drawer.css';
+import './Drawer.scss';
 
 const TRANSITION_TIMEOUT_MS = 125;
 

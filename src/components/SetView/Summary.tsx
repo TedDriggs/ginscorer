@@ -8,7 +8,7 @@ import {
     Player,
     PlayerNames,
 } from '../../models';
-import './Summary.css';
+import './Summary.scss';
 
 export interface SetSummaryProps extends PlayerNames {
     className?: string;

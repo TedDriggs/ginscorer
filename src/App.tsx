@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { install } from 'redux-loop';
-import './App.css';
+import './App.scss';
 
 import { retrieveState } from './Effects';
 import { Playing } from './layouts/playing';

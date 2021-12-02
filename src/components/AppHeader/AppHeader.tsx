@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import './AppHeader.css';
+import './AppHeader.scss';
 
 export const AppHeader: FC = () => (
     <header className="c-app-header">

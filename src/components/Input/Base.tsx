@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { forwardRef, InputHTMLAttributes } from 'react';
 
-import './Input.css';
+import './Input.scss';
 
 export const BaseInput = forwardRef<
     HTMLInputElement,

@@ -12,7 +12,7 @@ import {
     matchHasStartedSelector,
     playerNameSelector,
 } from 'src/Reducer';
-import './StatsViewer.css';
+import './StatsViewer.scss';
 
 type StatRowRenderer = <T extends unknown>(
     title: ReactNode,

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FC } from 'react';
 
-import './ScrollViewer.css';
+import './ScrollViewer.scss';
 
 export const ScrollViewer: FC<{
     className?: string;

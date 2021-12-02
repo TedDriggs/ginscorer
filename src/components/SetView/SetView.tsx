@@ -3,7 +3,7 @@ import { PureComponent, ReactNode } from 'react';
 import { GinSet, PlayerNames } from '../../models';
 import { ToggleDrawer } from '../Drawer';
 import { ScoreColumn } from '../ScoreColumn';
-import './SetView.css';
+import './SetView.scss';
 import { SetSummary } from './Summary';
 
 export interface SetViewProps extends PlayerNames {
