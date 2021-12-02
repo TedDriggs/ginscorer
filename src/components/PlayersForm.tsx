@@ -13,30 +13,34 @@ export interface PlayersFormProps {
 }
 
 export const PlayersForm: FC<{
+    /**
+     * The currently-committed player names. Updates to this property while
+     * the renaming form is shown will not take effect until the form is
+     * closed, and may be superseded by a form submission.
+     */
     defaultValue: PlayerNames;
     onSubmit(names: PlayerNames): void;
 }> = props => {
-    const [isRenaming, setRenaming] = useState(false);
-    const [value, setValue] = useState<PlayerNames | undefined>(undefined);
+    // The draft values for player names. The presence of a draft means the
+    // form is currently open; if this is `null` the form is not visible.
+    const [value, setValue] = useState<PlayerNames | null>(null);
     const button = useRef<ButtonRef>(null);
     const input = useRef<Focus>(null);
 
-    const stopRenaming = () => {
-        setRenaming(false);
-        setValue(undefined);
-        button.current?.focus();
-    };
+    const stopRenaming = () => setValue(null);
 
     return (
         <>
-            <Button ref={button} onClick={() => setRenaming(true)}>
+            <Button ref={button} onClick={() => setValue(props.defaultValue)}>
                 Rename Players
             </Button>
             <Drawer
-                title={isRenaming ? 'Rename Players' : undefined}
-                open={isRenaming}
+                hideTitle
+                title="Rename Players"
+                open={value !== null}
                 onDismiss={stopRenaming}
                 onEntered={() => input.current?.focus()}
+                onExited={() => button.current?.focus()}
             >
                 <Form
                     style={{

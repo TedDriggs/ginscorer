@@ -23,6 +23,7 @@ export const Drawer: FC<{
     title?: string;
     onTitleClick?(): void;
     onEntered?(): void;
+    onExited?(): void;
     /**
      * Event handler called when the user attempts to dismiss the
      * drawer. If no handler is provided, the user cannot dismiss
@@ -87,6 +88,7 @@ export const Drawer: FC<{
                 timeout={TRANSITION_TIMEOUT_MS}
                 onExit={() => focusRef(titleButton)}
                 onEntered={props.onEntered}
+                onExited={props.onExited}
                 appear
             >
                 <div
