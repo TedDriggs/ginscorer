@@ -11,7 +11,6 @@ import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
 
-import { Button, ButtonRef } from '../Button';
 import { consumeEvent } from '../util/Event';
 import { focusRef } from '../util/Ref';
 import './Drawer.scss';
@@ -32,7 +31,7 @@ export const Drawer: FC<{
     onDismiss?(): void;
 }> = props => {
     const drawerElement = useRef<HTMLDivElement>(null);
-    const titleButton = useRef<ButtonRef>(null);
+    const titleButton = useRef<HTMLButtonElement>(null);
     const handleKeyDown = (e: KeyboardEvent<unknown>): void => {
         if (e.key === Key.Escape && props.onDismiss) {
             consumeEvent(e);
@@ -100,15 +99,18 @@ export const Drawer: FC<{
                     role="dialog"
                 >
                     {props.title && (
-                        <Button
+                        <button
                             ref={titleButton}
                             className="c-drawer__title"
-                            onClick={props.onTitleClick}
+                            onClick={e => {
+                                consumeEvent(e);
+                                props.onTitleClick?.();
+                            }}
                         >
                             <span className="c-drawer__title__text">
                                 {props.title}
                             </span>
-                        </Button>
+                        </button>
                     )}
                     <Transition
                         in={props.open}
