@@ -1,13 +1,22 @@
 {
-  "main.css": "/ginscorer/static/css/main.49886617.chunk.css",
-  "main.js": "/ginscorer/static/js/main.589c7205.chunk.js",
-  "main.js.map": "/ginscorer/static/js/main.589c7205.chunk.js.map",
-  "static/js/1.6b6cae81.chunk.js": "/ginscorer/static/js/1.6b6cae81.chunk.js",
-  "static/js/1.6b6cae81.chunk.js.map": "/ginscorer/static/js/1.6b6cae81.chunk.js.map",
-  "runtime~main.js": "/ginscorer/static/js/runtime~main.4dbe57ff.js",
-  "runtime~main.js.map": "/ginscorer/static/js/runtime~main.4dbe57ff.js.map",
-  "static/css/main.49886617.chunk.css.map": "/ginscorer/static/css/main.49886617.chunk.css.map",
-  "index.html": "/ginscorer/index.html",
-  "precache-manifest.8da157e1008ae99a8a7da0501c92174b.js": "/ginscorer/precache-manifest.8da157e1008ae99a8a7da0501c92174b.js",
-  "service-worker.js": "/ginscorer/service-worker.js"
+  "files": {
+    "main.css": "/ginscorer/static/css/main.aa669ffb.chunk.css",
+    "main.js": "/ginscorer/static/js/main.a9f71981.chunk.js",
+    "main.js.map": "/ginscorer/static/js/main.a9f71981.chunk.js.map",
+    "runtime-main.js": "/ginscorer/static/js/runtime-main.9d49e21e.js",
+    "runtime-main.js.map": "/ginscorer/static/js/runtime-main.9d49e21e.js.map",
+    "static/js/2.924d2e84.chunk.js": "/ginscorer/static/js/2.924d2e84.chunk.js",
+    "static/js/2.924d2e84.chunk.js.map": "/ginscorer/static/js/2.924d2e84.chunk.js.map",
+    "index.html": "/ginscorer/index.html",
+    "service-worker.js": "/ginscorer/service-worker.js",
+    "service-worker.js.map": "/ginscorer/service-worker.js.map",
+    "static/css/main.aa669ffb.chunk.css.map": "/ginscorer/static/css/main.aa669ffb.chunk.css.map",
+    "static/js/2.924d2e84.chunk.js.LICENSE.txt": "/ginscorer/static/js/2.924d2e84.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9d49e21e.js",
+    "static/js/2.924d2e84.chunk.js",
+    "static/css/main.aa669ffb.chunk.css",
+    "static/js/main.a9f71981.chunk.js"
+  ]
 }
