@@ -9,7 +9,7 @@ import {
 } from 'react';
 import MediaQuery from 'react-responsive';
 
-import { reduceGamesToStats } from 'src/models/stats';
+import { reduceGamesToStats } from '../../models/stats';
 import { Game, GinMatch, PlayerNames } from '../../models';
 import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
 import { Form } from '../Form';

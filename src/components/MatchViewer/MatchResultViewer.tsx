@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FC } from 'react';
 
-import { GinMatchResult, Player, PlayerNames } from 'src/models';
+import { GinMatchResult, Player, PlayerNames } from '../../models';
 import { Button } from '../Button';
 import './MatchResultViewer.scss';
 

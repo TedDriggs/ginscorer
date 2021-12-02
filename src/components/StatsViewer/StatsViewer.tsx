@@ -3,15 +3,15 @@ import { identity } from 'lodash';
 import { FC, ReactChild, ReactElement, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action, creators } from 'src/Actions';
+import { Action, creators } from '../../Actions';
 
-import { Gin, nameOfPlayer, otherPlayer, Player } from 'src/models';
-import { PerPlayer, Stats } from 'src/models/stats';
+import { Gin, nameOfPlayer, otherPlayer, Player } from '../../models';
+import { PerPlayer, Stats } from '../../models/stats';
 import {
     dealerSelector,
     matchHasStartedSelector,
     playerNameSelector,
-} from 'src/Reducer';
+} from '../../Reducer';
 import './StatsViewer.scss';
 
 type StatRowRenderer = <T extends unknown>(

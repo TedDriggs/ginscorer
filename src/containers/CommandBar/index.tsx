@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import { connect } from 'react-redux';
-import { Button } from 'src/components/Button';
-import { PlayerNames } from 'src/models';
+import { Button } from '../../components/Button';
+import { PlayerNames } from '../../models';
 import { creators } from '../../Actions';
 import { PlayersForm } from '../../components/PlayersForm';
 import {
