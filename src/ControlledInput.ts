@@ -10,19 +10,28 @@ export interface ControlledInput<T> {
 }
 
 export const makeFieldChangeHandler =
-    <T extends {}>(c: Component<ControlledInput<T>>) =>
-    (newVal: T[keyof T], fieldName: keyof T): void => {
+    <T extends {}>(
+        c: Component<ControlledInput<T>>,
+    ): ChangeHandler<T[keyof T]> =>
+    (newVal, fieldName) => {
         const { value, onChange, disabled, name } = c.props;
 
         if (disabled) return;
 
-        if (onChange) {
-            onChange(
-                {
-                    ...(value as any),
-                    [fieldName]: newVal,
-                },
-                name,
+        if (fieldName === undefined) {
+            console.error(
+                'Field change handler got value',
+                newVal,
+                'with no field name',
             );
+            return;
         }
+
+        onChange?.(
+            {
+                ...(value as any),
+                [fieldName]: newVal,
+            },
+            name,
+        );
     };
