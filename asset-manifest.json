@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/ginscorer/static/css/main.aa669ffb.chunk.css",
-    "main.js": "/ginscorer/static/js/main.03c99118.chunk.js",
-    "main.js.map": "/ginscorer/static/js/main.03c99118.chunk.js.map",
+    "main.js": "/ginscorer/static/js/main.385735ac.chunk.js",
+    "main.js.map": "/ginscorer/static/js/main.385735ac.chunk.js.map",
     "runtime-main.js": "/ginscorer/static/js/runtime-main.9d49e21e.js",
     "runtime-main.js.map": "/ginscorer/static/js/runtime-main.9d49e21e.js.map",
-    "static/js/2.924d2e84.chunk.js": "/ginscorer/static/js/2.924d2e84.chunk.js",
-    "static/js/2.924d2e84.chunk.js.map": "/ginscorer/static/js/2.924d2e84.chunk.js.map",
+    "static/js/2.e9894c23.chunk.js": "/ginscorer/static/js/2.e9894c23.chunk.js",
+    "static/js/2.e9894c23.chunk.js.map": "/ginscorer/static/js/2.e9894c23.chunk.js.map",
     "index.html": "/ginscorer/index.html",
     "service-worker.js": "/ginscorer/service-worker.js",
     "service-worker.js.map": "/ginscorer/service-worker.js.map",
     "static/css/main.aa669ffb.chunk.css.map": "/ginscorer/static/css/main.aa669ffb.chunk.css.map",
-    "static/js/2.924d2e84.chunk.js.LICENSE.txt": "/ginscorer/static/js/2.924d2e84.chunk.js.LICENSE.txt"
+    "static/js/2.e9894c23.chunk.js.LICENSE.txt": "/ginscorer/static/js/2.e9894c23.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9d49e21e.js",
-    "static/js/2.924d2e84.chunk.js",
+    "static/js/2.e9894c23.chunk.js",
     "static/css/main.aa669ffb.chunk.css",
-    "static/js/main.03c99118.chunk.js"
+    "static/js/main.385735ac.chunk.js"
   ]
 }
