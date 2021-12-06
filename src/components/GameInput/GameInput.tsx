@@ -61,7 +61,8 @@ export const GameInput = forwardRef<Focus, GameInputProps>((props, ref) => {
                 <NumberInput
                     name="points"
                     value={value.points}
-                    min={1}
+                    min={Game.VALID_POINTS.min}
+                    max={Game.VALID_POINTS.max}
                     disabled={disabled}
                     onChange={handleChange}
                 />

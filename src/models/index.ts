@@ -40,10 +40,24 @@ export interface Game {
 }
 
 export const Game = {
+    /**
+     * Range of points a player can get in a single game.
+     *
+     * To get the max, the winner needs gin, while the opponent has
+     * 2xKs, 2xQs, 2xJs, 2x10s, and 2x9s, in alternating suits that
+     * prevent a run.
+     */
+    VALID_POINTS: {
+        min: 1,
+        max: 98,
+    },
     guard: (x: any): x is Game =>
-        x.winner !== null &&
         typeof x === 'object' &&
+        x !== null &&
+        x.winner !== null &&
+        x.winner !== undefined &&
         typeof x.points === 'number' &&
-        typeof x.gin === 'string' &&
-        x.winner !== undefined,
+        x.points >= Game.VALID_POINTS.min &&
+        x.points <= Game.VALID_POINTS.max &&
+        typeof x.gin === 'string',
 };
