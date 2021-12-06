@@ -1,6 +1,6 @@
+import { ControlledInput, useFieldChangeHandler } from 'controlled-input';
 import { forwardRef } from 'react';
 
-import { ControlledInput, useFieldChangeHandler } from '../../ControlledInput';
 import { PlayerNames } from '../../models';
 import { Input } from '../Input';
 import { Focus } from '../util/Focus';

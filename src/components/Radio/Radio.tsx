@@ -16,7 +16,7 @@ export interface RadioProps<T extends string | number = string> {
      * showing. The caller should then use classes to style the component as-desired.
      */
     hideNative?: boolean;
-    onChange(newValue: T, name?: string): void;
+    onChange?(newValue: T, name?: string): void;
 }
 
 export class Radio<T extends string | number = string> extends Component<

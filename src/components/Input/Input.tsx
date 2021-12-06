@@ -1,7 +1,7 @@
 import classNames from 'classnames';
+import { ControlledInput } from 'controlled-input';
 import { forwardRef, InputHTMLAttributes } from 'react';
 
-import { ControlledInput } from '../../ControlledInput';
 import { Focus } from '../util/Focus';
 import { BaseInput } from './Base';
 import './Input.scss';
@@ -18,7 +18,7 @@ export const Input = forwardRef<
         <BaseInput
             {...props}
             ref={ref as any}
-            onChange={e => onChange(e.target.value, props.name)}
+            onChange={e => onChange?.(e.target.value, props.name)}
         />
     </label>
 ));

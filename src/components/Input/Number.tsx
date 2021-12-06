@@ -1,7 +1,7 @@
 import classNames from 'classnames';
+import { ControlledInput } from 'controlled-input';
 import { FC } from 'react';
 
-import { ControlledInput } from '../../ControlledInput';
 import { BaseInput } from './Base';
 
 export interface NumberInputProps extends ControlledInput<number | null> {
@@ -20,7 +20,7 @@ export const NumberInput: FC<NumberInputProps> = props => {
             type="number"
             value={value !== null ? value.toString() : ''}
             onChange={evt => {
-                props.onChange(parseInputToInt(evt.target.value), props.name);
+                props.onChange?.(parseInputToInt(evt.target.value), props.name);
             }}
         />
     );

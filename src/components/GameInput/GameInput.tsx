@@ -1,6 +1,6 @@
+import { ControlledInput, useFieldChangeHandler } from 'controlled-input';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-import { ControlledInput, useFieldChangeHandler } from '../../ControlledInput';
 import { Game, Gin, Player } from '../../models';
 import { NumberInput } from '../Input';
 import { RadioGroup } from '../RadioGroup';

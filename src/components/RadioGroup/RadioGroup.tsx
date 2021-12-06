@@ -1,7 +1,7 @@
 import classNames from 'classnames';
+import { ControlledInput } from 'controlled-input';
 import React from 'react';
 
-import { ControlledInput } from '../../ControlledInput';
 import { Radio } from '../Radio';
 import { focusRef } from '../util/Ref';
 import './RadioGroup.scss';
