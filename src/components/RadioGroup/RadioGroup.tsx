@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { ControlledInput } from 'controlled-input';
-import React from 'react';
+import { Component, createRef, ReactNode } from 'react';
 
 import { Radio } from '../Radio';
 import { focusRef } from '../util/Ref';
@@ -22,12 +22,12 @@ export interface RadioGroupProps<T extends string | number = string>
 }
 
 /** A set of radio buttons */
-export class RadioGroup<
-    T extends string | number = string,
-> extends React.Component<RadioGroupProps<T>> {
-    private readonly first = React.createRef<Radio<T>>();
+export class RadioGroup<T extends string | number = string> extends Component<
+    RadioGroupProps<T>
+> {
+    private readonly first = createRef<Radio<T>>();
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { className, name, ...props } = this.props;
         return (
             <div
