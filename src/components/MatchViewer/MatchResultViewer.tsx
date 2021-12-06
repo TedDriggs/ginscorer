@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FC } from 'react';
 
-import { GinMatchResult, Player, PlayerNames } from '../../models';
+import { GinMatchResult, nameOfPlayer, PlayerNames } from '../../models';
 import { Button } from '../Button';
 import './MatchResultViewer.scss';
 
@@ -14,10 +14,7 @@ export const MatchResultViewer: FC<
 > = props => (
     <div className={classNames('c-match-result-viewer', classNames)}>
         <div className="c-match-result-viewer__winner">
-            {props.winner === Player.One
-                ? props.player1Name
-                : props.player2Name}{' '}
-            wins!
+            {nameOfPlayer(props, props.winner)} wins!
         </div>
         <div className="c-match-result-viewer__points">
             <span className="c-match-result-viewer__points-value">
