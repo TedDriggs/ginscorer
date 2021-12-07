@@ -48,6 +48,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
         <GameForm
             ref={gameFormRef}
             {...players}
+            disabled={Boolean(value.finalResult)}
             onSubmitGame={game => {
                 props.onSubmitGame?.(game);
                 closeGameForm();

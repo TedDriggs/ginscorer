@@ -36,7 +36,7 @@ export class Radio<T extends string | number = string> extends Component<
                     'c-radio--checked': props.selected,
                     'c-radio--disabled': props.disabled,
                     'c-radio--nonative': props.hideNative,
-                    'c-radio--has-focus': this.hasFocus(),
+                    'c-radio--has-focus': !props.disabled && this.hasFocus(),
                 })}
             >
                 <input
