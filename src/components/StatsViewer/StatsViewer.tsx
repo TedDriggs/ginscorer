@@ -47,19 +47,35 @@ export const StatsViewer: FC<{
 const StatsStack: FC<{ value: Stats; dealer: Player | undefined }> = ({
     value,
     dealer,
-}) => {
+}) => (
+    <div className="c-stats-viewer">
+        {dealer !== undefined && <StackDealerToken dealer={dealer} />}
+        {renderStats(
+            (title, v, formatter) => (
+                <StackRow title={title} value={v} formatter={formatter} />
+            ),
+            value,
+        )}
+    </div>
+);
+
+const StackDealerToken: FC<{ dealer: Player }> = ({ dealer }) => {
     const players = useSelector(playerNameSelector);
+    const hasMatchStarted = useSelector(matchHasStartedSelector);
+    const dispatch = useDispatch<Dispatch<Action>>();
     return (
-        <div className="c-stats-viewer">
-            {dealer !== undefined && (
-                <div>Dealer: {nameOfPlayer(players, dealer)}</div>
-            )}
-            {renderStats(
-                (title, v, formatter) => (
-                    <StackRow title={title} value={v} formatter={formatter} />
-                ),
-                value,
-            )}
+        <div
+            style={{ cursor: !hasMatchStarted ? 'pointer' : 'inherit' }}
+            onClick={
+                hasMatchStarted
+                    ? undefined
+                    : () =>
+                          dispatch(
+                              creators.SetInitialDealer(otherPlayer(dealer)),
+                          )
+            }
+        >
+            Dealer: {nameOfPlayer(players, dealer)}
         </div>
     );
 };
