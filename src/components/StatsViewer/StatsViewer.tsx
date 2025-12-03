@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { identity } from 'lodash';
-import { FC, ReactChild, ReactElement, ReactNode } from 'react';
+import { FC, ReactElement, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action, creators } from '../../Actions';
@@ -17,7 +17,7 @@ import './StatsViewer.scss';
 type StatRowRenderer = <T extends unknown>(
     title: ReactNode,
     value: PerPlayer<T>,
-    formatter: (value: T) => ReactChild,
+    formatter: (value: T) => ReactNode,
 ) => ReactNode;
 
 export const StatsViewer: FC<{
@@ -83,7 +83,7 @@ const StackDealerToken: FC<{ dealer: Player }> = ({ dealer }) => {
 const StackRow = <T extends unknown>(props: {
     value: PerPlayer<T>;
     title: ReactNode;
-    formatter(value: T): ReactChild;
+    formatter(value: T): ReactNode;
 }): ReactElement => {
     const players = useSelector(playerNameSelector);
     return (
@@ -105,7 +105,7 @@ const formatNumber = (value: number) =>
 const formatGinCount = (value: {
     [Gin.Normal]: number;
     [Gin.Super]: number;
-}): ReactChild => {
+}): ReactNode => {
     const normals = value[Gin.Normal];
     const supers = value[Gin.Super];
 
@@ -165,7 +165,7 @@ const StatsGrid: FC<{ value: Stats; dealer: Player | undefined }> = ({
 const StatsGridRow = <T extends unknown>(props: {
     value: PerPlayer<T>;
     title: ReactNode;
-    formatter(value: T): ReactChild;
+    formatter(value: T): ReactNode;
 }): ReactElement => (
     <tr>
         <td>{props.formatter(props.value[Player.One])}</td>
