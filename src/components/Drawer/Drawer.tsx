@@ -55,8 +55,6 @@ export const Drawer: FC<{
     // closed state up by the amount it's out of frame.
     useLayoutEffect(() => {
         if (!titleButton.current) return;
-        // There's no address bar in standalone mode
-        if ('standalone' in navigator && (navigator as any).standalone) return;
         const { bottom } = titleButton.current.getBoundingClientRect();
         const bottomFix = Math.max(0, bottom - windowHeight);
         drawerElement.current?.style.setProperty(
