@@ -24,6 +24,7 @@
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist",
         "start": "vite",
+        "start-host": "vite --host",
         "build": "vite build",
         "format": "./node_modules/.bin/prettier -u -w --ignore-path=.gitignore"
     },
