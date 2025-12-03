@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import {
     FC,
     KeyboardEvent,
+    ReactNode,
     useEffect,
     useLayoutEffect,
     useRef,
@@ -30,6 +31,7 @@ export const Drawer: FC<{
      * the drawer.
      */
     onDismiss?(): void;
+    children?: ReactNode;
 }> = props => {
     const drawerElement = useRef<HTMLDivElement>(null);
     const titleButton = useRef<HTMLButtonElement>(null);

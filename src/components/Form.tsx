@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { Button } from './Button';
 import { consumeEvent } from './util/Event';
@@ -13,6 +13,7 @@ export const Form: FC<{
     disableSubmit?: boolean;
     submitLabel?: React.ReactNode;
     onSubmit(): void;
+    children?: ReactNode;
 }> = props => (
     <form
         style={props.style}

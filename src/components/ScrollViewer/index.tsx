@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import './ScrollViewer.scss';
 
@@ -7,6 +7,7 @@ export const ScrollViewer: FC<{
     className?: string;
     overflowX?: 'hidden' | 'auto';
     overflowY?: 'hidden' | 'auto';
+    children?: ReactNode;
 }> = ({
     className,
     children,
