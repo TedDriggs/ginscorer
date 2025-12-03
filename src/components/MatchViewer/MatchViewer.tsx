@@ -11,7 +11,7 @@ import MediaQuery from 'react-responsive';
 
 import { reduceGamesToStats } from '../../models/stats';
 import { Game, GinMatch, PlayerNames } from '../../models';
-import { Drawer, DrawerTitleSpacer } from '../Drawer/Drawer';
+import { Drawer } from '../Drawer/Drawer';
 import { Form } from '../Form';
 import { GameInput, GameInputProps, PartialGame } from '../GameInput';
 import { ScoreColumn } from '../ScoreColumn';
@@ -21,6 +21,7 @@ import { StatsViewer } from '../StatsViewer';
 import { Focus } from '../util/Focus';
 import { MatchResultViewer } from './MatchResultViewer';
 import './MatchViewer.scss';
+import { Button } from '../Button';
 
 export interface MatchViewerProps {
     players: PlayerNames;
@@ -98,14 +99,26 @@ export const MatchViewer: FC<MatchViewerProps> = ({
             {!readOnly && (
                 <>
                     <MediaQuery maxWidth={1000}>
-                        <DrawerTitleSpacer />
+                        {!value.finalResult && (
+                            <Button
+                                primary
+                                style={{
+                                    position: 'fixed',
+                                    bottom: 'calc(env(safe-area-inset-bottom) + 20px)',
+                                    left: 'calc(env(safe-area-inset-left) + 10px)',
+                                    borderRadius: '25px',
+                                    fontSize: '1.25rem',
+                                    padding: '10px 15px',
+                                }}
+                                onClick={() => setDrawerOpen(true)}
+                            >
+                                Add game
+                            </Button>
+                        )}
                         <Drawer
                             open={drawerOpen}
-                            title="Add game"
-                            onTitleClick={() => setDrawerOpen(true)}
                             onEntered={() => gameFormRef.current?.focus()}
                             onDismiss={closeGameForm}
-                            hideTitle={!!value.finalResult}
                         >
                             {gameForm}
                         </Drawer>

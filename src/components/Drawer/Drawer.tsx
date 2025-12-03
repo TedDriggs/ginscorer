@@ -1,28 +1,15 @@
-import classNames from 'classnames';
-import {
-    FC,
-    KeyboardEvent,
-    ReactNode,
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from 'react';
+import { FC, KeyboardEvent, ReactNode, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, Transition } from 'react-transition-group';
 import { Key } from 'w3c-keys';
 
 import { consumeEvent } from '../util/Event';
-import { focusRef } from '../util/Ref';
 import './Drawer.scss';
 
 const TRANSITION_TIMEOUT_MS = 125;
 
 export const Drawer: FC<{
     open?: boolean;
-    hideTitle?: boolean;
-    title?: string;
-    onTitleClick?(): void;
     onEntered?(): void;
     onExited?(): void;
     /**
@@ -34,34 +21,12 @@ export const Drawer: FC<{
     children?: ReactNode;
 }> = props => {
     const drawerElement = useRef<HTMLDivElement>(null);
-    const titleButton = useRef<HTMLButtonElement>(null);
     const handleKeyDown = (e: KeyboardEvent<unknown>): void => {
         if (e.key === Key.Escape && props.onDismiss) {
             consumeEvent(e);
             props.onDismiss();
         }
     };
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-    useEffect(() => {
-        if (props.hideTitle || !props.title) return;
-        const handler = () => setWindowHeight(window.innerHeight);
-        window.addEventListener('resize', handler);
-        return () => window.removeEventListener('resize', handler);
-    }, [props.title, props.hideTitle]);
-
-    // Safari's address bar interacts frustratingly with the 100vh measurement
-    // used to anchor the drawer to the bottom of the screen. To avoid drawer
-    // buttons being drawn inaccessibly out of view, push the button in the
-    // closed state up by the amount it's out of frame.
-    useLayoutEffect(() => {
-        if (!titleButton.current) return;
-        const { bottom } = titleButton.current.getBoundingClientRect();
-        const bottomFix = Math.max(0, bottom - windowHeight);
-        drawerElement.current?.style.setProperty(
-            '--safari-correction',
-            `${bottomFix}px`,
-        );
-    }, [windowHeight]);
 
     return createPortal(
         <>
@@ -86,34 +51,16 @@ export const Drawer: FC<{
                 in={props.open}
                 classNames="c-drawer"
                 timeout={TRANSITION_TIMEOUT_MS}
-                onExit={() => focusRef(titleButton)}
                 onEntered={props.onEntered}
                 onExited={props.onExited}
                 appear
             >
                 <div
                     ref={drawerElement}
-                    className={classNames('c-drawer', {
-                        'c-drawer--has-title':
-                            Boolean(props.title) && !props.hideTitle,
-                    })}
+                    className="c-drawer"
                     onKeyDown={handleKeyDown}
                     role="dialog"
                 >
-                    {props.title && (
-                        <button
-                            ref={titleButton}
-                            className="c-drawer__title"
-                            onClick={e => {
-                                consumeEvent(e);
-                                props.onTitleClick?.();
-                            }}
-                        >
-                            <span className="c-drawer__title__text">
-                                {props.title}
-                            </span>
-                        </button>
-                    )}
                     <Transition
                         in={props.open}
                         timeout={TRANSITION_TIMEOUT_MS}
@@ -129,11 +76,3 @@ export const Drawer: FC<{
         document.body,
     );
 };
-
-/**
- * Placeholder element which can be used to make sure scrolling content isn't
- * hidden by the drawer title.
- */
-export const DrawerTitleSpacer: FC = () => (
-    <div className="c-drawer-title-placeholder" />
-);

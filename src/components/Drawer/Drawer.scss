@@ -1,5 +1,3 @@
-$title-height: 40px;
-
 $transition-duration: 0.125s;
 $min-drawer-top: 55px;
 $backdrop-opacity: 1;
@@ -28,10 +26,6 @@ $backdrop-opacity: 1;
     }
 }
 
-.c-drawer-title-placeholder {
-    height: $title-height;
-}
-
 .c-drawer {
     transition: transform $transition-duration ease-out;
     position: fixed;
@@ -43,80 +37,19 @@ $backdrop-opacity: 1;
     overflow-y: auto;
     background: var(--background-color);
 
-    // Show the title bar when one exists
-    &--has-title {
-        // See Drawer.tsx for more information
-        --safari-correction: 0px;
-
-        transform: translateY(
-            calc(
-                100vh - #{$title-height} - env(safe-area-inset-bottom) - var(--safari-correction)
-            )
-        );
-    }
-
     @media (max-height: #{$min-drawer-top * 10}) {
         height: calc(100vh - #{$min-drawer-top});
     }
 
-    &__title {
-        height: calc(#{$title-height} + env(safe-area-inset-bottom));
-        background-color: var(--primary-interaction-color);
-        color: white;
-        width: 100vw;
-        white-space: nowrap;
-        text-overflow: clip;
-        border: none;
-        margin-bottom: 10px;
-        text-align: left;
-        padding: 0;
-        padding-bottom: env(safe-area-inset-bottom);
-        font-size: 18px;
-        user-select: none;
-        border-radius: 0;
-
-        transition: color $transition-duration ease-out,
-            background-color $transition-duration ease-out;
-
-        &__text {
-            display: inline-block;
-            transform: translateX(calc(50vw - 50%));
-            transition: transform $transition-duration ease-out;
-        }
-
-        &:focus {
-            outline: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            background-color: var(--input-background-color);
-            color: var(--primary-interaction-color);
-        }
-    }
-
     &-enter-active,
-    &-enter-done,
-    &--has-title.c-drawer-enter-done,
-    &--has-title.c-drawer-enter-active {
+    &-enter-done {
         transform: translateY(10vh);
 
         @media (max-height: #{10 * $min-drawer-top}) {
             transform: translateY($min-drawer-top);
         }
-
-        .c-drawer__title {
-            height: $title-height;
-            padding-bottom: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-
-            &__text {
-                transform: translateX(10px);
-            }
-        }
     }
 
-    // Make sure active drawers supersede inactive drawers which happen to have titles.
     &-enter-active,
     &-enter-done,
     &-exit-active {
