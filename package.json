@@ -22,7 +22,7 @@
     },
     "scripts": {
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
+        "deploy": "gh-pages -d dist",
         "start": "vite",
         "build": "vite build",
         "format": "./node_modules/.bin/prettier -u -w --ignore-path=.gitignore"
