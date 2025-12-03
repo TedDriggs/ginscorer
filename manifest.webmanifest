@@ -1,1 +1,1 @@
-{"name":"Gin Scorer","short_name":"Gin Scorer","start_url":"./index.html","display":"standalone","background_color":"#000903","theme_color":"#00513d","lang":"en","scope":"/","icons":[{"src":"logo.svg","sizes":"64x64 32x32 24x24 16x16","type":"image/svg+xml"}]}
+{"name":"Gin Scorer","short_name":"Gin Scorer","start_url":"./index.html","display":"standalone","background_color":"#000903","theme_color":"#00513d","lang":"en","scope":"/ginscorer/","icons":[{"src":"logo.svg","sizes":"64x64 32x32 24x24 16x16","type":"image/svg+xml"}]}
