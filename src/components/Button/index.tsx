@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, forwardRef } from 'react';
 
 import { consumeEvent } from '../util/Event';
 
@@ -13,6 +13,7 @@ export type ButtonRef = Pick<
 export const Button = forwardRef<
     ButtonRef,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
+        style?: CSSProperties;
         primary?: boolean;
         /**
          * When set to a non-empty string, a confirmation message to show to
