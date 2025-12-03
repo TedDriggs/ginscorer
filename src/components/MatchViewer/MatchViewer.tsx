@@ -112,7 +112,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                                 }}
                                 onClick={() => setDrawerOpen(true)}
                             >
-                                Add game
+                                Add Game
                             </Button>
                         )}
                         <Drawer
