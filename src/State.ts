@@ -1,4 +1,4 @@
-import { Game, Player, PLAYERS } from './models';
+import { Game, Player } from './models';
 
 export const LATEST_STATE_VERSION = 2 as const;
 
@@ -10,11 +10,16 @@ export interface StateV1 {
 }
 
 export const StateV1 = {
-    guard: (x: any): x is StateV1 =>
+    guard: (x: unknown): x is StateV1 =>
         typeof x === 'object' &&
+        x !== null &&
+        'player1Name' in x &&
         typeof x.player1Name === 'string' &&
+        'player2Name' in x &&
         typeof x.player2Name === 'string' &&
+        'version' in x &&
         x.version === 1 &&
+        'games' in x &&
         Array.isArray(x.games),
 };
 
@@ -27,13 +32,19 @@ export interface StateV2 {
 }
 
 export const StateV2 = {
-    guard: (x: any): x is StateV2 =>
+    guard: (x: unknown): x is StateV2 =>
         typeof x === 'object' &&
+        x !== null &&
+        'player1Name' in x &&
         typeof x.player1Name === 'string' &&
+        'player2Name' in x &&
         typeof x.player2Name === 'string' &&
-        x.version === 1 &&
+        'version' in x &&
+        x.version === 2 &&
+        'games' in x &&
         Array.isArray(x.games) &&
-        PLAYERS.includes(x.initialDealer),
+        'initialDealer' in x &&
+        Player.guard(x.initialDealer),
 };
 
 export type HistoricalState = StateV1 | StateV2;

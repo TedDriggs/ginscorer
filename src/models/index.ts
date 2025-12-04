@@ -1,9 +1,15 @@
 export * from './outcome';
 
-export enum Player {
-    One = 1,
-    Two = 2,
-}
+const PLAYER_ONE = 1 as const;
+const PLAYER_TWO = 2 as const;
+
+export type Player = typeof PLAYER_ONE | typeof PLAYER_TWO;
+
+export const Player = {
+    One: PLAYER_ONE,
+    Two: PLAYER_TWO,
+    guard: (x: unknown): x is Player => x === PLAYER_ONE || x === PLAYER_TWO,
+};
 
 export const PLAYERS = [Player.One, Player.Two];
 
@@ -24,11 +30,17 @@ export const nameOfPlayer = (players: PlayerNames, player: Player): string =>
 export const otherPlayer = (player: Player): Player =>
     player === Player.One ? Player.Two : Player.One;
 
-export enum Gin {
-    None = 'none',
-    Normal = 'normal',
-    Super = 'super',
-}
+const GIN_NONE = 'none' as const;
+const GIN_NORMAL = 'normal' as const;
+const GIN_SUPER = 'super' as const;
+
+export type Gin = typeof GIN_NONE | typeof GIN_NORMAL | typeof GIN_SUPER;
+
+export const Gin = {
+    None: GIN_NONE,
+    Normal: GIN_NORMAL,
+    Super: GIN_SUPER,
+};
 
 /**
  * A single game of gin; undercuts are not tracked separately.
