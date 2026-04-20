@@ -2,10 +2,9 @@
     background-color: rgb(239, 239, 239);
     border-width: 1px;
     border-style: solid;
-    border-radius: 2px;
+    border-radius: 4px;
     border-color: rgb(118, 118, 118);
-    // min-height from Apple HIG
-    min-height: 30px;
+    min-height: 32px;
 
     @media (prefers-color-scheme: light) {
         background-color: rgb(239, 239, 239);

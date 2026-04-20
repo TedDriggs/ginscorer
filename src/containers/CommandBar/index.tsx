@@ -37,7 +37,10 @@ const mapDispatchToProps: DispatchProps = {
 };
 
 const DisconnectedCommandBar: FC<StateProps & DispatchProps> = props => (
-    <div className="c-command-bar">
+    <div
+        style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}
+        className="c-command-bar"
+    >
         <Button onClick={props.onUndoGame} disabled={!props.canUndo}>
             Undo Last Game
         </Button>

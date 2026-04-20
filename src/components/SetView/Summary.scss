@@ -3,7 +3,7 @@
         display: flex;
         justify-content: space-between;
         font-size: 2rem;
-        padding: 6px 3px;
+        padding: 8px 4px;
 
         &__winner {
             flex: 1 1 auto;
@@ -21,7 +21,7 @@
         display: flex;
         justify-content: space-between;
 
-        padding: 3px;
+        padding: 4px;
 
         & + & {
             border-top: 1px solid;

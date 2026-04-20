@@ -1,12 +1,11 @@
 .c-game-input {
-    &__points {
-        margin-top: 10px;
-        margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-        input {
-            font-size: 1.25em;
-            width: 3.25em;
-            padding: 0.25em;
-        }
+    input {
+        font-size: 1.25em;
+        width: 3.25em;
+        padding: 0.25em;
     }
 }

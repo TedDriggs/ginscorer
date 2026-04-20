@@ -1,5 +1,5 @@
 .c-stats-viewer {
-    padding: 0 10px;
+    padding: 0 8px;
     min-width: 200px;
 
     &--grid {
@@ -30,12 +30,12 @@
     display: inline-block;
     font-size: 1rem;
     font-weight: 400;
-    margin: 0 10px;
-    padding: 0 5px;
+    margin: 0 8px;
+    padding: 4px;
     white-space: nowrap;
 
     background-color: var(--dealer-token-background);
-    border-radius: 10px;
+    border-radius: 12px;
 
     transition: transform ease-in-out 0.25s;
 

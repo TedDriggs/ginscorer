@@ -120,7 +120,10 @@ export const MatchViewer: FC<MatchViewerProps> = ({
                             onEntered={() => gameFormRef.current?.focus()}
                             onDismiss={closeGameForm}
                         >
-                            {gameForm}
+                            <div style={{ paddingLeft: 12, paddingRight: 12 }}>
+                                <h1>Add game</h1>
+                                {gameForm}
+                            </div>
                         </Drawer>
                     </MediaQuery>
                     <MediaQuery minWidth={1000}>
@@ -150,9 +153,11 @@ const GameForm = forwardRef<Focus, GameFormProps>((props, ref) => {
         [],
     );
 
+    const submitDisabled = props.disabled || !Game.guard(draft);
+
     return (
         <Form
-            className="c-gameform"
+            style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
             onSubmit={(): void => {
                 // Don't allow submission of incomplete games
                 // TODO show an error in this case
@@ -168,8 +173,7 @@ const GameForm = forwardRef<Focus, GameFormProps>((props, ref) => {
                 // next game.
                 input.current?.focus();
             }}
-            disableSubmit={props.disabled || !Game.guard(draft)}
-            submitLabel="Submit"
+            disableSubmit={submitDisabled}
         >
             <GameInput
                 ref={input}
@@ -179,6 +183,9 @@ const GameForm = forwardRef<Focus, GameFormProps>((props, ref) => {
                 value={draft}
                 onChange={v => setDraft(v)}
             />
+            <Button primary type="submit" disabled={submitDisabled}>
+                Submit
+            </Button>
         </Form>
     );
 });

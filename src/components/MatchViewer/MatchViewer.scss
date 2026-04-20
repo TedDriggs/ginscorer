@@ -28,7 +28,7 @@
     }
 
     .c-set-view {
-        margin: 15px 10px;
+        margin: 12px 8px;
     }
 }
 
@@ -45,9 +45,4 @@
         grid-template-columns: [sets-start] 1fr [sets-end input-start] auto [input-end];
         grid-template-rows: [sets-start input-start] auto [sets-end input-end];
     }
-}
-
-.c-drawer .c-gameform {
-    // XXX should match title offset for drawer
-    margin-left: 10px;
 }

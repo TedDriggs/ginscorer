@@ -35,8 +35,6 @@ export const PlayersForm: FC<{
                 Rename Players
             </Button>
             <Drawer
-                hideTitle
-                title="Rename Players"
                 open={value !== null}
                 onDismiss={stopRenaming}
                 onEntered={() => input.current?.focus()}
@@ -44,11 +42,12 @@ export const PlayersForm: FC<{
             >
                 <Form
                     style={{
-                        marginLeft: 10,
-                        marginRight: 10,
+                        marginLeft: 12,
+                        marginRight: 12,
                         maxWidth: '30em',
                         display: 'flex',
                         flexDirection: 'column',
+                        gap: 12,
                     }}
                     onSubmit={() => {
                         if (!value) return;
@@ -61,7 +60,6 @@ export const PlayersForm: FC<{
                         value={value ?? props.defaultValue}
                         onChange={v => setValue(v)}
                     />
-                    <div style={{ height: 20 }} />
                     <Button primary type="submit">
                         Update
                     </Button>
