@@ -8,8 +8,8 @@ import './Playing.scss';
 
 export const Playing: FC = props => (
     <div className="l-playing">
-        <AppHeader />
-        <CommandBar />
-        <CurrentMatchViewer />
+        <AppHeader className="l-playing__column-item" />
+        <CommandBar className="l-playing__column-item" />
+        <CurrentMatchViewer className="l-playing__column-item" />
     </div>
 );

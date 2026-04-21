@@ -24,6 +24,7 @@ import './MatchViewer.scss';
 import { Button } from '../Button';
 
 export interface MatchViewerProps {
+    className?: string;
     players: PlayerNames;
     value: GinMatch;
     readOnly?: boolean;
@@ -35,6 +36,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
     players,
     value,
     readOnly,
+    className,
     ...props
 }) => {
     const gameFormRef = useRef<Focus>(null);
@@ -59,7 +61,7 @@ export const MatchViewer: FC<MatchViewerProps> = ({
 
     return (
         <div
-            className={classNames('c-match-viewer', {
+            className={classNames('c-match-viewer', className, {
                 'c-match-viewer--finished': Boolean(value.finalResult),
             })}
         >

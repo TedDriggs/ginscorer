@@ -11,6 +11,7 @@ import {
     playerNameSelector,
 } from '../../Reducer';
 import { State } from '../../State';
+import classNames from 'classnames';
 
 interface StateProps {
     playerNames: PlayerNames;
@@ -36,10 +37,12 @@ const mapDispatchToProps: DispatchProps = {
     onUndoGame: creators.UndoGame,
 };
 
-const DisconnectedCommandBar: FC<StateProps & DispatchProps> = props => (
+const DisconnectedCommandBar: FC<
+    StateProps & DispatchProps & { className?: string }
+> = props => (
     <div
         style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}
-        className="c-command-bar"
+        className={classNames('c-command-bar', props.className)}
     >
         <Button onClick={props.onUndoGame} disabled={!props.canUndo}>
             Undo Last Game

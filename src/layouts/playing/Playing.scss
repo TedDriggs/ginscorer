@@ -6,3 +6,8 @@
     overflow: hidden;
     position: fixed;
 }
+
+.l-playing__column-item {
+    padding-left: calc(12px + env(safe-area-inset-left));
+    padding-right: calc(12px + env(safe-area-inset-right));
+}

@@ -5,8 +5,6 @@
     display: flex;
     align-items: center;
     padding-top: env(safe-area-inset-top);
-    padding-left: calc(12px + env(safe-area-inset-left));
-    padding-right: calc(12px + env(safe-area-inset-right));
     padding-bottom: 0;
 
     h1 {
